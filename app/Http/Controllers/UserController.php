@@ -41,4 +41,15 @@ class UserController extends Controller
         return view('beranda', compact('newUser', 'newSm', 'newSd', 'newSk',
             'users', 'masuks', 'disposisis', 'keluars'));
     }
+
+    public function showLampiran($surat, $id)
+    {
+        if ($surat == 'masuk') {
+            $files = SuratMasuk::find($id)->files;
+        } else {
+            $files = SuratKeluar::find($id)->files;
+        }
+
+        return $files;
+    }
 }

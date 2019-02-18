@@ -179,6 +179,20 @@
 <body class="nav-md">
 @php
     $auth = Auth::guard('admin')->check() ? Auth::guard('admin')->user() : Auth::user();
+    if(Auth::guard('admin')->check()){
+        $role = 'Admins';
+
+    } elseif(Auth::check()){
+        if(Auth::user()->isPengolah()){
+            $role = 'Pengolah';
+        } elseif(Auth::user()->isPegawai()){
+            $role = 'Pegawai';
+        } elseif(Auth::user()->isTU()){
+            $role = 'T. Usaha';
+        } elseif(Auth::user()->isKadin()){
+            $role = 'KADIN';
+        }
+    }
     $notifications = 0;
     $ava = $auth->ava == "" || $auth->ava == "avatar.png" ? asset('images/avatar.png') : asset('storage/admins/ava/'.$auth->ava);
     $bg = $auth->ava == "" || $auth->ava == "avatar.png" ? 'bg-red' : 'bg-green';
@@ -190,7 +204,7 @@
             <div class="left_col scroll-view">
                 <div class="navbar nav_title" style="border: 0;">
                     <a href="{{route('beranda')}}" class="site_title">
-                        <i class="fa fa-archive"></i> <span>{{env('APP_NAME')}}</span></a>
+                        <i class="fa fa-archive"></i> <span>{{env('APP_NAME').' | '.$role}}</span></a>
                 </div>
 
                 <div class="clearfix"></div>

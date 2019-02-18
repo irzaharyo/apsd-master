@@ -12,6 +12,11 @@ class SuratKeluar extends Model
 
     protected $casts = ['files' => 'array'];
 
+    public function getUser()
+    {
+        return $this->belongsTo(User::class, 'user_id');
+    }
+
     public function getJenisSurat()
     {
         return $this->belongsTo(JenisSurat::class, 'jenis_id');

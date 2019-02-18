@@ -12,7 +12,7 @@ class SuratDiposisi extends Model
 
     public function getSuratMasuk()
     {
-        return $this->hasMany(SuratMasuk::class, 'suratmasuk_id');
+        return $this->belongsTo(SuratMasuk::class, 'suratmasuk_id');
     }
 
     public function getAgendaMasuk()

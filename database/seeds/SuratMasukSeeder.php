@@ -1,5 +1,7 @@
 <?php
 
+use App\Support\Role;
+use App\Models\PerihalSurat;
 use App\Models\AgendaMasuk;
 use App\Models\SuratDiposisi;
 use App\Models\SuratMasuk;
@@ -18,12 +20,13 @@ class SuratMasukSeeder extends Seeder
     public function run()
     {
         $faker = Factory::create('id_ID');
-        for ($c = 0; $c < 25; $c++) {
+        for ($c = 1; $c <= 25; $c++) {
             $sm = SuratMasuk::create([
-                'user_id' => rand(JenisSurat::min('id'), JenisSurat::max('id')),
-                'jenis_id' => rand(User::min('id'), User::max('id')),
+                'user_id' => User::where('role', Role::PENGOLAH)->inRandomOrder()->first()->id,
+                'jenis_id' => rand(JenisSurat::min('id'), JenisSurat::max('id')),
                 'tgl_surat' => $faker->date('Y-m-d'),
-                'no_surat' => $faker->randomNumber(3) . '/' . $faker->randomNumber(3) . '/' .
+                'no_surat' => PerihalSurat::inRandomOrder()->first()->kode . '/' .
+                    str_pad($c, 3, '0', STR_PAD_LEFT) . '/' .
                     $faker->randomNumber(3) . '.' . $faker->randomNumber(3) . '/' . rand(2018, 2019),
                 'sifat_surat' => rand(0, 1) ? 'segera' : 'penting',
                 'lampiran' => '2 (dua) lembar',

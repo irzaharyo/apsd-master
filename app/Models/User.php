@@ -45,7 +45,7 @@ class User extends Authenticatable
      */
     public function isPengolah()
     {
-        return ($this->role == Role::ADMIN);
+        return ($this->role == Role::PENGOLAH);
     }
 
     /**
@@ -64,6 +64,16 @@ class User extends Authenticatable
     public function isTU()
     {
         return ($this->role == Role::TU);
+    }
+
+    public function getSuratMasuk()
+    {
+        return $this->hasMany(SuratMasuk::class, 'user_id');
+    }
+
+    public function getSuratKeluar()
+    {
+        return $this->hasMany(SuratKeluar::class, 'user_id');
     }
 
     public function scopeByActivationColumns(Builder $builder, $email, $verifyToken)

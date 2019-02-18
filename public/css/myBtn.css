@@ -1,4 +1,4 @@
-#myBtn {
+.myBtn {
     outline: none;
     height: 40px;
     text-align: center;
@@ -15,17 +15,17 @@
     transition: all 0.25s ease;
 }
 
-#myBtn:hover {
+.myBtn:hover {
     color: white;
     border: 2px solid #f6af18;
     background: #f6af18;
 }
 
-#myBtn:active {
+.myBtn:active {
     letter-spacing: 2px;
 }
 
-#myBtn:after {
+.myBtn:after {
     content: "MASUK";
 }
 

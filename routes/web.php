@@ -47,20 +47,33 @@ Route::group(['prefix' => '/'], function () {
         'as' => 'beranda'
     ]);
 
-    Route::get('surat_keluar', [
-        'uses' => 'UserController@showSuratKeluar',
-        'as' => 'show.suratKeluar'
+    Route::get('surat-{surat}/{id}/lampiran', [
+        'uses' => 'UserController@showLampiran',
+        'as' => 'show.lampiran'
     ]);
 
-    Route::get('surat_masuk', [
-        'uses' => 'UserController@showSuratMasuk',
-        'as' => 'show.suratMasuk'
-    ]);
+    Route::group(['prefix' => 'surat_masuk'], function () {
 
-    Route::get('surat_disposisi', [
-        'uses' => 'UserController@showSuratDisposisi',
-        'as' => 'show.suratDisposisi'
-    ]);
+        Route::get('/', [
+            'uses' => 'SuratMasukController@showSuratMasuk',
+            'as' => 'show.surat-masuk'
+        ]);
+
+        Route::get('delete/{id}', [
+            'uses' => 'SuratMasukController@deleteSuratMasuk',
+            'as' => 'delete.surat-masuk'
+        ]);
+
+    });
+
+    Route::group(['prefix' => 'surat_keluar'], function () {
+
+        Route::get('/', [
+            'uses' => 'SuratKeluarController@showSuratKeluar',
+            'as' => 'show.surat-keluar'
+        ]);
+
+    });
 
 });
 

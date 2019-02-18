@@ -15,6 +15,7 @@ class DatabaseSeeder extends Seeder
             HomeContentSeeder::class,
             UserSeeder::class,
             JenisSuratSeeder::class,
+            PerihalSuratSeeder::class,
             SuratKeluarSeeder::class,
             SuratMasukSeeder::class,
         ]);

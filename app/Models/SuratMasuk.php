@@ -12,6 +12,11 @@ class SuratMasuk extends Model
 
     protected $casts = ['files' => 'array'];
 
+    public function getUser()
+    {
+        return $this->belongsTo(User::class, 'user_id');
+    }
+
     public function getJenisSurat()
     {
         return $this->belongsTo(JenisSurat::class, 'jenis_id');
@@ -19,6 +24,6 @@ class SuratMasuk extends Model
 
     public function getSuratDisposisi()
     {
-        return $this->hasMany(SuratDiposisi::class, 'suratmasuk_id');
+        return $this->hasOne(SuratDiposisi::class, 'suratmasuk_id');
     }
 }

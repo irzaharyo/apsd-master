@@ -11,6 +11,9 @@
     <link rel="stylesheet" href="{{asset('fonts/fontawesome-free/css/all.css')}}">
     <link rel="stylesheet" href="{{asset('css/animate.min.css')}}">
     <link rel="stylesheet" href="{{asset('css/myBtn.css')}}">
+    <!-- Sweet Alert v2 -->
+    <link rel="stylesheet" href="{{ asset('sweetalert2/sweetalert2.min.css') }}">
+    <script src="{{ asset('sweetalert2/sweetalert2.min.js') }}"></script>
     <style>
         /*Carousel animation custom*/
         .carousel.carousel-fade .item {
@@ -101,7 +104,7 @@
                     </a>
                     <blockquote style="text-align: left"><h2 class="animated fadeInRight">"{{$row->captions}}"</h2>
                     </blockquote>
-                    <button id="myBtn"></button>
+                    <button class="myBtn"></button>
                 </div>
             </div>
         @endforeach
@@ -123,7 +126,7 @@
 
     $('.carousel').carousel();
 
-    $("#myBtn").on('click', function () {
+    $(".myBtn").on('click', function () {
         window.location.href = '{{route('show.login.form')}}';
     });
 

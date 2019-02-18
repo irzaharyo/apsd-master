@@ -15,19 +15,22 @@ class CreateSuratKeluarsTable extends Migration
     {
         Schema::create('surat_keluars', function (Blueprint $table) {
             $table->increments('id');
+            $table->integer('user_id')->unsigned();
+            $table->foreign('user_id')->references('id')->on('users')
+                ->onUpdate('CASCADE')->onDelete('CASCADE');
             $table->integer('jenis_id')->unsigned();
             $table->foreign('jenis_id')->references('id')->on('jenis_surats')
                 ->onUpdate('CASCADE')->onDelete('CASCADE');
-            $table->date('tgl_surat');
+            $table->date('tgl_surat')->nullable();
             $table->string('nama_penerima');
             $table->string('kota_penerima');
-            $table->string('no_surat');
-            $table->string('sifat_surat');
-            $table->string('lampiran');
+            $table->string('no_surat')->nullable();
+            $table->string('sifat_surat')->nullable();
+            $table->string('lampiran')->nullable();
             $table->string('perihal');
-            $table->text('isi');
+            $table->text('isi')->nullable();
             $table->integer('status')->default(0);
-            $table->text('files');
+            $table->text('files')->nullable();
             $table->timestamps();
         });
     }
