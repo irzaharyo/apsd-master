@@ -99,8 +99,8 @@
                 <div class="carousel-overlay"></div>
                 <div class="carousel-caption">
                     <a href="{{route('home')}}">
-                        <img src="{{asset('images/carousels/web-branding-400.png')}}" class="animated fadeInLeft"
-                             alt="logo kota madiun" style="width: 60%">
+                        <img src="{{asset('images/carousels/apsd.png')}}" class="animated fadeInLeft"
+                             alt="logo kota madiun" style="width: 100%">
                     </a>
                     <blockquote style="text-align: left"><h2 class="animated fadeInRight">"{{$row->captions}}"</h2>
                     </blockquote>
