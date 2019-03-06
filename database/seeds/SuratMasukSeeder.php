@@ -36,14 +36,14 @@ class SuratMasukSeeder extends Seeder
                 'nama_pengirim' => $faker->name,
                 'jabatan_pengirim' => $faker->jobTitle,
                 'nip_pengirim' => $faker->nik(),
-                'tembusan' => '<ul><li>' . $faker->name . '</li><li>' . $faker->name . '</li></ul>',
+                'tembusan' => '<ol><li>' . $faker->name . '</li><li>' . $faker->name . '</li></ol>',
                 'files' => ['file1.jpg', 'file2.jpg'],
                 'isDisposisi' => true,
             ]);
 
             $sd = SuratDiposisi::create([
                 'suratmasuk_id' => $sm->id,
-                'diteruskan_kepada' => $faker->name,
+                'diteruskan_kepada' => '<ol><li>' . $faker->name . '</li><li>' . $faker->name . '</li></ol>',
                 'harapan' => $faker->sentence(),
                 'catatan' => $faker->sentences(2, true)
             ]);

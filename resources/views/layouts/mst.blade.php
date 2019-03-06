@@ -52,6 +52,8 @@
     <!-- Card -->
     <link href="{{ asset('css/card.css') }}" rel="stylesheet">
     <link href="{{ asset('css/downloadCard-gridList.css') }}" rel="stylesheet">
+    <!-- jQuery UI -->
+    <link href="{{ asset('css/jquery-ui.min.css') }}" rel="stylesheet">
     @stack('styles')
     <style>
         .dropdown-menu li:first-child a:before {
@@ -179,6 +181,8 @@
 <body class="nav-md">
 @php
     $auth = Auth::guard('admin')->check() ? Auth::guard('admin')->user() : Auth::user();
+    $notifications = 0;
+
     if(Auth::guard('admin')->check()){
         $role = 'Admins';
 
@@ -191,9 +195,11 @@
             $role = 'T. Usaha';
         } elseif(Auth::user()->isKadin()){
             $role = 'KADIN';
+            $n_sm = \App\Models\SuratMasuk::where('isDisposisi', false)->get();
+            $n_sk = \App\Models\SuratKeluar::where('status', 1)->get();
+            $notifications = count($n_sm) + count($n_sk);
         }
     }
-    $notifications = 0;
     $ava = $auth->ava == "" || $auth->ava == "avatar.png" ? asset('images/avatar.png') : asset('storage/admins/ava/'.$auth->ava);
     $bg = $auth->ava == "" || $auth->ava == "avatar.png" ? 'bg-red' : 'bg-green';
     $label = $auth->ava == "" || $auth->ava == "avatar.png" ? '50%' : '100%';
@@ -306,12 +312,59 @@
                             </a>
                             <ul id="menu2" class="dropdown-menu list-unstyled msg_list" role="menu">
                                 @if($notifications > 0)
+                                    @if(($role == 'Admins' || $role == 'KADIN') && count($n_sm) > 0)
+                                        <li style="padding: 0;">
+                                            <a style="text-decoration: none;cursor: text">
+                                                <span><i class="fa fa-envelope-open"></i>
+                                                    <strong style="margin-left: 5px;text-transform: uppercase">Surat Masuk</strong></span>
+                                            </a>
+                                        </li>
+                                        @foreach($n_sm as $row)
+                                            <li>
+                                                <a href="{{route('show.surat-masuk').'?q='.$row->no_surat}}">
+                                                    <span class="image">
+                                                        <img src="{{asset('images/sm.png')}}">
+                                                    </span>
+                                                    <span><span>{{$row->no_surat}}</span></span>
+                                                    <span class="message">
+                                                        Surat masuk #<strong>{{$row->no_surat}}</strong> dari
+                                                        {{$row->nama_pengirim.' - '.$row->nama_instansi}} belum didisposisi!
+                                                    </span>
+                                                </a>
+                                            </li>
+                                        @endforeach
+                                        <li class="divider"
+                                            style="margin: 0 6px;padding: 3px;background: none;border-bottom: 2px solid #d8d8d845;"></li>
+                                    @endif
 
+                                    @if(($role == 'Admins' || $role == 'KADIN') && count($n_sk) > 0)
+                                        <li style="padding: 0;">
+                                            <a style="text-decoration: none;cursor: text">
+                                                <span><i class="fa fa-paper-plane"></i>
+                                                    <strong style="margin-left: 5px;text-transform: uppercase">Surat Keluar</strong></span>
+                                            </a>
+                                        </li>
+                                        @foreach($n_sk as $row)
+                                            <li>
+                                                <a href="{{route('show.surat-keluar').'?q='.$row->no_surat}}">
+                                                    <span class="image">
+                                                        <img src="{{asset('images/sk.png')}}">
+                                                    </span>
+                                                    <span><span>{{$row->no_surat}}</span></span>
+                                                    <span class="message">
+                                                        Surat keluar #<strong>{{$row->no_surat}}</strong> untuk
+                                                        {{$row->nama_penerima.' - '.$row->kota_penerima}} belum divalidasi!
+                                                    </span>
+                                                </a>
+                                            </li>
+                                        @endforeach
+                                        <li class="divider"
+                                            style="margin: 0 6px;padding: 3px;background: none;border-bottom: 2px solid #d8d8d845;"></li>
+                                    @endif
                                 @else
                                     <li>
                                         <a style="text-decoration: none;cursor: text">
-                                            <span class="message">There seems to be none of the notification was found&hellip;
-                                            </span>
+                                            <span class="message">Tidak ada notifikasi&hellip;</span>
                                         </a>
                                     </li>
                                 @endif
@@ -456,6 +509,10 @@
 <script src="{{asset('js/jquery.maskMoney.js')}}"></script>
 <script src="{{asset('js/simple.gpa.format.js')}}"></script>
 <script src="{{asset('js/hideShowPassword.min.js')}}"></script>
+<!-- jQuery input mask -->
+<script src="{{asset('js/jquery.inputmask.bundle.js')}}"></script>
+<!-- jQuery UI -->
+<script src="{{asset('js/jquery-ui.min.js')}}"></script>
 <!-- Bootstrap -->
 <script src="{{asset('js/bootstrap.min.js')}}"></script>
 <!-- FastClick -->
@@ -571,6 +628,14 @@
 
         $('.datepicker').datepicker({format: "yyyy-mm-dd", autoclose: true, todayHighlight: true, todayBtn: true});
         $('.timepicker').datetimepicker({format: "HH:mm"});
+        $('.yearpicker').datepicker({
+            format: "yyyy",
+            viewMode: "years",
+            minViewMode: "years",
+            autoclose: true,
+            todayHighlight: true,
+            todayBtn: true
+        });
 
         Scrollbar.initAll();
 

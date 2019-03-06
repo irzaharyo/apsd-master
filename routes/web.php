@@ -47,9 +47,14 @@ Route::group(['prefix' => '/'], function () {
         'as' => 'beranda'
     ]);
 
-    Route::get('surat-{surat}/{id}/lampiran', [
-        'uses' => 'UserController@showLampiran',
-        'as' => 'show.lampiran'
+    Route::get('surat-{surat}/{id}/files', [
+        'uses' => 'UserController@showFileSurat',
+        'as' => 'show.fileSurat'
+    ]);
+
+    Route::get('{kode}/perihal', [
+        'uses' => 'UserController@getPerihalSurat',
+        'as' => 'get.perihalSurat'
     ]);
 
     Route::group(['prefix' => 'surat_masuk'], function () {
@@ -59,9 +64,49 @@ Route::group(['prefix' => '/'], function () {
             'as' => 'show.surat-masuk'
         ]);
 
+        Route::post('create', [
+            'uses' => 'SuratMasukController@createSuratMasuk',
+            'as' => 'create.surat-masuk'
+        ]);
+
+        Route::get('edit/{id}', [
+            'uses' => 'SuratMasukController@editSuratMasuk',
+            'as' => 'edit.surat-masuk'
+        ]);
+
+        Route::put('update/{id}', [
+            'uses' => 'SuratMasukController@updateSuratMasuk',
+            'as' => 'update.surat-masuk'
+        ]);
+
         Route::get('delete/{id}', [
             'uses' => 'SuratMasukController@deleteSuratMasuk',
             'as' => 'delete.surat-masuk'
+        ]);
+
+        Route::get('massDelete/{id}', [
+            'uses' => 'SuratMasukController@massDeleteFileSuratMasuk',
+            'as' => 'massDelete.surat-masuk'
+        ]);
+
+        Route::post('disposisi/create', [
+            'uses' => 'SuratMasukController@createSuratDisposisi',
+            'as' => 'create.surat-disposisi'
+        ]);
+
+        Route::get('disposisi/edit/{id}', [
+            'uses' => 'SuratMasukController@editSuratDisposisi',
+            'as' => 'edit.surat-disposisi'
+        ]);
+
+        Route::put('disposisi/update/{id}', [
+            'uses' => 'SuratMasukController@updateSuratDisposisi',
+            'as' => 'update.surat-disposisi'
+        ]);
+
+        Route::get('disposisi/delete/{id}', [
+            'uses' => 'SuratMasukController@deleteSuratDisposisi',
+            'as' => 'delete.surat-disposisi'
         ]);
 
     });

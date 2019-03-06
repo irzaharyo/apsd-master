@@ -31,8 +31,8 @@ class CreateSuratMasuksTable extends Migration
             $table->string('nama_pengirim');
             $table->string('jabatan_pengirim');
             $table->string('nip_pengirim');
-            $table->text('tembusan');
-            $table->text('files');
+            $table->text('tembusan')->nullable();
+            $table->text('files')->nullable();
             $table->boolean('isDisposisi')->default(false);
             $table->timestamps();
         });

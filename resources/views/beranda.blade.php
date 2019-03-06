@@ -119,6 +119,8 @@
                                     } else {
                                         $label = 'default';
                                     }
+                                    $lbrSM = $masuk->files != "" ? count($masuk->files) : 0;
+                                    $indexSM = substr($masuk->no_surat,4,3);
                                 @endphp
                                 <tr>
                                     <td style="vertical-align: middle" align="center">{{$no++}}</td>
@@ -152,6 +154,12 @@
                                                 <td>{{$masuk->perihal}}</td>
                                             </tr>
                                             <tr>
+                                                <td><i class="fa fa-file-image"></i>&nbsp;</td>
+                                                <td>Lampiran</td>
+                                                <td>&nbsp;:&nbsp;</td>
+                                                <td>{{$masuk->lampiran}}</td>
+                                            </tr>
+                                            <tr>
                                                 <td><i class="fa fa-tag"></i>&nbsp;</td>
                                                 <td>Sifat Surat</td>
                                                 <td>&nbsp;:&nbsp;</td>
@@ -168,10 +176,9 @@
                                         </span>
                                     </td>
                                     <td style="vertical-align: middle" align="center">
-                                        <a onclick='lihatLampiran("{{$masuk->id}}","masuk",
-                                                "{{filter_var($masuk->lampiran,FILTER_SANITIZE_NUMBER_INT)}}")'
+                                        <a onclick='lihatSurat("{{$masuk->id}}", "masuk", "{{$lbrSM}}", "{{$indexSM}}")'
                                            class="btn btn-dark btn-sm" style="font-size: 16px" data-toggle="tooltip"
-                                           title="{{filter_var($masuk->lampiran,FILTER_SANITIZE_NUMBER_INT)}} lampiran"
+                                           title="{{$lbrSM}} lembar"
                                            data-placement="left"><i class="fa fa-images"></i>
                                         </a>
                                     </td>
@@ -221,8 +228,8 @@
                                     } else {
                                         $label = 'default';
                                     }
-                                    $lampiran = filter_var($keluar->lampiran, FILTER_SANITIZE_NUMBER_INT) > 0 ?
-                                    filter_var($keluar->lampiran, FILTER_SANITIZE_NUMBER_INT) : 0;
+                                    $lbrSK = $keluar->files != "" ? count($keluar->files) : 0;
+                                    $indexSK = substr($keluar->no_surat,4,3);
                                 @endphp
                                 <tr>
                                     <td style="vertical-align: middle" align="center">{{$no++}}</td>
@@ -252,6 +259,12 @@
                                                 <td>{{$keluar->perihal}}</td>
                                             </tr>
                                             <tr>
+                                                <td><i class="fa fa-file-image"></i>&nbsp;</td>
+                                                <td>Lampiran</td>
+                                                <td>&nbsp;:&nbsp;</td>
+                                                <td>{{$keluar->lampiran}}</td>
+                                            </tr>
+                                            <tr>
                                                 <td><i class="fa fa-tag"></i>&nbsp;</td>
                                                 <td>Sifat Surat</td>
                                                 <td>&nbsp;:&nbsp;</td>
@@ -279,9 +292,9 @@
                                         @endif
                                     </td>
                                     <td style="vertical-align: middle" align="center">
-                                        <a onclick='lihatLampiran("{{$keluar->id}}","keluar","{{$lampiran}}")'
+                                        <a onclick='lihatSurat("{{$keluar->id}}","keluar","{{$lbrSK}}", "{{$indexSK}}")'
                                            class="btn btn-dark btn-sm" style="font-size: 16px" data-toggle="tooltip"
-                                           title="{{$lampiran}} lampiran" data-placement="left"><i
+                                           title="{{$lbrSK}} lembar" data-placement="left"><i
                                                     class="fa fa-images"></i>
                                         </a>
                                     </td>
@@ -315,13 +328,13 @@
     <script>
         var $indicators = '', $item = '';
 
-        function lihatLampiran(id, surat, total) {
+        function lihatSurat(id, surat, total, index) {
             $indicators = '';
             $item = '';
 
             if (total > 0) {
                 $.ajax({
-                    url: "/surat-" + surat + "/" + id + "/lampiran",
+                    url: "/surat-" + surat + "/" + id + "/files",
                     type: "GET",
                     success: function (data) {
                         $.each(data, function (i, val) {
@@ -329,8 +342,8 @@
                             $indicators += '<li data-target="#lampiranModal" data-slide-to="' + i + '">' + c + '</li>';
 
                             $item += '<div class="item">' +
-                                '<img src="{{asset('storage/lampiran/surat-')}}' + surat + '/' + val + '" alt="Lampiran">' +
-                                '</div>'
+                                '<img src="{{asset('storage/surat-')}}' + surat + '/' + index + '/' + val + '" ' +
+                                'alt="file surat"></div>'
                         });
                         $("#lampiranModal .carousel-indicators").html($indicators);
                         $("#lampiranModal .carousel-inner").html($item);
@@ -349,7 +362,7 @@
                     }
                 });
             } else {
-                swal('PERHATIAN!', 'Tidak ada lampiran.', 'warning')
+                swal('PERHATIAN!', 'File surat tidak ditemukan.', 'warning')
             }
         }
 

@@ -32,6 +32,7 @@ class SuratKeluarSeeder extends Seeder
                 'lampiran' => '2 (dua) lembar',
                 'perihal' => $faker->sentence(rand(3, 6), true),
                 'isi' => '<p align="justify">' . $faker->paragraphs(rand(2, 3), true) . '</p>',
+                'tembusan' => '<ol><li>' . $faker->name . '</li><li>' . $faker->name . '</li></ol>',
                 'status' => 4,
                 'files' => ['file1.jpg', 'file2.jpg'],
             ]);

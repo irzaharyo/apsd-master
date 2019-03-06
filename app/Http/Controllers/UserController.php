@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Carousel;
+use App\Models\PerihalSurat;
 use App\Models\SuratDisposisi;
 use App\Models\SuratKeluar;
 use App\Models\SuratMasuk;
@@ -34,15 +35,15 @@ class UserController extends Controller
         $newSk = SuratKeluar::where('created_at', '>=', today()->subDays('3')->toDateTimeString())->count();
 
         $users = User::all();
-        $masuks = SuratMasuk::all();
+        $masuks = SuratMasuk::orderByDesc('id')->get();
         $disposisis = SuratDisposisi::all();
-        $keluars = SuratKeluar::all();
+        $keluars = SuratKeluar::orderByDesc('id')->get();
 
         return view('beranda', compact('newUser', 'newSm', 'newSd', 'newSk',
             'users', 'masuks', 'disposisis', 'keluars'));
     }
 
-    public function showLampiran($surat, $id)
+    public function showFileSurat($surat, $id)
     {
         if ($surat == 'masuk') {
             $files = SuratMasuk::find($id)->files;
@@ -51,5 +52,16 @@ class UserController extends Controller
         }
 
         return $files;
+    }
+
+    public function getPerihalSurat($kode)
+    {
+        $perihals = PerihalSurat::where('kode', 'LIKE', '%' . $kode . '%')->get();
+
+        foreach ($perihals as $perihal) {
+            $perihal->label = $perihal->kode . ' - ' . $perihal->perihal;
+        }
+
+        return $perihals;
     }
 }
