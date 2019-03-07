@@ -39,9 +39,27 @@ class UserSeeder extends Seeder
             'role' => Role::KADIN
         ]);
 
-        User::whereIn('id', [2, 3, 4])->update(['role' => Role::PENGOLAH]);
+        User::find(2)->update([
+            'email' => 'pengolah@apsd.madiunkota.go.id',
+            'name' => 'Pengolah Dinas Pertanian',
+            'role' => Role::PENGOLAH
+        ]);
 
-        User::whereIn('id', [5, 6, 7])->update(['role' => Role::TU]);
+        User::find(5)->update([
+            'email' => 'tu@apsd.madiunkota.go.id',
+            'name' => 'TU Dinas Pertanian',
+            'role' => Role::TU
+        ]);
+
+        User::find(8)->update([
+            'email' => 'pegawai@apsd.madiunkota.go.id',
+            'name' => 'Pegawai Dinas Pertanian',
+            'role' => Role::PEGAWAI
+        ]);
+
+        User::whereIn('id', [3, 4])->update(['role' => Role::PENGOLAH]);
+
+        User::whereIn('id', [6, 7])->update(['role' => Role::TU]);
 
         for ($c = 0; $c < 5; $c++) {
             Admin::create([

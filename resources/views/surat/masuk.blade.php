@@ -1,21 +1,4 @@
 @extends('layouts.mst')
-@php
-    if(Auth::guard('admin')->check()){
-        $sm = '';
-        $hr = '';
-        $sd = '';
-    } elseif(Auth::check()){
-        if(Auth::user()->isKadin()){
-            $sm = 'none';
-            $hr = 'none';
-            $sd = '';
-        } elseif(Auth::user()->isPengolah()){
-            $sm = '';
-            $hr = 'none';
-            $sd = 'none';
-        }
-    }
-@endphp
 @section('title', 'Surat Masuk | '.env('APP_NAME').' - Aplikasi Pengarsipan Surat dan Disposisi | Dinas Pertanian dan Ketahanan Pangan Kota Madiun')
 @push("styles")
     <link href="{{asset('css/myCheckbox.css')}}" rel="stylesheet">
@@ -64,7 +47,7 @@
                             <small id="panel_subtitle">List</small>
                         </h2>
                         <ul class="nav navbar-right panel_toolbox">
-                            @if(Auth::guard('admin')->check() || Auth::user()->isPengolah())
+                            @if(Auth::user()->isPengolah())
                                 <li><a id="btn_create" data-toggle="tooltip" title="Tambah Surat"
                                        data-placement="right"><i class="fa fa-plus"></i></a></li>
                             @endif
@@ -179,66 +162,70 @@
                                         @endif
                                     </td>
                                     <td style="vertical-align: middle" align="center">
-                                        <div class="btn-group" style="display: {{$sm}}">
-                                            <button onclick='editSuratMasuk("{{$masuk->id}}")'
-                                                    type="button" class="btn btn-warning btn-sm"
-                                                    style="font-weight: 600" {{$masuk->isDisposisi == true ? 'disabled' : ''}}>
-                                                <i class="fa fa-edit"></i>&ensp;EDIT
-                                            </button>
-                                            <button type="button" class="btn btn-warning btn-sm dropdown-toggle"
-                                                    data-toggle="dropdown" aria-expanded="false">
-                                                <span class="caret"></span>
-                                                <span class="sr-only">Toggle Dropdown</span>
-                                            </button>
-                                            <ul class="dropdown-menu" role="menu">
-                                                <li>
-                                                    <a onclick='lihatSurat("{{$masuk->id}}", "masuk", "{{$lbr}}", "{{$index}}")'>
-                                                        <i class="fa fa-images"></i>&ensp;{{'Lihat Surat ('.$lbr.' lembar)'}}
-                                                    </a>
-                                                </li>
-                                                <li>
-                                                    <a href="{{route('delete.surat-masuk',['id' =>
+                                        @if(Auth::user()->isPengolah())
+                                            <div class="btn-group">
+                                                <button onclick='editSuratMasuk("{{$masuk->id}}")'
+                                                        type="button" class="btn btn-warning btn-sm"
+                                                        style="font-weight: 600" {{$masuk->isDisposisi == true ? 'disabled' : ''}}>
+                                                    <i class="fa fa-edit"></i>&ensp;EDIT
+                                                </button>
+                                                <button type="button" class="btn btn-warning btn-sm dropdown-toggle"
+                                                        data-toggle="dropdown" aria-expanded="false">
+                                                    <span class="caret"></span>
+                                                    <span class="sr-only">Toggle Dropdown</span>
+                                                </button>
+                                                <ul class="dropdown-menu" role="menu">
+                                                    <li>
+                                                        <a onclick='lihatSurat("{{$masuk->id}}", "masuk", "{{$lbr}}", "{{$index}}")'>
+                                                            <i class="fa fa-images"></i>&ensp;{{'Lihat Surat ('.$lbr.' lembar)'}}
+                                                        </a>
+                                                    </li>
+                                                    <li>
+                                                        <a href="{{route('delete.surat-masuk',['id' =>
                                                     encrypt($masuk->id)])}}" class="delete-surat" data-surat="masuk">
-                                                        <i class="fa fa-trash"></i>&ensp;Hapus Surat
-                                                    </a>
-                                                </li>
-                                            </ul>
-                                        </div>
-                                        <hr style="margin: .5em 0;display: {{$hr}}">
-                                        <div class="btn-group" style="display: {{$sd}}">
-                                            <button type="button" class="btn btn-success btn-sm"
-                                                    style="font-weight: 600" onclick="disposisiSurat('{{$masuk->id}}',
-                                                    '{{$masuk->no_surat}}','create')"
-                                                    {{$masuk->isDisposisi == false ? '' : 'disabled'}}>
-                                                <i class="fa fa-envelope"></i>&ensp;{{$masuk->isDisposisi == false ?
+                                                            <i class="fa fa-trash"></i>&ensp;Hapus Surat
+                                                        </a>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                        @elseif(Auth::user()->isKadin())
+                                            <div class="btn-group">
+                                                <button type="button" class="btn btn-success btn-sm"
+                                                        style="font-weight: 600"
+                                                        onclick="disposisiSurat('{{$masuk->id}}',
+                                                                '{{$masuk->no_surat}}','create')"
+                                                        {{$masuk->isDisposisi == false ? '' : 'disabled'}}>
+                                                    <i class="fa fa-envelope"></i>&ensp;{{$masuk->isDisposisi == false ?
                                                 'DISPOSISI' : 'TERDISPOSISI'}}
-                                            </button>
-                                            <button type="button" class="btn btn-success btn-sm dropdown-toggle"
-                                                    data-toggle="dropdown" aria-expanded="false">
-                                                <span class="caret"></span>
-                                                <span class="sr-only">Toggle Dropdown</span>
-                                            </button>
-                                            <ul class="dropdown-menu" role="menu">
-                                                <li>
-                                                    <a onclick='lihatSurat("{{$masuk->id}}", "masuk", "{{$lbr}}", "{{$index}}")'>
-                                                        <i class="fa fa-images"></i>&ensp;{{'Lihat Surat ('.$lbr.' lembar)'}}
-                                                    </a>
-                                                </li>
-                                                @if($masuk->isDisposisi == true)
+                                                </button>
+                                                <button type="button" class="btn btn-success btn-sm dropdown-toggle"
+                                                        data-toggle="dropdown" aria-expanded="false">
+                                                    <span class="caret"></span>
+                                                    <span class="sr-only">Toggle Dropdown</span>
+                                                </button>
+                                                <ul class="dropdown-menu" role="menu">
                                                     <li>
-                                                        <a onclick="disposisiSurat('{{$masuk->getSuratDisposisi->id}}',
-                                                                '{{$masuk->no_surat}}','update')">
-                                                            <i class="fa fa-edit"></i>&ensp;Edit Surat Disposisi</a>
+                                                        <a onclick='lihatSurat("{{$masuk->id}}", "masuk", "{{$lbr}}", "{{$index}}")'>
+                                                            <i class="fa fa-images"></i>&ensp;{{'Lihat Surat ('.$lbr.' lembar)'}}
+                                                        </a>
                                                     </li>
-                                                    <li>
-                                                        <a href="{{route('delete.surat-disposisi',['id' =>
+                                                    @if($masuk->isDisposisi == true)
+                                                        <li>
+                                                            <a onclick="disposisiSurat('{{$masuk->getSuratDisposisi->id}}',
+                                                                    '{{$masuk->no_surat}}','update')">
+                                                                <i class="fa fa-edit"></i>&ensp;Edit Surat Disposisi</a>
+                                                        </li>
+                                                        <li>
+                                                            <a href="{{route('delete.surat-disposisi',['id' =>
                                                         encrypt($masuk->getSuratDisposisi->id)])}}"
-                                                           data-surat="disposisi" class="delete-surat">
-                                                            <i class="fa fa-trash"></i>&ensp;Hapus Surat</a>
-                                                    </li>
-                                                @endif
-                                            </ul>
-                                        </div>
+                                                               data-surat="disposisi" class="delete-surat">
+                                                                <i class="fa fa-trash"></i>&ensp;Hapus Surat
+                                                                Disposisi</a>
+                                                        </li>
+                                                    @endif
+                                                </ul>
+                                            </div>
+                                        @endif
                                     </td>
                                 </tr>
                             @endforeach
@@ -431,90 +418,96 @@
                         </a>
                     </div>
                 </div>
-                <div class="card-content" style="display: {{$sm}}">
-                    <div class="card-title">
-                        <small>File Surat Masuk <span onclick="showDeleteFiles()" class="pull-right"
-                                                      style="cursor: pointer;color: #2A3F54">
+                @if(Auth::user()->isPengolah())
+                    <div class="card-content">
+                        <div class="card-title">
+                            <small>File Surat Masuk <span onclick="showDeleteFiles()" class="pull-right"
+                                                          style="cursor: pointer;color: #2A3F54">
                                 <i class="fa fa-edit"></i>&ensp;EDIT</span></small>
-                        <hr style="margin: .5em 0">
-                        <div id="delete-files" style="display: none"></div>
+                            <hr style="margin: .5em 0">
+                            <div id="delete-files" style="display: none"></div>
+                        </div>
                     </div>
-                </div>
-                <div class="card-read-more" id="btn_delete_fileSurat" style="display: {{$sm}}">
-                    <button class="btn btn-link btn-block" data-placement="top" data-toggle="tooltip" disabled
-                            title="Klik disini untuk menghapus semua file yang Anda pilih!">
-                        <i class="fa fa-trash"></i>&nbsp;HAPUS FILE
-                    </button>
-                </div>
+                    <div class="card-read-more" id="btn_delete_fileSurat">
+                        <button class="btn btn-link btn-block" data-placement="top" data-toggle="tooltip" disabled
+                                title="Klik disini untuk menghapus semua file yang Anda pilih!">
+                            <i class="fa fa-trash"></i>&nbsp;HAPUS FILE
+                        </button>
+                    </div>
+                @endif
             </div>
         </div>
     </div>
-    <div id="disposisiModal" class="modal fade">
-        <div class="modal-dialog modal-lg">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span></button>
-                    <h4 class="modal-title"></h4>
-                </div>
-                <form method="post" action="{{route('create.surat-disposisi')}}" id="form-sd">
-                    {{csrf_field()}}
-                    <input type="hidden" name="_method">
-                    <input type="hidden" name="sm_id" id="sm_id">
-                    <div class="modal-body">
-                        <div class="row form-group">
-                            <div class="col-lg-12">
-                                <label for="diteruskan_kepada">Diteruskan kepada Saudara: <span
-                                            class="required">*</span></label>
-                                <textarea id="diteruskan_kepada" name="diteruskan_kepada"
-                                          class="use-tinymce"></textarea>
+    @if(Auth::user()->isKadin())
+        <div id="disposisiModal" class="modal fade">
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span>
+                        </button>
+                        <h4 class="modal-title"></h4>
+                    </div>
+                    <form method="post" action="{{route('create.surat-disposisi')}}" id="form-sd">
+                        {{csrf_field()}}
+                        <input type="hidden" name="_method">
+                        <input type="hidden" name="sm_id" id="sm_id">
+                        <div class="modal-body">
+                            <div class="row form-group">
+                                <div class="col-lg-12">
+                                    <label for="diteruskan_kepada">Diteruskan kepada Saudara: <span
+                                                class="required">*</span></label>
+                                    <textarea id="diteruskan_kepada" name="diteruskan_kepada"
+                                              class="use-tinymce"></textarea>
+                                </div>
                             </div>
-                        </div>
-                        <div class="row form-group">
-                            <div class="col-lg-5">
-                                <label for="harapan">Dengan hormat harap: <span class="required">*</span></label>
-                                <div class="input-group">
+                            <div class="row form-group">
+                                <div class="col-lg-5">
+                                    <label for="harapan">Dengan hormat harap: <span class="required">*</span></label>
+                                    <div class="input-group">
                                     <span class="input-group-addon">
                                         <input id="rb_ts" type="radio" class="flat" name="rb_harapan" required></span>
-                                    <input id="txt_ts" class="form-control" type="text" name="harapan"
-                                           value="Tanggapan dan Saran" disabled>
-                                </div>
-                                <div class="input-group">
+                                        <input id="txt_ts" class="form-control" type="text" name="harapan"
+                                               value="Tanggapan dan Saran" disabled>
+                                    </div>
+                                    <div class="input-group">
                                     <span class="input-group-addon">
                                         <input id="rb_pll" type="radio" class="flat" name="rb_harapan"></span>
-                                    <input id="txt_pll" class="form-control" type="text" name="harapan"
-                                           value="Proses Lebih Lanjut" disabled>
-                                </div>
-                                <div class="input-group">
+                                        <input id="txt_pll" class="form-control" type="text" name="harapan"
+                                               value="Proses Lebih Lanjut" disabled>
+                                    </div>
+                                    <div class="input-group">
                                     <span class="input-group-addon">
                                         <input id="rb_kk" type="radio" class="flat" name="rb_harapan"></span>
-                                    <input id="txt_kk" class="form-control" type="text" name="harapan"
-                                           value="Koordinasi / Konfirmasikan" disabled>
-                                </div>
-                                <div class="input-group">
+                                        <input id="txt_kk" class="form-control" type="text" name="harapan"
+                                               value="Koordinasi / Konfirmasikan" disabled>
+                                    </div>
+                                    <div class="input-group">
                                     <span class="input-group-addon">
                                         <input id="rb_cust" type="radio" class="flat" name="rb_harapan"></span>
-                                    <input id="txt_cust" class="form-control" type="text" name="harapan"
-                                           placeholder="Tulis harapan disini..." disabled>
+                                        <input id="txt_cust" class="form-control" type="text" name="harapan"
+                                               placeholder="Tulis harapan disini..." disabled>
+                                    </div>
                                 </div>
-                            </div>
-                            <div class="col-lg-7">
-                                <label for="catatan">Catatan:</label>
-                                <div class="input-group">
-                                    <span class="input-group-addon"><i class="fa fa-clipboard-list"></i></span>
-                                    <textarea id="catatan" class="form-control" name="catatan" style="resize: vertical;"
-                                              placeholder="Tulis catatan disini..." rows="9"></textarea>
+                                <div class="col-lg-7">
+                                    <label for="catatan">Catatan:</label>
+                                    <div class="input-group">
+                                        <span class="input-group-addon"><i class="fa fa-clipboard-list"></i></span>
+                                        <textarea id="catatan" class="form-control" name="catatan"
+                                                  style="resize: vertical;"
+                                                  placeholder="Tulis catatan disini..." rows="9"></textarea>
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-default" data-dismiss="modal">Batal</button>
-                        <button type="submit" class="btn btn-primary" id="btn_sd_submit">Submit</button>
-                    </div>
-                </form>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-default" data-dismiss="modal">Batal</button>
+                            <button type="submit" class="btn btn-primary" id="btn_sd_submit">Submit</button>
+                        </div>
+                    </form>
+                </div>
             </div>
         </div>
-    </div>
+    @endif
 @endsection
 @push("scripts")
     <script>

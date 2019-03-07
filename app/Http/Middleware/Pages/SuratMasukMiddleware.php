@@ -16,13 +16,15 @@ class SuratMasukMiddleware
      */
     public function handle($request, Closure $next)
     {
-        if (Auth::check() && (Auth::user()->isPengolah() || Auth::user()->isKadin())) {
+        if (Auth::guard('admin')->check()) {
+            return abort(403);
+
+        } elseif (Auth::check() && (Auth::user()->isPengolah() || Auth::user()->isKadin())) {
             return $next($request);
-        } else {
-            if (Auth::guest()) {
-                return redirect()->guest(route('home'))
-                    ->with('expire', 'Halaman yang Anda minta memerlukan otentikasi, silahkan masuk ke akun Anda.');
-            }
+
+        } elseif (Auth::guest()) {
+            return redirect()->guest(route('home'))
+                ->with('expire', 'Halaman yang Anda minta memerlukan otentikasi, silahkan masuk ke akun Anda.');
         }
 
         return abort(403);
