@@ -2,8 +2,10 @@
 
 use App\Support\Role;
 use App\Models\PerihalSurat;
+use App\Models\AgendaKeluar;
 use App\Models\AgendaMasuk;
-use App\Models\SuratDiposisi;
+use App\Models\SuratKeluar;
+use App\Models\SuratDisposisi;
 use App\Models\SuratMasuk;
 use App\Models\JenisSurat;
 use App\Models\User;
@@ -41,7 +43,7 @@ class SuratMasukSeeder extends Seeder
                 'isDisposisi' => true,
             ]);
 
-            $sd = SuratDiposisi::create([
+            $sd = SuratDisposisi::create([
                 'suratmasuk_id' => $sm->id,
                 'diteruskan_kepada' => '<ol><li>' . $faker->name . '</li><li>' . $faker->name . '</li></ol>',
                 'harapan' => $faker->sentence(),
@@ -50,6 +52,31 @@ class SuratMasukSeeder extends Seeder
 
             AgendaMasuk::create([
                 'suratdisposisi_id' => $sd->id,
+                'ringkasan' => '<p align="justify">' . $faker->sentences(rand(1, 2), true) . '</p>',
+                'keterangan' => $faker->sentence()
+            ]);
+
+            $sk = SuratKeluar::create([
+                'user_id' => User::where('role', Role::KADIN)->inRandomOrder()->first()->id,
+                'jenis_id' => $sm->jenis_id,
+                'suratdisposisi_id' => $sd->id,
+                'tgl_surat' => $sm->tgl_surat,
+                'nama_penerima' => $sm->nama_pengirim,
+                'kota_penerima' => $sm->asal_instansi,
+                'no_surat' => substr($sm->no_surat, 0, 3) . '/' .
+                    str_pad(SuratKeluar::count() + 1, 3, '0', STR_PAD_LEFT) .
+                    '/401.113/' . rand(2018, 2019),
+                'sifat_surat' => $sm->sifat_surat,
+                'lampiran' => '2 (dua) lembar',
+                'perihal' => 'Surat balasan ' . $faker->sentence(rand(3, 6), true),
+                'isi' => '<p align="justify">' . $faker->paragraphs(rand(2, 3), true) . '</p>',
+                'tembusan' => '<ol><li>' . $faker->name . '</li><li>' . $faker->name . '</li></ol>',
+                'status' => 4,
+                'files' => ['file1.jpg', 'file2.jpg'],
+            ]);
+
+            AgendaKeluar::create([
+                'suratkeluar_id' => $sk->id,
                 'ringkasan' => '<p align="justify">' . $faker->sentences(rand(1, 2), true) . '</p>',
                 'keterangan' => $faker->sentence()
             ]);

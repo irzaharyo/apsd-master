@@ -1,14 +1,14 @@
 <script>
     @if(session('success'))
     new PNotify({
-        title: 'Success!',
+        title: 'Sukses!',
         text: '{{session('success')}}',
         type: 'success',
         styling: 'bootstrap3'
     });
     @elseif(session('warning'))
     new PNotify({
-        title: 'ATTENTION!',
+        title: 'PERHATIAN!',
         text: '{{session('warning')}}',
         type: 'warning',
         styling: 'bootstrap3'

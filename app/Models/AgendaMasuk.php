@@ -12,6 +12,6 @@ class AgendaMasuk extends Model
 
     public function getSuratDisposisi()
     {
-        return $this->belongsTo(SuratDiposisi::class, 'suratdisposisi_id');
+        return $this->belongsTo(SuratDisposisi::class, 'suratdisposisi_id');
     }
 }

@@ -14,4 +14,14 @@ class SuratDisposisi extends Model
     {
         return $this->belongsTo(SuratMasuk::class, 'suratmasuk_id');
     }
+
+    public function getSuratKeluar()
+    {
+        return $this->hasOne(SuratKeluar::class, 'suratdisposisi_id');
+    }
+
+    public function getAgendaMasuk()
+    {
+        return $this->hasMany(AgendaMasuk::class, 'suratdisposisi_id');
+    }
 }

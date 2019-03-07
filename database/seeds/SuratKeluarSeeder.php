@@ -19,7 +19,7 @@ class SuratKeluarSeeder extends Seeder
     public function run()
     {
         $faker = Factory::create('id_ID');
-        for ($c = 1; $c <= 25; $c++) {
+        for ($c = 1; $c <= 5; $c++) {
             $sk = SuratKeluar::create([
                 'user_id' => User::where('role', Role::PEGAWAI)->inRandomOrder()->first()->id,
                 'jenis_id' => rand(JenisSurat::min('id'), JenisSurat::max('id')),
@@ -27,7 +27,8 @@ class SuratKeluarSeeder extends Seeder
                 'nama_penerima' => $faker->name,
                 'kota_penerima' => $faker->city,
                 'no_surat' => PerihalSurat::inRandomOrder()->first()->kode . '/' .
-                    str_pad($c, 3, '0', STR_PAD_LEFT) . '/401.113/' . rand(2018, 2019),
+                    str_pad(SuratKeluar::count() + 1, 3, '0', STR_PAD_LEFT) .
+                    '/401.113/' . rand(2018, 2019),
                 'sifat_surat' => rand(0, 1) ? 'segera' : 'penting',
                 'lampiran' => '2 (dua) lembar',
                 'perihal' => $faker->sentence(rand(3, 6), true),

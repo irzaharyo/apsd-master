@@ -22,6 +22,11 @@ class SuratKeluar extends Model
         return $this->belongsTo(JenisSurat::class, 'jenis_id');
     }
 
+    public function getSuratDisposisi()
+    {
+        return $this->belongsTo(SuratDisposisi::class, 'suratdisposisi_id');
+    }
+
     public function getAgendaKeluar()
     {
         return $this->hasMany(AgendaKeluar::class, 'suratkeluar_id');

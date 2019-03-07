@@ -24,6 +24,6 @@ class SuratMasuk extends Model
 
     public function getSuratDisposisi()
     {
-        return $this->hasOne(SuratDiposisi::class, 'suratmasuk_id');
+        return $this->hasOne(SuratDisposisi::class, 'suratmasuk_id');
     }
 }
