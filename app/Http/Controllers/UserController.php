@@ -14,12 +14,6 @@ use Illuminate\Support\Facades\Session;
 
 class UserController extends Controller
 {
-    public function __construct()
-    {
-        $this->middleware(['guest:admin', 'guest:web'])->only('index');
-        $this->middleware('beranda')->only('beranda');
-    }
-
     public function index()
     {
         $carousels = Carousel::all();

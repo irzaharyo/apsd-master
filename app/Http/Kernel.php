@@ -60,7 +60,14 @@ class Kernel extends HttpKernel
         'signed' => \Illuminate\Routing\Middleware\ValidateSignature::class,
         'throttle' => \Illuminate\Routing\Middleware\ThrottleRequests::class,
         'verified' => \Illuminate\Auth\Middleware\EnsureEmailIsVerified::class,
-        'beranda' => \App\Http\Middleware\Auth\BerandaMiddleware::class,
+        'root' => \App\Http\Middleware\Auth\RootMiddleware::class,
+        'kadin' => \App\Http\Middleware\Auth\KadinMiddleware::class,
+        'pengolah' => \App\Http\Middleware\Auth\PengolahMiddleware::class,
+        'TU' => \App\Http\Middleware\Auth\TataUsahaMiddleware::class,
+        'pegawai' => \App\Http\Middleware\Auth\PegawaiMiddleware::class,
+        'beranda' => \App\Http\Middleware\Pages\BerandaMiddleware::class,
+        'surat.masuk' => \App\Http\Middleware\Pages\SuratMasukMiddleware::class,
+        'surat.keluar' => \App\Http\Middleware\Pages\SuratKeluarMiddleware::class,
     ];
 
     /**

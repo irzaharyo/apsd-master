@@ -5,18 +5,23 @@ namespace App\Http\Middleware\Auth;
 use Closure;
 use Illuminate\Support\Facades\Auth;
 
-class BerandaMiddleware
+class RootMiddleware
 {
     /**
      * Handle an incoming request.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \Closure  $next
+     * @param  \Illuminate\Http\Request $request
+     * @param  \Closure $next
      * @return mixed
      */
     public function handle($request, Closure $next)
     {
-        if (Auth::guard('admin')->check() || Auth::check()) {
+        if (Auth::guard('admin')->check()) {
+            if (Auth::guard('admin')->user()->isRoot()) {
+                return $next($request);
+            }
+
+        } else {
             return $next($request);
         }
 

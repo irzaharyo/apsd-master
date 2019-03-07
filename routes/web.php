@@ -38,11 +38,13 @@ Route::group(['namespace' => 'Auth', 'prefix' => 'account'], function () {
 Route::group(['prefix' => '/'], function () {
 
     Route::get('/', [
+        'middleware' => ['guest:admin', 'guest:web'],
         'uses' => 'UserController@index',
         'as' => 'home'
     ]);
 
     Route::get('beranda', [
+        'middleware' => 'beranda',
         'uses' => 'UserController@beranda',
         'as' => 'beranda'
     ]);
@@ -60,54 +62,63 @@ Route::group(['prefix' => '/'], function () {
     Route::group(['prefix' => 'surat_masuk'], function () {
 
         Route::get('/', [
+            'middleware' => 'surat.masuk',
             'uses' => 'SuratMasukController@showSuratMasuk',
             'as' => 'show.surat-masuk'
         ]);
 
-        Route::post('create', [
-            'uses' => 'SuratMasukController@createSuratMasuk',
-            'as' => 'create.surat-masuk'
-        ]);
+        Route::group(['middleware' => 'pengolah'], function () {
 
-        Route::get('edit/{id}', [
-            'uses' => 'SuratMasukController@editSuratMasuk',
-            'as' => 'edit.surat-masuk'
-        ]);
+            Route::post('create', [
+                'uses' => 'SuratMasukController@createSuratMasuk',
+                'as' => 'create.surat-masuk'
+            ]);
 
-        Route::put('update/{id}', [
-            'uses' => 'SuratMasukController@updateSuratMasuk',
-            'as' => 'update.surat-masuk'
-        ]);
+            Route::get('edit/{id}', [
+                'uses' => 'SuratMasukController@editSuratMasuk',
+                'as' => 'edit.surat-masuk'
+            ]);
 
-        Route::get('delete/{id}', [
-            'uses' => 'SuratMasukController@deleteSuratMasuk',
-            'as' => 'delete.surat-masuk'
-        ]);
+            Route::put('update/{id}', [
+                'uses' => 'SuratMasukController@updateSuratMasuk',
+                'as' => 'update.surat-masuk'
+            ]);
 
-        Route::get('massDelete/{id}', [
-            'uses' => 'SuratMasukController@massDeleteFileSuratMasuk',
-            'as' => 'massDelete.surat-masuk'
-        ]);
+            Route::get('delete/{id}', [
+                'uses' => 'SuratMasukController@deleteSuratMasuk',
+                'as' => 'delete.surat-masuk'
+            ]);
 
-        Route::post('disposisi/create', [
-            'uses' => 'SuratMasukController@createSuratDisposisi',
-            'as' => 'create.surat-disposisi'
-        ]);
+            Route::get('massDelete/{id}', [
+                'uses' => 'SuratMasukController@massDeleteFileSuratMasuk',
+                'as' => 'massDelete.surat-masuk'
+            ]);
 
-        Route::get('disposisi/edit/{id}', [
-            'uses' => 'SuratMasukController@editSuratDisposisi',
-            'as' => 'edit.surat-disposisi'
-        ]);
+        });
 
-        Route::put('disposisi/update/{id}', [
-            'uses' => 'SuratMasukController@updateSuratDisposisi',
-            'as' => 'update.surat-disposisi'
-        ]);
+        Route::group(['middleware' => 'kadin'], function () {
 
-        Route::get('disposisi/delete/{id}', [
-            'uses' => 'SuratMasukController@deleteSuratDisposisi',
-            'as' => 'delete.surat-disposisi'
-        ]);
+            Route::post('disposisi/create', [
+                'uses' => 'SuratMasukController@createSuratDisposisi',
+                'as' => 'create.surat-disposisi'
+            ]);
+
+            Route::get('disposisi/edit/{id}', [
+                'uses' => 'SuratMasukController@editSuratDisposisi',
+                'as' => 'edit.surat-disposisi'
+            ]);
+
+            Route::put('disposisi/update/{id}', [
+                'uses' => 'SuratMasukController@updateSuratDisposisi',
+                'as' => 'update.surat-disposisi'
+            ]);
+
+            Route::get('disposisi/delete/{id}', [
+                'uses' => 'SuratMasukController@deleteSuratDisposisi',
+                'as' => 'delete.surat-disposisi'
+            ]);
+
+        });
 
     });
 
