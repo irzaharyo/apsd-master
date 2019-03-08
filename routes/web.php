@@ -120,6 +120,35 @@ Route::group(['prefix' => '/'], function () {
 
         });
 
+        Route::group(['prefix' => 'agenda', 'middleware' => 'TU'], function () {
+
+            Route::get('/', [
+                'uses' => 'AgendaSuratMasukController@showAgenda',
+                'as' => 'show.agenda-masuk'
+            ]);
+
+            Route::post('create', [
+                'uses' => 'AgendaSuratMasukController@createAgenda',
+                'as' => 'create.agenda-masuk'
+            ]);
+
+            Route::get('edit/{id}', [
+                'uses' => 'AgendaSuratMasukController@editAgenda',
+                'as' => 'edit.agenda-masuk'
+            ]);
+
+            Route::put('update/{id}', [
+                'uses' => 'AgendaSuratMasukController@updateAgenda',
+                'as' => 'update.agenda-masuk'
+            ]);
+
+            Route::get('update/{id}', [
+                'uses' => 'AgendaSuratMasukController@deleteAgenda',
+                'as' => 'delete.agenda-masuk'
+            ]);
+
+        });
+
     });
 
     Route::group(['prefix' => 'surat_keluar'], function () {

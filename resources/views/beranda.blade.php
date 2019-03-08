@@ -96,8 +96,7 @@
                             <thead>
                             <tr>
                                 <th>No</th>
-                                <th>Tanggal Surat</th>
-                                <th>Nomor Surat</th>
+                                <th>Tanggal Penerimaan</th>
                                 <th>Detail Surat</th>
                                 <th>Disposisi</th>
                                 <th>Aksi</th>
@@ -124,11 +123,22 @@
                                 @endphp
                                 <tr>
                                     <td style="vertical-align: middle" align="center">{{$no++}}</td>
-                                    <td style="vertical-align: middle" align="center">{{$masuk->tgl_surat}}</td>
                                     <td style="vertical-align: middle" align="center">
-                                        <strong>{{$masuk->no_surat}}</strong></td>
+                                        {{\Carbon\Carbon::parse($masuk->created_at)->format('l, j F Y')}}</td>
                                     <td style="vertical-align: middle">
                                         <table>
+                                            <tr>
+                                                <td><i class="fa fa-hashtag"></i>&nbsp;</td>
+                                                <td>Nomor Surat</td>
+                                                <td>&nbsp;:&nbsp;</td>
+                                                <td>{{$masuk->no_surat}}</td>
+                                            </tr>
+                                            <tr>
+                                                <td><i class="fa fa-calendar-alt"></i>&nbsp;</td>
+                                                <td>Tanggal Surat</td>
+                                                <td>&nbsp;:&nbsp;</td>
+                                                <td>{{\Carbon\Carbon::parse($masuk->tgl_surat)->format('j F Y')}}</td>
+                                            </tr>
                                             <tr>
                                                 <td><i class="fa fa-thumbtack"></i>&nbsp;</td>
                                                 <td>Jenis Surat</td>
@@ -234,7 +244,7 @@
                                 <tr>
                                     <td style="vertical-align: middle" align="center">{{$no++}}</td>
                                     <td style="vertical-align: middle" align="center">{{$keluar->tgl_surat != null ?
-                                    $keluar->tgl_surat : '(kosong)'}}</td>
+                                    \Carbon\Carbon::parse($keluar->tgl_surat)->format('j F Y') : '(kosong)'}}</td>
                                     <td style="vertical-align: middle" align="center">
                                         <strong>{{$keluar->no_surat != null ? $keluar->no_surat : '(kosong)'}}</strong>
                                     </td>

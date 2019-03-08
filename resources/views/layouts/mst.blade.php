@@ -189,18 +189,20 @@
     } elseif(Auth::check()){
         if(Auth::user()->isPengolah()){
             $role = 'Pengolah';
-            $npl_sB = \App\Models\SuratKeluar::whereHas('getSuratDisposisi', function ($q){
-                $q->whereHas('getSuratMasuk', function ($q){
-                    $q->where('isDisposisi', true);
-                });
-            })->where('status', 0)->get();
-            $npl_sk = \App\Models\SuratKeluar::doesntHave('suratdisposisi_id')->where('status', 0)->get();
+            $npl_sB = \App\Models\SuratKeluar::wherenotnull('suratdisposisi_id')->where('status', 0)->get();
+            $npl_sk = \App\Models\SuratKeluar::where('suratdisposisi_id',null)->where('status', 0)->get();
             $notifications = count($npl_sB) + count($npl_sk);
 
         } elseif(Auth::user()->isPegawai()){
             $role = 'Pegawai';
+
         } elseif(Auth::user()->isTU()){
             $role = 'T. Usaha';
+            $nt_sm = \App\Models\SuratMasuk::whereHas('getSuratDisposisi', function ($q){
+                $q->doesnthave('getAgendaMasuk');
+            })->get();
+            $nt_sk = \App\Models\SuratKeluar::where('status', 2)->get();
+            $notifications = count($nt_sm) + count($nt_sk);
 
         } elseif(Auth::user()->isKadin()){
             $role = 'KADIN';
@@ -386,8 +388,9 @@
                                                                     src="{{asset('images/sk.png')}}"></span>
                                                         <span><span>{{$row->no_surat}}</span></span>
                                                         <span class="message">
-                                                        Surat balasan #<strong>{{$row->no_surat}}</strong> untuk
-                                                        {{$row->nama_penerima.' - '.$row->kota_penerima}} belum dibuat!
+                                                            Surat <strong>balasan</strong> #<strong>{{$row
+                                                            ->no_surat}}</strong> untuk {{$row->nama_penerima.' - '.
+                                                            $row->kota_penerima}} belum dibuat!
                                                     </span>
                                                     </a>
                                                 </li>
@@ -400,8 +403,9 @@
                                                                     src="{{asset('images/sk.png')}}"></span>
                                                         <span><span>{{$row->no_surat}}</span></span>
                                                         <span class="message">
-                                                        Surat keluar #<strong>{{$row->no_surat}}</strong> untuk
-                                                        {{$row->nama_penerima.' - '.$row->kota_penerima}} belum dibuat!
+                                                            Surat <strong>keluar</strong> #<strong>{{$row
+                                                            ->no_surat}}</strong> untuk{{$row->nama_penerima.' - '.
+                                                            $row->kota_penerima}} belum dibuat!
                                                     </span>
                                                     </a>
                                                 </li>
@@ -410,6 +414,56 @@
                                         <li class="divider"
                                             style="margin: 0 6px;padding: 3px;background: none;border-bottom: 2px solid #d8d8d845;"></li>
                                     @endif
+
+                                        @if($role == 'T. Usaha' && count($nt_sm) > 0)
+                                            <li style="padding: 0;">
+                                                <a style="text-decoration: none;cursor: text">
+                                                <span><i class="fa fa-envelope-open"></i>
+                                                    <strong style="margin-left: 5px;text-transform: uppercase">Surat Masuk</strong></span>
+                                                </a>
+                                            </li>
+                                            @foreach($nt_sm as $row)
+                                                <li>
+                                                    <a href="{{route('show.agenda-masuk').'?q='.$row->no_surat}}">
+                                                    <span class="image">
+                                                        <img src="{{asset('images/sm.png')}}">
+                                                    </span>
+                                                        <span><span>{{$row->no_surat}}</span></span>
+                                                        <span class="message">
+                                                        Agenda surat masuk #<strong>{{$row->no_surat}}</strong> dari
+                                                        {{$row->nama_pengirim.' - '.$row->nama_instansi}} belum dibuat!
+                                                    </span>
+                                                    </a>
+                                                </li>
+                                            @endforeach
+                                            <li class="divider"
+                                                style="margin: 0 6px;padding: 3px;background: none;border-bottom: 2px solid #d8d8d845;"></li>
+                                        @endif
+
+                                        @if($role == 'T. Usaha' && count($nt_sk) > 0)
+                                            <li style="padding: 0;">
+                                                <a style="text-decoration: none;cursor: text">
+                                                <span><i class="fa fa-paper-plane"></i>
+                                                    <strong style="margin-left: 5px;text-transform: uppercase">Surat Keluar</strong></span>
+                                                </a>
+                                            </li>
+                                            @foreach($nt_sk as $row)
+                                                <li>
+                                                    <a href="{{route('show.surat-keluar').'?q='.$row->no_surat}}">
+                                                    <span class="image">
+                                                        <img src="{{asset('images/sk.png')}}">
+                                                    </span>
+                                                        <span><span>{{$row->no_surat}}</span></span>
+                                                        <span class="message">
+                                                        Agenda surat keluar #<strong>{{$row->no_surat}}</strong> untuk
+                                                        {{$row->nama_penerima.' - '.$row->kota_penerima}} belum dibuat!
+                                                    </span>
+                                                    </a>
+                                                </li>
+                                            @endforeach
+                                            <li class="divider"
+                                                style="margin: 0 6px;padding: 3px;background: none;border-bottom: 2px solid #d8d8d845;"></li>
+                                        @endif
                                 @else
                                     <li>
                                         <a style="text-decoration: none;cursor: text">

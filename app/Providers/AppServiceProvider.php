@@ -15,6 +15,10 @@ class AppServiceProvider extends ServiceProvider
     public function boot()
     {
         Schema::defaultStringLength(191);
+        /**
+         * set locale Indonesia secara global pada class Carbon
+         */
+        \Carbon\Carbon::setlocale('id');
     }
 
     /**

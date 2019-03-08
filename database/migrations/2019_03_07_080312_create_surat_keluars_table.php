@@ -30,7 +30,7 @@ class CreateSuratKeluarsTable extends Migration
             $table->string('no_surat')->nullable();
             $table->string('sifat_surat')->nullable();
             $table->string('lampiran')->nullable();
-            $table->string('perihal');
+            $table->string('perihal')->nullable();
             $table->text('isi')->nullable();
             $table->text('tembusan')->nullable();
             $table->integer('status')->default(0);

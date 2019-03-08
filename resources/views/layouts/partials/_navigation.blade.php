@@ -1,5 +1,7 @@
 @auth
     @if(Auth::user()->isTU())
+        <li><a href="{{route('show.agenda-masuk')}}"><i class="fa fa-envelope-open"></i> Agenda Surat Masuk</a></li>
+        <li><a href="{{route('show.surat-keluar')}}"><i class="fa fa-paper-plane"></i> Agenda Surat Keluar</a></li>
     @elseif(Auth::user()->isPegawai())
     @elseif(Auth::user()->isPengolah() || Auth::user()->isKadin())
         <li><a href="{{route('show.surat-masuk')}}"><i class="fa fa-envelope-open"></i> Surat Masuk</a></li>

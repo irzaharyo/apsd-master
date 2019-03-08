@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\JenisSurat;
 use App\Models\SuratDisposisi;
+use App\Models\SuratKeluar;
 use App\Models\SuratMasuk;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -144,6 +145,21 @@ class SuratMasukController extends Controller
         ]);
         $sd->getSuratMasuk->update(['isDisposisi' => true]);
 
+        if ($sd->harapan == 'Buat Surat Balasan') {
+            SuratKeluar::create([
+                'user_id' => Auth::id(),
+                'jenis_id' => $sd->getSuratMasuk->jenis_id,
+                'suratdisposisi_id' => $sd->id,
+                'nama_penerima' => $sd->getSuratMasuk->nama_pengirim,
+                'kota_penerima' => $sd->getSuratMasuk->asal_instansi,
+                'no_surat' => substr($sd->getSuratMasuk->no_surat, 0, 3) . '/' .
+                    str_pad(SuratKeluar::count() + 1, 3, '0', STR_PAD_LEFT) .
+                    '/401.113/' . now()->format('Y'),
+                'sifat_surat' => $sd->getSuratMasuk->sifat_surat,
+                'status' => 0
+            ]);
+        }
+
         return back()->with('success', 'Surat Masuk #' . $sd->getSuratMasuk->no_surat . ' berhasil didisposisi!');
     }
 
@@ -161,6 +177,26 @@ class SuratMasukController extends Controller
             'harapan' => $request->harapan,
             'catatan' => $request->catatan,
         ]);
+        if ($sd->harapan == 'Buat Surat Balasan') {
+            SuratKeluar::create([
+                'user_id' => Auth::id(),
+                'jenis_id' => $sd->getSuratMasuk->jenis_id,
+                'suratdisposisi_id' => $sd->id,
+                'nama_penerima' => $sd->getSuratMasuk->nama_pengirim,
+                'kota_penerima' => $sd->getSuratMasuk->asal_instansi,
+                'no_surat' => substr($sd->getSuratMasuk->no_surat, 0, 3) . '/' .
+                    str_pad(SuratKeluar::count() + 1, 3, '0', STR_PAD_LEFT) .
+                    '/401.113/' . now()->format('Y'),
+                'sifat_surat' => $sd->getSuratMasuk->sifat_surat,
+                'status' => 0
+            ]);
+
+        } else {
+            $sk = SuratKeluar::where('suratdisposisi_id', $sd->id)->first();
+            if ($sk != "") {
+                $sk->delete();
+            }
+        }
 
         return back()->with('success', 'Disposisi Surat Masuk #' . $sd->getSuratMasuk->no_surat . ' berhasil diperbarui!');
     }

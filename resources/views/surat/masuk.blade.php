@@ -48,7 +48,7 @@
                         </h2>
                         <ul class="nav navbar-right panel_toolbox">
                             @if(Auth::user()->isPengolah())
-                                <li><a id="btn_create" data-toggle="tooltip" title="Tambah Surat"
+                                <li><a id="btn_create" data-toggle="tooltip" title="Buat Surat"
                                        data-placement="right"><i class="fa fa-plus"></i></a></li>
                             @endif
                         </ul>
@@ -87,16 +87,22 @@
                                     <td style="vertical-align: middle">
                                         <table>
                                             <tr>
-                                                <td><i class="fa fa-calendar-alt"></i>&nbsp;</td>
-                                                <td>Tanggal Surat</td>
+                                                <td><i class="fa fa-calendar-check"></i>&nbsp;</td>
+                                                <td>Tanggal Penerimaan</td>
                                                 <td>&nbsp;:&nbsp;</td>
-                                                <td>{{$masuk->tgl_surat}}</td>
+                                                <td>{{\Carbon\Carbon::parse($masuk->created_at)->format('l, j F Y')}}</td>
                                             </tr>
                                             <tr>
                                                 <td><i class="fa fa-hashtag"></i>&nbsp;</td>
                                                 <td>Nomor Surat</td>
                                                 <td>&nbsp;:&nbsp;</td>
                                                 <td>{{$masuk->no_surat}}</td>
+                                            </tr>
+                                            <tr>
+                                                <td><i class="fa fa-calendar-alt"></i>&nbsp;</td>
+                                                <td>Tanggal Surat</td>
+                                                <td>&nbsp;:&nbsp;</td>
+                                                <td>{{\Carbon\Carbon::parse($masuk->tgl_surat)->format('j F Y')}}</td>
                                             </tr>
                                             <tr>
                                                 <td><i class="fa fa-thumbtack"></i>&nbsp;</td>
@@ -482,6 +488,12 @@
                                                value="Koordinasi / Konfirmasikan" disabled>
                                     </div>
                                     <div class="input-group">
+                                        <span class="input-group-addon">
+                                            <input id="rb_bsb" type="radio" class="flat" name="rb_harapan"></span>
+                                        <input id="txt_bsb" class="form-control" type="text" name="harapan"
+                                               value="Buat Surat Balasan" disabled>
+                                    </div>
+                                    <div class="input-group">
                                     <span class="input-group-addon">
                                         <input id="rb_cust" type="radio" class="flat" name="rb_harapan"></span>
                                         <input id="txt_cust" class="form-control" type="text" name="harapan"
@@ -494,7 +506,7 @@
                                         <span class="input-group-addon"><i class="fa fa-clipboard-list"></i></span>
                                         <textarea id="catatan" class="form-control" name="catatan"
                                                   style="resize: vertical;"
-                                                  placeholder="Tulis catatan disini..." rows="9"></textarea>
+                                                  placeholder="Tulis catatan disini..." rows="12"></textarea>
                                     </div>
                                 </div>
                             </div>
@@ -541,7 +553,7 @@
             $("#form-sm").attr('action', '{{route('create.surat-masuk')}}');
 
             $("#btn_create[data-toggle=tooltip]").attr('data-original-title', function (i, v) {
-                return v === "Tambah Surat" ? "Daftar Surat" : "Tambah Surat";
+                return v === "Buat Surat" ? "Daftar Surat" : "Buat Surat";
             });
 
             $("#panel_subtitle").html(function (i, v) {
@@ -642,7 +654,7 @@
             $("#form-sm").attr('action', '{{route('update.surat-masuk', ['id' => ''])}}/' + id);
 
             $("#btn_create[data-toggle=tooltip]").attr('data-original-title', function (i, v) {
-                return v === "Tambah Surat" ? "Daftar Surat" : "Tambah Surat";
+                return v === "Buat Surat" ? "Daftar Surat" : "Buat Surat";
             }).tooltip('show');
 
             $("#panel_subtitle").html(function (i, v) {
@@ -784,33 +796,59 @@
 
             $("#rb_ts").on("ifToggled", function () {
                 if ($(this).is(":checked")) {
-                    $("#txt_ts").removeAttr('disabled').attr('readonly', 'readonly');
+                    $("#txt_ts").removeAttr('disabled').attr('readonly', 'readonly')
+                        .css('color', '#31c2a5').css('border-color', '#31c2a5');
+                    $(this).parent().parent().css('border-color', '#31c2a5');
                 } else {
-                    $("#txt_ts").attr('disabled', 'disabled');
+                    $("#txt_ts").attr('disabled', 'disabled')
+                        .css('background', '#eee').css('color', '#555').css('border-color', '#ccc');
+                    $(this).parent().parent().css('border-color', '#ccc');
                 }
             });
 
             $("#rb_pll").on("ifToggled", function () {
                 if ($(this).is(":checked")) {
-                    $("#txt_pll").removeAttr('disabled').attr('readonly', 'readonly');
+                    $("#txt_pll").removeAttr('disabled').attr('readonly', 'readonly')
+                        .css('color', '#31c2a5').css('border-color', '#31c2a5');
+                    $(this).parent().parent().css('border-color', '#31c2a5');
                 } else {
-                    $("#txt_pll").attr('disabled', 'disabled');
+                    $("#txt_pll").attr('disabled', 'disabled')
+                        .css('background', '#eee').css('color', '#555').css('border-color', '#ccc');
+                    $(this).parent().parent().css('border-color', '#ccc');
                 }
             });
 
             $("#rb_kk").on("ifToggled", function () {
                 if ($(this).is(":checked")) {
-                    $("#txt_kk").removeAttr('disabled').attr('readonly', 'readonly');
+                    $("#txt_kk").removeAttr('disabled').attr('readonly', 'readonly')
+                        .css('color', '#31c2a5').css('border-color', '#31c2a5');
+                    $(this).parent().parent().css('border-color', '#31c2a5');
                 } else {
-                    $("#txt_kk").attr('disabled', 'disabled');
+                    $("#txt_kk").attr('disabled', 'disabled')
+                        .css('background', '#eee').css('color', '#555').css('border-color', '#ccc');
+                    $(this).parent().parent().css('border-color', '#ccc');
+                }
+            });
+
+            $("#rb_bsb").on("ifToggled", function () {
+                if ($(this).is(":checked")) {
+                    $("#txt_bsb").removeAttr('disabled').attr('readonly', 'readonly')
+                        .css('background', '#31c2a5').css('color', '#fff').css('border-color', '#31c2a5');
+                    $(this).parent().parent().css('border-color', '#31c2a5');
+                } else {
+                    $("#txt_bsb").attr('disabled', 'disabled')
+                        .css('background', '#eee').css('color', '#555').css('border-color', '#ccc');
+                    $(this).parent().parent().css('border-color', '#ccc');
                 }
             });
 
             $("#rb_cust").on("ifToggled", function () {
                 if ($(this).is(":checked")) {
-                    $("#txt_cust").val('').removeAttr('disabled');
+                    $("#txt_cust").val('').removeAttr('disabled').css('border-color', '#31c2a5');
+                    $(this).parent().parent().css('border-color', '#31c2a5');
                 } else {
-                    $("#txt_cust").val('').attr('disabled', 'disabled');
+                    $("#txt_cust").val('').attr('disabled', 'disabled').css('border-color', '#ccc');
+                    $(this).parent().parent().css('border-color', '#ccc');
                 }
             });
 
@@ -822,8 +860,8 @@
 
                 tinymce.get('diteruskan_kepada').setContent('');
                 $("#catatan").val('');
-                $("#rb_ts, #rb_pll, #rb_kk, #rb_cust").iCheck('uncheck');
-                $("#txt_ts, #txt_pll, #txt_kk, #txt_cust").attr('disabled', 'disabled');
+                $("#rb_ts, #rb_pll, #rb_kk, #rb_bsb, #rb_cust").iCheck('uncheck');
+                $("#txt_ts, #txt_pll, #txt_kk, #txt_bsb, #txt_cust").attr('disabled', 'disabled');
 
             } else if (method == 'update') {
                 $("#disposisiModal .modal-title").html('Edit Disposisi Surat Masuk #<strong>' + no_surat + '</strong>');
@@ -838,22 +876,27 @@
                     if (data.harapan == 'Tanggapan dan Saran') {
                         $("#rb_ts").iCheck('check');
                         $("#txt_ts").removeAttr('disabled').attr('readonly', 'readonly');
-                        $("#txt_pll, #txt_kk, #txt_cust").attr('disabled', 'disabled');
+                        $("#txt_pll, #txt_kk, #txt_bsb, #txt_cust").attr('disabled', 'disabled');
 
                     } else if (data.harapan == 'Proses Lebih Lanjut') {
                         $("#rb_pll").iCheck('check');
                         $("#txt_pll").removeAttr('disabled').attr('readonly', 'readonly');
-                        $("#txt_ts, #txt_kk, #txt_cust").attr('disabled', 'disabled');
+                        $("#txt_ts, #txt_kk, #txt_bsb, #txt_cust").attr('disabled', 'disabled');
 
                     } else if (data.harapan == 'Koordinasi / Konfirmasikan') {
                         $("#rb_kk").iCheck('check');
                         $("#txt_kk").removeAttr('disabled').attr('readonly', 'readonly');
-                        $("#txt_ts, #txt_pll, #txt_cust").attr('disabled', 'disabled');
+                        $("#txt_ts, #txt_pll, #txt_bsb, #txt_cust").attr('disabled', 'disabled');
+
+                    } else if (data.harapan == 'Buat Surat Balasan') {
+                        $("#rb_bsb").iCheck('check');
+                        $("#txt_bsb").removeAttr('disabled').attr('readonly', 'readonly');
+                        $("#txt_ts, #txt_pll, #txt_kk, #txt_cust").attr('disabled', 'disabled');
 
                     } else {
                         $("#rb_cust").iCheck('check');
                         $("#txt_cust").val(data.harapan).removeAttr('disabled');
-                        $("#txt_ts, #txt_pll, #txt_kk").attr('disabled', 'disabled');
+                        $("#txt_ts, #txt_pll, #txt_kk, #txt_bsb").attr('disabled', 'disabled');
                     }
                 });
             }
