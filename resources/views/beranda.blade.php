@@ -34,51 +34,6 @@
 @endpush
 @section('content')
     <div class="right_col" role="main">
-        @if(Auth::guard('admin')->check() && Auth::guard('admin')->user()->isRoot())
-            <div class="row top_tiles">
-                <div class="animated flipInY col-lg-3 col-md-3 col-sm-6 col-xs-12">
-                    <a href="javascript:void(0)" onclick="openTableUser()" class="agency">
-                        <div class="tile-stats">
-                            <div class="icon"><i class="fa fa-users"></i></div>
-                            <div class="count">{{$newUser}}</div>
-                            <h3>New {{$newUser > 1 ? 'Users' : 'User'}}</h3>
-                            <p>Total: <strong>{{count($users)}}</strong> users</p>
-                        </div>
-                    </a>
-                </div>
-                <div class="animated flipInY col-lg-3 col-md-3 col-sm-6 col-xs-12">
-                    <a href="javascript:void(0)" onclick="openTableSuratMasuk()" class="seeker">
-                        <div class="tile-stats">
-                            <div class="icon"><i class="fa fa-envelope-open"></i></div>
-                            <div class="count">{{$newSm}}</div>
-                            <h3>Surat Masuk</h3>
-                            <p>Total: <strong>{{count($masuks)}}</strong> surat masuk</p>
-                        </div>
-                    </a>
-                </div>
-                <div class="animated flipInY col-lg-3 col-md-3 col-sm-6 col-xs-12">
-                    <a href="javascript:void(0)" onclick="openTableSuratDisposisi()" class="agency">
-                        <div class="tile-stats">
-                            <div class="icon"><i class="fa fa-envelope"></i></div>
-                            <div class="count">{{$newSd}}</div>
-                            <h3>Surat Disposisi</h3>
-                            <p>Total: <strong>{{count($disposisis)}}</strong> surat disposisi</p>
-                        </div>
-                    </a>
-                </div>
-                <div class="animated flipInY col-lg-3 col-md-3 col-sm-6 col-xs-12">
-                    <a href="javascript:void(0)" onclick="openTableSuratKeluar()" class="seeker">
-                        <div class="tile-stats">
-                            <div class="icon"><i class="fa fa-paper-plane"></i></div>
-                            <div class="count">{{$newSk}}</div>
-                            <h3>Surat Keluar</h3>
-                            <p>Total: <strong>{{count($keluars)}}</strong> surat keluar</p>
-                        </div>
-                    </a>
-                </div>
-            </div>
-        @endif
-
         <div class="row">
             <div class="col-md-12 col-sm-12 col-xs-12">
                 <div class="x_panel">
@@ -394,23 +349,5 @@
                 swal('PERHATIAN!', 'File surat tidak ditemukan.', 'warning')
             }
         }
-
-        @if(Auth::guard('admin')->check() && Auth::guard('admin')->user()->isRoot())
-        function openTableUser() {
-            window.location.href = '{{route('table.users')}}'
-        }
-
-        function openTableSuratMasuk() {
-            window.location.href = '{{route('show.surat-masuk')}}'
-        }
-
-        function openTableSuratDisposisi() {
-            window.location.href = '{{route('show.surat-masuk')}}'
-        }
-
-        function openTableSuratKeluar() {
-            window.location.href = '{{route('show.surat-keluar')}}'
-        }
-        @endif
     </script>
 @endpush

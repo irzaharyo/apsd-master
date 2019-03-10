@@ -13,9 +13,9 @@ class AccountsController extends Controller
 {
     public function showAdminsTable()
     {
-        $admins = Admin::all();
+        $admins = Admin::orderByDesc('id')->get();
 
-        return view('_admins.tables.accounts.admin-table', compact('admins'));
+        return view('_admins.admin-table', compact('admins'));
     }
 
     public function createAdmins(Request $request)
@@ -43,7 +43,8 @@ class AccountsController extends Controller
             'password' => bcrypt($request->password),
             'role' => $request->role
         ]);
-        return back()->with('success', '' . $request->name . ' is successfully created!');
+
+        return back()->with('success', 'Akun admin (' . $request->name . ') berhasil ditambahkan!');
     }
 
     public function updateProfileAdmins(Request $request)
@@ -67,7 +68,7 @@ class AccountsController extends Controller
             'name' => $request->name
         ]);
 
-        return back()->with('success', 'Successfully update ' . $admin->name . '\'s profile!');
+        return back()->with('success', 'Profil admin (' . $admin->name . ') berhasil diperbarui!');
     }
 
     public function updateAccountAdmins(Request $request)
@@ -75,19 +76,20 @@ class AccountsController extends Controller
         $admin = Admin::find($request->id);
 
         if (!Hash::check($request->password, $admin->password)) {
-            return back()->with('error', '' . $admin->name . '\'s current password is incorrect!');
+            return back()->with('error', 'Password lama akun admin (' . $admin->name . ') salah!');
 
         } else {
             if ($request->new_password != $request->password_confirmation) {
-                return back()->with('error', '' . $admin->name . '\'s password confirmation doesn\'t match!');
+                return back()->with('error', 'Password baru dan konfirmasi password akun admin (' . $admin->name .
+                    ') tidak cocok!');
 
             } else {
                 $admin->update([
                     'email' => $request->email,
-                    'password' => bcrypt($request->password),
+                    'password' => bcrypt($request->new_password),
                     'role' => $request->role == null ? 'root' : $request->role
                 ]);
-                return back()->with('success', 'Successfully update ' . $admin->name . '\'s account!');
+                return back()->with('success', 'Akun admin (' . $admin->name . ') berhasil diperbarui!');
             }
         }
     }
@@ -100,14 +102,111 @@ class AccountsController extends Controller
         }
         $admin->forceDelete();
 
-        return back()->with('success', '' . $admin->name . ' is successfully deleted!');
+        return back()->with('success', 'Akun admin (' . $admin->name . ') berhasil dihapus!');
     }
 
     public function showUsersTable()
     {
         $users = User::all();
 
-        return view('_admins.tables.accounts.user-table', compact('users'));
+        return view('_admins.user-table', compact('users'));
+    }
+
+    public function createUsers(Request $request)
+    {
+        if ($request->hasfile('ava')) {
+            $this->validate($request, ['ava' => 'image|mimes:jpg,jpeg,gif,png|max:2048',]);
+
+            $name = $request->file('ava')->getClientOriginalName();
+            $request->file('ava')->storeAs('public/users', $name);
+        } else {
+            $name = 'avatar.png';
+        }
+
+        $address = str_replace(" ", "+", $request->alamat);
+        $json = file_get_contents("https://maps.googleapis.com/maps/api/geocode/json?address=" .
+            $address . "&key=AIzaSyBIljHbKjgtTrpZhEiHum734tF1tolxI68");
+        $request->request->add([
+            'lat' => json_decode($json)->{'results'}[0]->{'geometry'}->{'location'}->{'lat'},
+            'long' => json_decode($json)->{'results'}[0]->{'geometry'}->{'location'}->{'lng'}
+        ]);
+
+        User::create([
+            'ava' => $name,
+            'nip' => $request->nip,
+            'name' => $request->name,
+            'email' => $request->email,
+            'password' => bcrypt($request->password),
+            'role' => $request->role,
+            'jabatan' => $request->jabatan,
+            'nmr_hp' => $request->nmr_hp,
+            'jk' => $request->jk,
+            'alamat' => $request->alamat,
+            'lat' => $request->lat,
+            'long' => $request->long,
+        ]);
+
+        return back()->with('success', 'Akun ' . $request->role . ' (' . $request->name . ') berhasil ditambahkan!');
+    }
+
+    public function updateProfileUsers(Request $request)
+    {
+        $user = User::find($request->id);
+        $this->validate($request, ['ava' => 'image|mimes:jpg,jpeg,gif,png|max:2048',]);
+        if ($request->hasFile('ava')) {
+            $name = $request->file('ava')->getClientOriginalName();
+            if ($user->ava != '' || $user->ava != 'avatar.png') {
+                Storage::delete('public/users/' . $user->ava);
+            }
+            $request->file('ava')->storeAs('public/users', $name);
+        } else {
+            $name = $user->ava;
+        }
+
+        $address = str_replace(" ", "+", $request->alamat);
+        $json = file_get_contents("https://maps.googleapis.com/maps/api/geocode/json?address=" .
+            $address . "&key=AIzaSyBIljHbKjgtTrpZhEiHum734tF1tolxI68");
+        $request->request->add([
+            'lat' => json_decode($json)->{'results'}[0]->{'geometry'}->{'location'}->{'lat'},
+            'long' => json_decode($json)->{'results'}[0]->{'geometry'}->{'location'}->{'lng'}
+        ]);
+
+        $user->update([
+            'ava' => $name,
+            'nip' => $request->nip,
+            'name' => $request->name,
+            'jabatan' => $request->jabatan,
+            'nmr_hp' => $request->nmr_hp,
+            'jk' => $request->jk,
+            'alamat' => $request->alamat,
+            'lat' => $request->lat,
+            'long' => $request->long,
+        ]);
+
+        return back()->with('success', 'Profil ' . $user->role . ' (' . $user->name . ') berhasil diperbarui!');
+    }
+
+    public function updateAccountUsers(Request $request)
+    {
+        $user = User::find($request->id);
+
+        if (!Hash::check($request->password, $user->password)) {
+            return back()->with('error', 'Password lama akun ' . $user->role . '(' . $user->name . ') salah!');
+
+        } else {
+            if ($request->new_password != $request->password_confirmation) {
+                return back()->with('error', 'Password baru dan konfirmasi password akun ' . $user->role .
+                    '(' . $user->name . ') tidak cocok!');
+
+            } else {
+                $user->update([
+                    'email' => $request->email,
+                    'password' => bcrypt($request->new_password),
+                    'role' => $request->role == null ? 'root' : $request->role
+                ]);
+                return back()->with('success', 'Akun ' . $user->role . ' (' . $user->name . ') berhasil diperbarui!');
+            }
+        }
     }
 
     public function deleteUsers($id)
@@ -117,13 +216,7 @@ class AccountsController extends Controller
             Storage::delete('public/users/' . $user->ava);
         }
         $user->forceDelete();
-        if ($user->isAgency()) {
-            $this->deletePartnersAgencies($user);
 
-        } elseif ($user->isSeeker()) {
-            $this->deletePartnersSeekers($user);
-        }
-
-        return back()->with('success', '' . $user->name . ' is successfully deleted!');
+        return back()->with('success', 'Akun ' . $user->role . ' (' . $user->name . ') berhasil dihapus!');
     }
 }

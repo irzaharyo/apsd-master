@@ -26,6 +26,8 @@ class CreateUsersTable extends Migration
             $table->string('alamat')->nullable();
             $table->string('nmr_hp')->nullable();
             $table->string('jk')->nullable();
+            $table->double('lat', 20, 10)->nullable();
+            $table->double('long', 20, 10)->nullable();
             $table->timestamps();
             $table->softDeletes();
         });

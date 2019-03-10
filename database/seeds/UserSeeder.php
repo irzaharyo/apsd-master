@@ -25,11 +25,13 @@ class UserSeeder extends Seeder
                 'email' => $faker->unique()->safeEmail,
                 'password' => bcrypt('secret'),
                 'remember_token' => str_random(60),
-                'jabatan' => $faker->jobTitle,
+                'jabatan' => Factory::create()->jobTitle,
                 'alamat' => $faker->address,
                 'nmr_hp' => $faker->phoneNumber,
                 'jk' => rand(0, 1) ? 'pria' : 'wanita',
-                'role' => Role::PEGAWAI
+                'role' => Role::PEGAWAI,
+                'lat' => $faker->latitude,
+                'long' => $faker->longitude
             ]);
         }
 

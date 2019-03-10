@@ -181,12 +181,17 @@
 <body class="nav-md">
 @php
     $auth = Auth::guard('admin')->check() ? Auth::guard('admin')->user() : Auth::user();
+    $bg = $auth->ava == "" || $auth->ava == "avatar.png" ? 'bg-red' : 'bg-green';
+    $label = $auth->ava == "" || $auth->ava == "avatar.png" ? '50%' : '100%';
     $notifications = 0;
 
     if(Auth::guard('admin')->check()){
         $role = 'Admins';
+        $ava = $auth->ava == "" || $auth->ava == "avatar.png" ? asset('images/avatar.png') : asset('storage/admins/'.$auth->ava);
 
     } elseif(Auth::check()){
+        $ava = $auth->ava == "" || $auth->ava == "avatar.png" ? asset('images/avatar.png') : asset('storage/users/'.$auth->ava);
+
         if(Auth::user()->isPengolah()){
             $role = 'Pengolah';
             $npl_sB = \App\Models\SuratKeluar::wherenotnull('suratdisposisi_id')->where('status', 0)
@@ -216,9 +221,6 @@
             $notifications = count($nk_sm) + count($nk_sk);
         }
     }
-    $ava = $auth->ava == "" || $auth->ava == "avatar.png" ? asset('images/avatar.png') : asset('storage/admins/ava/'.$auth->ava);
-    $bg = $auth->ava == "" || $auth->ava == "avatar.png" ? 'bg-red' : 'bg-green';
-    $label = $auth->ava == "" || $auth->ava == "avatar.png" ? '50%' : '100%';
 @endphp
 <div class="container body">
     <div class="main_container">
@@ -527,7 +529,7 @@
     </div>
     @auth('admin')
         <div id="profileModal" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
-            <div class="modal-dialog modal-sm" style="width: 30%">
+            <div class="modal-dialog modal-{{Auth::guard('admin')->check() ? 'sm' : 'lg'}}" style="width: 30%">
                 <div class="modal-content">
                     <div class="modal-header">
                         <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span>
@@ -535,7 +537,7 @@
                         <h4 class="modal-title">Edit Profile</h4>
                     </div>
 
-                    <form method="post" action="{{route('admin.update.profile')}}" enctype="multipart/form-data">
+                    <form method="post" action="{{route('update.profile')}}" enctype="multipart/form-data">
                         {{csrf_field()}} {{method_field('PUT')}}
                         <div class="modal-body">
                             <div class="row form-group">
@@ -564,7 +566,7 @@
                             </div>
                             <div class="row form-group">
                                 <div class="col-lg-12 has-feedback">
-                                    <label for="myName">Name <span class="required">*</span></label>
+                                    <label for="myName">Nama Lengkap <span class="required">*</span></label>
                                     <input id="myName" type="text" class="form-control" maxlength="191" name="myName"
                                            placeholder="Full name" value="{{$auth->name}}" required>
                                     <span class="fa fa-id-card form-control-feedback right" aria-hidden="true"></span>
@@ -579,64 +581,64 @@
                 </div>
             </div>
         </div>
-        <div id="settingsModal" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
-            <div class="modal-dialog modal-sm" style="width: 30%">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span>
-                        </button>
-                        <h4 class="modal-title">Account Settings</h4>
-                    </div>
-                    <form method="post" action="{{route('admin.update.account')}}">
-                        {{csrf_field()}} {{method_field('PUT')}}
-                        <div class="modal-body">
-                            <div class="row form-group">
-                                <div class="col-lg-12 has-feedback">
-                                    <label for="myEmail">Email <span class="required">*</span></label>
-                                    <input id="myEmail" type="email" class="form-control" name="myEmail"
-                                           placeholder="Email" value="{{$auth->email}}"
-                                            {{$auth->isRoot() ? 'required' : 'readonly'}}>
-                                    <span class="fa fa-envelope form-control-feedback right" aria-hidden="true"></span>
-                                </div>
-                            </div>
-                            <div class="row form-group">
-                                <div class="col-lg-12 has-feedback">
-                                    <label for="myPassword">Current Password <span class="required">*</span></label>
-                                    <input id="myPassword" type="password" class="form-control" minlength="6"
-                                           name="myPassword"
-                                           placeholder="Current Password" required>
-                                    <span class="glyphicon glyphicon-eye-open form-control-feedback right"
-                                          aria-hidden="true"></span>
-                                </div>
-                            </div>
-                            <div class="row form-group">
-                                <div class="col-lg-12 has-feedback">
-                                    <label for="myNew_password">New Password <span class="required">*</span></label>
-                                    <input id="myNew_password" type="password" class="form-control" minlength="6"
-                                           name="myNew_password" placeholder="New Password" required>
-                                    <span class="glyphicon glyphicon-eye-open form-control-feedback right"
-                                          aria-hidden="true"></span>
-                                </div>
-                            </div>
-                            <div class="row form-group">
-                                <div class="col-lg-12 has-feedback">
-                                    <label for="myConfirm">Password Confirmation <span class="required">*</span></label>
-                                    <input id="myConfirm" type="password" class="form-control" minlength="6"
-                                           name="myPassword_confirmation" placeholder="Retype password" required>
-                                    <span class="glyphicon glyphicon-eye-open form-control-feedback right"
-                                          aria-hidden="true"></span>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
-                            <button type="submit" class="btn btn-primary">Save Changes</button>
-                        </div>
-                    </form>
+    @endauth
+    <div id="settingsModal" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog modal-sm" style="width: 30%">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span>
+                    </button>
+                    <h4 class="modal-title">Account Settings</h4>
                 </div>
+                <form method="post" action="{{route('update.account')}}">
+                    {{csrf_field()}} {{method_field('PUT')}}
+                    <div class="modal-body">
+                        <div class="row form-group">
+                            <div class="col-lg-12 has-feedback">
+                                <label for="myEmail">Email <span class="required">*</span></label>
+                                <input id="myEmail" type="email" class="form-control" name="myEmail"
+                                       placeholder="Email" value="{{$auth->email}}"
+                                        {{Auth::guard('admin')->check() && $auth->isRoot() ? 'required' : 'readonly'}}>
+                                <span class="fa fa-envelope form-control-feedback right" aria-hidden="true"></span>
+                            </div>
+                        </div>
+                        <div class="row form-group">
+                            <div class="col-lg-12 has-feedback">
+                                <label for="myPassword">Password Lama<span class="required">*</span></label>
+                                <input id="myPassword" type="password" class="form-control" minlength="6"
+                                       name="myPassword"
+                                       placeholder="Current Password" required>
+                                <span class="glyphicon glyphicon-eye-open form-control-feedback right"
+                                      aria-hidden="true"></span>
+                            </div>
+                        </div>
+                        <div class="row form-group">
+                            <div class="col-lg-12 has-feedback">
+                                <label for="myNew_password">Password Baru<span class="required">*</span></label>
+                                <input id="myNew_password" type="password" class="form-control" minlength="6"
+                                       name="myNew_password" placeholder="New Password" required>
+                                <span class="glyphicon glyphicon-eye-open form-control-feedback right"
+                                      aria-hidden="true"></span>
+                            </div>
+                        </div>
+                        <div class="row form-group">
+                            <div class="col-lg-12 has-feedback">
+                                <label for="myConfirm">Konfirmasi Password<span class="required">*</span></label>
+                                <input id="myConfirm" type="password" class="form-control" minlength="6"
+                                       name="myPassword_confirmation" placeholder="Retype password" required>
+                                <span class="glyphicon glyphicon-eye-open form-control-feedback right"
+                                      aria-hidden="true"></span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                        <button type="submit" class="btn btn-primary">Save Changes</button>
+                    </div>
+                </form>
             </div>
         </div>
-    @endauth
+    </div>
 </div>
 
 <!-- jQuery -->
@@ -782,6 +784,7 @@
     });
 
     $(".btn_editProfile").on("click", function () {
+        @auth('admin')
         $("#profileModal").modal("show");
         $(".browse_files,#myBtn_img").on('click', function () {
             $("#myAva").trigger('click');
@@ -795,6 +798,9 @@
             txt.val(names);
             $("#myTxt_ava[data-toggle=tooltip]").attr('data-original-title', names).tooltip('show');
         });
+        @else
+            window.location.href = '{{route('show.profile', ['role' => Auth::user()->role, 'id' => encrypt(Auth::id())])}}';
+        @endauth
     });
 
     $(".btn_settings").on("click", function () {
