@@ -29,6 +29,6 @@ class SuratKeluar extends Model
 
     public function getAgendaKeluar()
     {
-        return $this->hasMany(AgendaKeluar::class, 'suratkeluar_id');
+        return $this->hasOne(AgendaKeluar::class, 'suratkeluar_id');
     }
 }

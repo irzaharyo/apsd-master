@@ -90,7 +90,7 @@
                                                 <td><i class="fa fa-calendar-check"></i>&nbsp;</td>
                                                 <td>Tanggal Penerimaan</td>
                                                 <td>&nbsp;:&nbsp;</td>
-                                                <td>{{\Carbon\Carbon::parse($masuk->created_at)->format('l, j F Y')}}</td>
+                                                <td>{{\Carbon\Carbon::parse($masuk->created_at)->format('l, j F Y - h:i:s')}}</td>
                                             </tr>
                                             <tr>
                                                 <td><i class="fa fa-hashtag"></i>&nbsp;</td>
@@ -186,12 +186,14 @@
                                                             <i class="fa fa-images"></i>&ensp;{{'Lihat Surat ('.$lbr.' lembar)'}}
                                                         </a>
                                                     </li>
-                                                    <li>
-                                                        <a href="{{route('delete.surat-masuk',['id' =>
-                                                    encrypt($masuk->id)])}}" class="delete-surat" data-surat="masuk">
-                                                            <i class="fa fa-trash"></i>&ensp;Hapus Surat
-                                                        </a>
-                                                    </li>
+                                                    @if($masuk->isDisposisi == false)
+                                                        <li>
+                                                            <a href="{{route('delete.surat-masuk',['id' => encrypt
+                                                            ($masuk->id)])}}" class="delete-surat" data-surat="masuk">
+                                                                <i class="fa fa-trash"></i>&ensp;Hapus Surat
+                                                            </a>
+                                                        </li>
+                                                    @endif
                                                 </ul>
                                             </div>
                                         @elseif(Auth::user()->isKadin())
@@ -222,9 +224,9 @@
                                                                 <i class="fa fa-edit"></i>&ensp;Edit Surat Disposisi</a>
                                                         </li>
                                                         <li>
-                                                            <a href="{{route('delete.surat-disposisi',['id' =>
-                                                        encrypt($masuk->getSuratDisposisi->id)])}}"
-                                                               data-surat="disposisi" class="delete-surat">
+                                                            <a href="{{route('delete.surat-disposisi',['id' => encrypt
+                                                            ($masuk->getSuratDisposisi->id)])}}" data-surat="disposisi"
+                                                               class="delete-surat">
                                                                 <i class="fa fa-trash"></i>&ensp;Hapus Surat
                                                                 Disposisi</a>
                                                         </li>
@@ -320,7 +322,7 @@
                                                 class="required">*</span></label>
                                     <div class="input-group">
                                         <span class="input-group-addon"><i class="fa fa-university"></i></span>
-                                        <input id="nama_instansi" placeholder="Nama Instansi" type="text"
+                                        <input id="nama_instansi" placeholder="Nama instansi pengirim" type="text"
                                                class="form-control" name="nama_instansi" required>
                                     </div>
                                 </div>
@@ -329,7 +331,7 @@
                                                 class="required">*</span></label>
                                     <div class="input-group">
                                         <span class="input-group-addon"><i class="fa fa-map-marked-alt"></i></span>
-                                        <input id="asal_instansi" placeholder="Asal Instansi" type="text"
+                                        <input id="asal_instansi" placeholder="Asal instansi pengirim" type="text"
                                                class="form-control" name="asal_instansi" required>
                                     </div>
                                 </div>
@@ -340,25 +342,25 @@
                                     <label for="nama">Nama Pengirim <span class="required">*</span></label>
                                     <div class="input-group">
                                         <span class="input-group-addon"><i class="fa fa-user-tie"></i></span>
-                                        <input id="nama" placeholder="Nama Lengkap" type="text" class="form-control"
-                                               name="nama_pengirim" required>
+                                        <input id="nama" placeholder="Nama lengkap pengirim" type="text"
+                                               class="form-control" name="nama_pengirim" required>
                                     </div>
                                 </div>
                                 <div class="col-lg-4">
                                     <label for="jabatan">Jabatan Pengirim <span class="required">*</span></label>
                                     <div class="input-group">
                                         <span class="input-group-addon"><i class="fa fa-briefcase"></i></span>
-                                        <input id="jabatan" placeholder="Jabatan" type="text" class="form-control"
-                                               name="jabatan_pengirim" required>
+                                        <input id="jabatan" placeholder="Jabatan pengirim" type="text"
+                                               class="form-control" name="jabatan_pengirim" required>
                                     </div>
                                 </div>
                                 <div class="col-lg-3">
                                     <label for="nip">NIP Pengirim <span class="required">*</span></label>
                                     <div class="input-group">
                                         <span class="input-group-addon"><i class="fa fa-id-card"></i></span>
-                                        <input id="nip" placeholder="NIP" type="text" class="form-control"
-                                               name="nip_pengirim"
-                                               onkeypress="return numberOnly(event, false)" required>
+                                        <input id="nip" placeholder="NIP pengirim" type="text" class="form-control"
+                                               name="nip_pengirim" onkeypress="return numberOnly(event, false)"
+                                               required>
                                     </div>
                                 </div>
                             </div>
@@ -678,7 +680,9 @@
                 $("#nip").val(data.nip_pengirim);
                 $("#jenis_id").val(data.jenis_id).selectpicker('refresh');
                 $("#" + data.sifat_surat.replace(/\s/g, "_")).iCheck('check');
-                tinyMCE.get('tembusan').setContent(data.tembusan);
+                if (data.tembusan != "") {
+                    tinyMCE.get('tembusan').setContent(data.tembusan);
+                }
             });
         }
 
@@ -844,10 +848,10 @@
 
             $("#rb_cust").on("ifToggled", function () {
                 if ($(this).is(":checked")) {
-                    $("#txt_cust").val('').removeAttr('disabled').css('border-color', '#31c2a5');
+                    $("#txt_cust").val('').removeAttr('disabled').attr('required', 'required').css('border-color', '#31c2a5');
                     $(this).parent().parent().css('border-color', '#31c2a5');
                 } else {
-                    $("#txt_cust").val('').attr('disabled', 'disabled').css('border-color', '#ccc');
+                    $("#txt_cust").val('').removeAttr('required').attr('disabled', 'disabled').css('border-color', '#ccc');
                     $(this).parent().parent().css('border-color', '#ccc');
                 }
             });
@@ -861,7 +865,8 @@
                 tinymce.get('diteruskan_kepada').setContent('');
                 $("#catatan").val('');
                 $("#rb_ts, #rb_pll, #rb_kk, #rb_bsb, #rb_cust").iCheck('uncheck');
-                $("#txt_ts, #txt_pll, #txt_kk, #txt_bsb, #txt_cust").attr('disabled', 'disabled');
+                $("#txt_ts, #txt_pll, #txt_kk, #txt_bsb").attr('disabled', 'disabled');
+                $("#txt_cust").removeAttr('required').attr('disabled', 'disabled');
 
             } else if (method == 'update') {
                 $("#disposisiModal .modal-title").html('Edit Disposisi Surat Masuk #<strong>' + no_surat + '</strong>');
@@ -876,26 +881,30 @@
                     if (data.harapan == 'Tanggapan dan Saran') {
                         $("#rb_ts").iCheck('check');
                         $("#txt_ts").removeAttr('disabled').attr('readonly', 'readonly');
-                        $("#txt_pll, #txt_kk, #txt_bsb, #txt_cust").attr('disabled', 'disabled');
+                        $("#txt_pll, #txt_kk, #txt_bsb").attr('disabled', 'disabled');
+                        $("#txt_cust").removeAttr('required').attr('disabled', 'disabled');
 
                     } else if (data.harapan == 'Proses Lebih Lanjut') {
                         $("#rb_pll").iCheck('check');
                         $("#txt_pll").removeAttr('disabled').attr('readonly', 'readonly');
-                        $("#txt_ts, #txt_kk, #txt_bsb, #txt_cust").attr('disabled', 'disabled');
+                        $("#txt_ts, #txt_kk, #txt_bsb").attr('disabled', 'disabled');
+                        $("#txt_cust").removeAttr('required').attr('disabled', 'disabled');
 
                     } else if (data.harapan == 'Koordinasi / Konfirmasikan') {
                         $("#rb_kk").iCheck('check');
                         $("#txt_kk").removeAttr('disabled').attr('readonly', 'readonly');
-                        $("#txt_ts, #txt_pll, #txt_bsb, #txt_cust").attr('disabled', 'disabled');
+                        $("#txt_ts, #txt_pll, #txt_bsb").attr('disabled', 'disabled');
+                        $("#txt_cust").removeAttr('required').attr('disabled', 'disabled');
 
                     } else if (data.harapan == 'Buat Surat Balasan') {
                         $("#rb_bsb").iCheck('check');
                         $("#txt_bsb").removeAttr('disabled').attr('readonly', 'readonly');
-                        $("#txt_ts, #txt_pll, #txt_kk, #txt_cust").attr('disabled', 'disabled');
+                        $("#txt_ts, #txt_pll, #txt_kk").attr('disabled', 'disabled');
+                        $("#txt_cust").removeAttr('required').attr('disabled', 'disabled');
 
                     } else {
                         $("#rb_cust").iCheck('check');
-                        $("#txt_cust").val(data.harapan).removeAttr('disabled');
+                        $("#txt_cust").val(data.harapan).removeAttr('disabled').attr('required', 'required');
                         $("#txt_ts, #txt_pll, #txt_kk, #txt_bsb").attr('disabled', 'disabled');
                     }
                 });

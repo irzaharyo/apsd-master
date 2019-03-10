@@ -34,6 +34,7 @@ class CreateSuratKeluarsTable extends Migration
             $table->text('isi')->nullable();
             $table->text('tembusan')->nullable();
             $table->integer('status')->default(0);
+            $table->text('catatan')->nullable();
             $table->text('files')->nullable();
             $table->timestamps();
         });

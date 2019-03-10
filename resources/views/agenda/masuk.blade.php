@@ -172,7 +172,8 @@
                                     <div class="input-group">
                                         <span class="input-group-addon"><i class="fa fa-sticky-note"></i></span>
                                         <textarea id="keterangan" class="form-control" name="keterangan"
-                                                  placeholder="Tulis keterangan disini..." required></textarea>
+                                                  placeholder="Tulis keterangan disini..." required
+                                                  style="resize: vertical"></textarea>
                                     </div>
                                 </div>
                             </div>

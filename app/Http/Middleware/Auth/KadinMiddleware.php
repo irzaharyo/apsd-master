@@ -16,13 +16,12 @@ class KadinMiddleware
      */
     public function handle($request, Closure $next)
     {
-        if (Auth::check()) {
-            if (Auth::user()->isKadin()) {
-                return $next($request);
-            }
-
-        } else {
+        if (Auth::check() && Auth::user()->isKadin()) {
             return $next($request);
+
+        } elseif (Auth::guest()) {
+            return redirect()->guest(route('home'))
+                ->with('expire', 'Halaman yang Anda minta memerlukan otentikasi, silahkan masuk ke akun Anda.');
         }
 
         return abort(403);

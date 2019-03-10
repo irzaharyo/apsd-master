@@ -188,7 +188,7 @@
                                     <td style="vertical-align: middle" align="center">
                                         <a onclick='lihatSurat("{{$masuk->id}}", "masuk", "{{$lbrSM}}", "{{$indexSM}}")'
                                            class="btn btn-dark btn-sm" style="font-size: 16px" data-toggle="tooltip"
-                                           title="{{$lbrSM}} lembar"
+                                           title="Lihat Surat ({{$lbrSM}} lembar)"
                                            data-placement="left"><i class="fa fa-images"></i>
                                         </a>
                                     </td>
@@ -216,8 +216,7 @@
                             <thead>
                             <tr>
                                 <th>No</th>
-                                <th>Tanggal Surat</th>
-                                <th>Nomor Surat</th>
+                                <th>Tanggal Pengajuan</th>
                                 <th>Detail Surat</th>
                                 <th>Status</th>
                                 <th>Aksi</th>
@@ -243,13 +242,23 @@
                                 @endphp
                                 <tr>
                                     <td style="vertical-align: middle" align="center">{{$no++}}</td>
-                                    <td style="vertical-align: middle" align="center">{{$keluar->tgl_surat != null ?
-                                    \Carbon\Carbon::parse($keluar->tgl_surat)->format('j F Y') : '(kosong)'}}</td>
                                     <td style="vertical-align: middle" align="center">
-                                        <strong>{{$keluar->no_surat != null ? $keluar->no_surat : '(kosong)'}}</strong>
-                                    </td>
+                                        {{\Carbon\Carbon::parse($keluar->created_at)->format('l, j F Y')}}</td>
                                     <td style="vertical-align: middle">
                                         <table>
+                                            <tr>
+                                                <td><i class="fa fa-hashtag"></i>&nbsp;</td>
+                                                <td>Nomor Surat</td>
+                                                <td>&nbsp;:&nbsp;</td>
+                                                <td>{{$keluar->no_surat != null ? $keluar->no_surat : '(kosong)'}}</td>
+                                            </tr>
+                                            <tr>
+                                                <td><i class="fa fa-calendar-alt"></i>&nbsp;</td>
+                                                <td>Tanggal Surat</td>
+                                                <td>&nbsp;:&nbsp;</td>
+                                                <td>{{$keluar->tgl_surat != null ? \Carbon\Carbon::parse($keluar
+                                                ->tgl_surat)->format('j F Y') : '(kosong)'}}</td>
+                                            </tr>
                                             <tr>
                                                 <td><i class="fa fa-thumbtack"></i>&nbsp;</td>
                                                 <td>Jenis Surat</td>
@@ -266,13 +275,13 @@
                                                 <td><i class="fa fa-comments"></i>&nbsp;</td>
                                                 <td>Perihal</td>
                                                 <td>&nbsp;:&nbsp;</td>
-                                                <td>{{$keluar->perihal}}</td>
+                                                <td>{{$keluar->perihal != "" ? $keluar->perihal : '(kosong)'}}</td>
                                             </tr>
                                             <tr>
                                                 <td><i class="fa fa-file-image"></i>&nbsp;</td>
                                                 <td>Lampiran</td>
                                                 <td>&nbsp;:&nbsp;</td>
-                                                <td>{{$keluar->lampiran}}</td>
+                                                <td>{{$keluar->lampiran != "" ? $keluar->lampiran : '(kosong)'}}</td>
                                             </tr>
                                             <tr>
                                                 <td><i class="fa fa-tag"></i>&nbsp;</td>
@@ -299,14 +308,24 @@
                                             <span class="label label-danger" style="text-transform: uppercase">Tidak Valid</span>
                                         @elseif($keluar->status == 4)
                                             <span class="label label-success" style="text-transform: uppercase">Surat Siap Diambil</span>
+                                        @elseif($keluar->status == 5)
+                                            <span class="label label-default" style="text-transform: uppercase">Surat Sudah Diambil</span>
                                         @endif
                                     </td>
                                     <td style="vertical-align: middle" align="center">
-                                        <a onclick='lihatSurat("{{$keluar->id}}","keluar","{{$lbrSK}}", "{{$indexSK}}")'
-                                           class="btn btn-dark btn-sm" style="font-size: 16px" data-toggle="tooltip"
-                                           title="{{$lbrSK}} lembar" data-placement="left"><i
-                                                    class="fa fa-images"></i>
-                                        </a>
+                                        @if($keluar->status == 0 || $keluar->status >= 4)
+                                            <a onclick='lihatSurat("{{$keluar->id}}","keluar","{{$lbrSK}}", "{{$indexSK}}")'
+                                               class="btn btn-dark btn-sm" style="font-size: 16px" data-toggle="tooltip"
+                                               title="Lihat Surat ({{$lbrSK}} lembar)" data-placement="left">
+                                                <i class="fa fa-images"></i>
+                                            </a>
+                                        @else
+                                            <a href="{{route('show.pdfSuratKeluar', ['id' => encrypt($keluar->id)])}}"
+                                               target="_blank" class="btn btn-dark btn-sm" style="font-size: 16px"
+                                               data-toggle="tooltip" title="Lihat Surat" data-placement="left">
+                                                <i class="fa fa-file-pdf"></i>
+                                            </a>
+                                        @endif
                                     </td>
                                 </tr>
                             @endforeach

@@ -3,6 +3,7 @@
 namespace App\Http\Middleware\Pages;
 
 use Closure;
+use Illuminate\Support\Facades\Auth;
 
 class SuratKeluarMiddleware
 {
@@ -15,6 +16,17 @@ class SuratKeluarMiddleware
      */
     public function handle($request, Closure $next)
     {
-        return $next($request);
+        if (Auth::guard('admin')->check()) {
+            return abort(403);
+
+        } elseif (Auth::check() && (Auth::user()->isPengolah() || Auth::user()->isKadin() || Auth::user()->isPegawai())) {
+            return $next($request);
+
+        } elseif (Auth::guest()) {
+            return redirect()->guest(route('home'))
+                ->with('expire', 'Halaman yang Anda minta memerlukan otentikasi, silahkan masuk ke akun Anda.');
+        }
+
+        return abort(403);
     }
 }

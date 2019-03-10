@@ -154,14 +154,83 @@ Route::group(['prefix' => '/'], function () {
     Route::group(['prefix' => 'surat_keluar'], function () {
 
         Route::get('/', [
+            'middleware' => 'surat.keluar',
             'uses' => 'SuratKeluarController@showSuratKeluar',
             'as' => 'show.surat-keluar'
         ]);
 
+        Route::get('{id}/pdf', [
+            'uses' => 'SuratKeluarController@showPdfSuratKeluar',
+            'as' => 'show.pdfSuratKeluar'
+        ]);
+
+        Route::post('create', [
+            'middleware' => 'pegawai',
+            'uses' => 'SuratKeluarController@createSuratKeluar',
+            'as' => 'create.surat-keluar'
+        ]);
+
+        Route::get('edit/{id}', [
+            'middleware' => 'surat.keluar',
+            'uses' => 'SuratKeluarController@editSuratKeluar',
+            'as' => 'edit.surat-keluar'
+        ]);
+
+        Route::put('update/{id}', [
+            'middleware' => 'surat.keluar',
+            'uses' => 'SuratKeluarController@updateSuratKeluar',
+            'as' => 'update.surat-keluar'
+        ]);
+
+        Route::get('delete/{id}', [
+            'middleware' => 'pegawai',
+            'uses' => 'SuratKeluarController@deleteSuratKeluar',
+            'as' => 'delete.surat-keluar'
+        ]);
+
+        Route::get('konfirmasi/{id}', [
+            'middleware' => 'pegawai',
+            'uses' => 'SuratKeluarController@konfirmasiSuratKeluar',
+            'as' => 'confirm.surat-keluar'
+        ]);
+
+        Route::group(['prefix' => 'agenda', 'middleware' => 'TU'], function () {
+
+            Route::get('/', [
+                'uses' => 'AgendaSuratKeluarController@showAgenda',
+                'as' => 'show.agenda-keluar'
+            ]);
+
+            Route::post('create', [
+                'uses' => 'AgendaSuratKeluarController@createAgenda',
+                'as' => 'create.agenda-keluar'
+            ]);
+
+            Route::get('edit/{id}', [
+                'uses' => 'AgendaSuratKeluarController@editAgenda',
+                'as' => 'edit.agenda-keluar'
+            ]);
+
+            Route::put('update/{id}', [
+                'uses' => 'AgendaSuratKeluarController@updateAgenda',
+                'as' => 'update.agenda-keluar'
+            ]);
+
+            Route::get('update/{id}', [
+                'uses' => 'AgendaSuratKeluarController@deleteAgenda',
+                'as' => 'delete.agenda-keluar'
+            ]);
+
+            Route::get('massDelete/{id}', [
+                'uses' => 'AgendaSuratKeluarController@massDeleteFileSuratKeluar',
+                'as' => 'massDelete.surat-keluar'
+            ]);
+
+        });
+
     });
 
 });
-
 
 Route::group(['namespace' => 'Admins', 'prefix' => 'admin', 'middleware' => 'admin'], function () {
 

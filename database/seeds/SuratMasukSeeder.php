@@ -71,7 +71,7 @@ class SuratMasukSeeder extends Seeder
                 'perihal' => 'Surat balasan ' . $faker->sentence(rand(3, 6), true),
                 'isi' => '<p align="justify">' . $faker->paragraphs(rand(2, 3), true) . '</p>',
                 'tembusan' => '<ol><li>' . $faker->name . '</li><li>' . $faker->name . '</li></ol>',
-                'status' => 4,
+                'status' => 5,
                 'files' => ['file1.jpg', 'file2.jpg'],
             ]);
 

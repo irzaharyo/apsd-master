@@ -22,6 +22,6 @@ class SuratDisposisi extends Model
 
     public function getAgendaMasuk()
     {
-        return $this->hasMany(AgendaMasuk::class, 'suratdisposisi_id');
+        return $this->hasOne(AgendaMasuk::class, 'suratdisposisi_id');
     }
 }

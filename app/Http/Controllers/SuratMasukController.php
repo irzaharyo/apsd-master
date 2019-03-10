@@ -24,14 +24,13 @@ class SuratMasukController extends Controller
 
     public function createSuratMasuk(Request $request)
     {
-        $no_urut = str_pad(SuratMasuk::count() + 1, 3, '0', STR_PAD_LEFT);
-
-        $this->validate($request, [
-            'files' => 'required|array',
-            'files.*' => 'mimes:jpg,jpeg,gif,png|max:5120'
-        ]);
-
         if ($request->hasfile('files')) {
+            $this->validate($request, [
+                'files' => 'required|array',
+                'files.*' => 'mimes:jpg,jpeg,gif,png|max:5120'
+            ]);
+
+            $no_urut = str_pad(SuratMasuk::count() + 1, 3, '0', STR_PAD_LEFT);
             $c = 0;
             $files = [];
             foreach ($request->file('files') as $file) {
@@ -87,6 +86,11 @@ class SuratMasukController extends Controller
         ]);
 
         if ($request->hasfile('files')) {
+            $this->validate($request, [
+                'files' => 'required|array',
+                'files.*' => 'mimes:jpg,jpeg,gif,png|max:5120'
+            ]);
+
             $c = 0;
             $files = [];
             $no_urut = substr($surat->no_surat, 4, 3);
@@ -121,18 +125,20 @@ class SuratMasukController extends Controller
         $no_urut = substr($surat->no_surat, 4, 3);
         $data = implode(', ', array_diff($surat->files, $request->fileSuratMasuks));
         foreach ($request->fileSuratMasuks as $file) {
-            if (count($surat->files) == count($request->fileSuratMasuks)) {
-                Storage::deleteDirectory('public/surat-masuk/' . $no_urut);
+            if ($surat->files != "") {
+                if (count($surat->files) == count($request->fileSuratMasuks)) {
+                    Storage::deleteDirectory('public/surat-masuk/' . $no_urut);
+                    $surat->update(['files' => null]);
 
-            } else {
-                Storage::delete('public/surat-masuk/' . $no_urut . '/' . $file);
+                } else {
+                    Storage::delete('public/surat-masuk/' . $no_urut . '/' . $file);
+                    $surat->update(['files' => explode(", ", $data)]);
+                }
             }
         }
 
-        $surat->update(['files' => explode(", ", $data)]);
-
-        return back()->with('success', '' . count($request->fileSuratMasuks) . ' file surat masuk #' .
-            $surat->no_surat . ' berhasil dihapus!');
+        return redirect()->route('show.surat-masuk')->with('success', '' . count($request->fileSuratMasuks) .
+            ' file surat masuk #' . $surat->no_surat . ' berhasil dihapus!');
     }
 
     public function createSuratDisposisi(Request $request)

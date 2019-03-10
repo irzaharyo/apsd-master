@@ -11,7 +11,9 @@ class AgendaSuratMasukController extends Controller
     public function showAgenda(Request $request)
     {
         $agenda_masuks = AgendaMasuk::orderByDesc('id')->get();
-        $surat_masuks = SuratMasuk::where('isDisposisi', true)->orderByDesc('id')->get();
+        $surat_masuks = SuratMasuk::whereHas('getSuratDisposisi', function ($q) {
+            $q->doesnthave('getAgendaMasuk');
+        })->orderByDesc('id')->get();
         $findSurat = SuratMasuk::where('no_surat', $request->q)->first();
 
         return view('agenda.masuk', compact('agenda_masuks', 'surat_masuks', 'findSurat'));
