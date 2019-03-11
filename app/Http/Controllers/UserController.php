@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Admin;
 use App\Models\Carousel;
 use App\Models\PerihalSurat;
+use App\Models\SuratDisposisi;
 use App\Models\SuratKeluar;
 use App\Models\SuratMasuk;
 use App\Models\User;
@@ -24,10 +25,18 @@ class UserController extends Controller
 
     public function beranda()
     {
+        $newUser = User::where('created_at', '>=', today()->subDays('3')->toDateTimeString())->count();
+        $newSm = SuratMasuk::where('created_at', '>=', today()->subDays('3')->toDateTimeString())->count();
+        $newSd = SuratDisposisi::where('created_at', '>=', today()->subDays('3')->toDateTimeString())->count();
+        $newSk = SuratKeluar::where('created_at', '>=', today()->subDays('3')->toDateTimeString())->count();
+
+        $users = User::all();
         $masuks = SuratMasuk::orderByDesc('id')->get();
+        $disposisis = SuratDisposisi::all();
         $keluars = SuratKeluar::orderByDesc('id')->get();
 
-        return view('beranda', compact('masuks', 'keluars'));
+        return view('beranda', compact('newUser', 'newSm', 'newSd', 'newSk',
+            'users', 'masuks', 'disposisis', 'keluars'));
     }
 
     public function showFileSurat($surat, $id)

@@ -8,5 +8,5 @@ class PerihalSurat extends Model
 {
     protected $table = 'perihal_surats';
 
-    protected $guard = ['id'];
+    protected $guarded = ['id'];
 }

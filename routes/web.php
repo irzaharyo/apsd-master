@@ -259,139 +259,250 @@ Route::group(['namespace' => 'Admins', 'prefix' => 'admin', 'middleware' => 'roo
 
     Route::group(['prefix' => 'tables'], function () {
 
-        Route::group(['prefix' => 'accounts'], function () {
+        Route::group(['namespace' => 'DataMaster'], function () {
 
-            Route::group(['prefix' => 'admins'], function () {
+            Route::group(['prefix' => 'accounts'], function () {
 
-                Route::get('/', [
-                    'uses' => 'AccountsController@showAdminsTable',
-                    'as' => 'table.admins'
-                ]);
+                Route::group(['prefix' => 'admins'], function () {
 
-                Route::post('create', [
-                    'uses' => 'AccountsController@createAdmins',
-                    'as' => 'create.admins'
-                ]);
+                    Route::get('/', [
+                        'uses' => 'AccountsController@showAdminsTable',
+                        'as' => 'table.admins'
+                    ]);
 
-                Route::put('{id}/update/profile', [
-                    'uses' => 'AccountsController@updateProfileAdmins',
-                    'as' => 'update.profile.admins'
-                ]);
+                    Route::post('create', [
+                        'uses' => 'AccountsController@createAdmins',
+                        'as' => 'create.admins'
+                    ]);
 
-                Route::put('{id}/update/account', [
-                    'uses' => 'AccountsController@updateAccountAdmins',
-                    'as' => 'update.account.admins'
-                ]);
+                    Route::put('{id}/update/profile', [
+                        'uses' => 'AccountsController@updateProfileAdmins',
+                        'as' => 'update.profile.admins'
+                    ]);
 
-                Route::get('{id}/delete', [
-                    'uses' => 'AccountsController@deleteAdmins',
-                    'as' => 'delete.admins'
-                ]);
+                    Route::put('{id}/update/account', [
+                        'uses' => 'AccountsController@updateAccountAdmins',
+                        'as' => 'update.account.admins'
+                    ]);
+
+                    Route::get('{id}/delete', [
+                        'uses' => 'AccountsController@deleteAdmins',
+                        'as' => 'delete.admins'
+                    ]);
+
+                });
+
+                Route::group(['prefix' => 'users'], function () {
+
+                    Route::get('/', [
+                        'uses' => 'AccountsController@showUsersTable',
+                        'as' => 'table.users'
+                    ]);
+
+                    Route::post('create', [
+                        'uses' => 'AccountsController@createUsers',
+                        'as' => 'create.users'
+                    ]);
+
+                    Route::put('{id}/update/profile', [
+                        'uses' => 'AccountsController@updateProfileUsers',
+                        'as' => 'update.profile.users'
+                    ]);
+
+                    Route::put('{id}/update/account', [
+                        'uses' => 'AccountsController@updateAccountUsers',
+                        'as' => 'update.account.users'
+                    ]);
+
+                    Route::get('{id}/delete', [
+                        'uses' => 'AccountsController@deleteUsers',
+                        'as' => 'delete.users'
+                    ]);
+
+                });
 
             });
 
-            Route::group(['prefix' => 'users'], function () {
+            Route::group(['prefix' => 'web_contents'], function () {
 
-                Route::get('/', [
-                    'uses' => 'AccountsController@showUsersTable',
-                    'as' => 'table.users'
-                ]);
+                Route::group(['prefix' => 'carousels'], function () {
 
-                Route::post('create', [
-                    'uses' => 'AccountsController@createUsers',
-                    'as' => 'create.users'
-                ]);
+                    Route::get('/', [
+                        'uses' => 'WebContentsController@showCarouselsTable',
+                        'as' => 'table.carousels'
+                    ]);
 
-                Route::put('{id}/update/profile', [
-                    'uses' => 'AccountsController@updateProfileUsers',
-                    'as' => 'update.profile.users'
-                ]);
+                    Route::post('create', [
+                        'uses' => 'WebContentsController@createCarousels',
+                        'as' => 'create.carousels'
+                    ]);
 
-                Route::put('{id}/update/account', [
-                    'uses' => 'AccountsController@updateAccountUsers',
-                    'as' => 'update.account.users'
-                ]);
+                    Route::put('{id}/update', [
+                        'uses' => 'WebContentsController@updateCarousels',
+                        'as' => 'update.carousels'
+                    ]);
 
-                Route::get('{id}/delete', [
-                    'uses' => 'AccountsController@deleteUsers',
-                    'as' => 'delete.users'
-                ]);
+                    Route::get('{id}/delete', [
+                        'uses' => 'WebContentsController@deleteCarousels',
+                        'as' => 'delete.carousels'
+                    ]);
+
+                });
+
+                Route::group(['prefix' => 'jenis_surat'], function () {
+
+                    Route::get('/', [
+                        'uses' => 'WebContentsController@showJenisSuratTable',
+                        'as' => 'table.jenis-surat'
+                    ]);
+
+                    Route::post('create', [
+                        'uses' => 'WebContentsController@createJenisSurat',
+                        'as' => 'create.jenis-surat'
+                    ]);
+
+                    Route::put('{id}/update', [
+                        'uses' => 'WebContentsController@updateJenisSurat',
+                        'as' => 'update.jenis-surat'
+                    ]);
+
+                    Route::get('{id}/delete', [
+                        'uses' => 'WebContentsController@deleteJenisSurat',
+                        'as' => 'delete.jenis-surat'
+                    ]);
+
+                });
+
+                Route::group(['prefix' => 'perihal_surat'], function () {
+
+                    Route::get('/', [
+                        'uses' => 'WebContentsController@showPerihalSuratTable',
+                        'as' => 'table.perihal-surat'
+                    ]);
+
+                    Route::post('create', [
+                        'uses' => 'WebContentsController@createPerihalSurat',
+                        'as' => 'create.perihal-surat'
+                    ]);
+
+                    Route::put('{id}/update', [
+                        'uses' => 'WebContentsController@updatePerihalSurat',
+                        'as' => 'update.perihal-surat'
+                    ]);
+
+                    Route::get('{id}/delete', [
+                        'uses' => 'WebContentsController@deletePerihalSurat',
+                        'as' => 'delete.perihal-surat'
+                    ]);
+
+                });
 
             });
 
         });
 
-        Route::group(['prefix' => 'web_contents'], function () {
+        Route::group(['namespace' => 'DataTransaction'], function () {
 
-            Route::group(['prefix' => 'carousels'], function () {
+            Route::group(['prefix' => 'surat'], function () {
 
-                Route::get('/', [
-                    'uses' => 'WebContentsController@showCarouselsTable',
-                    'as' => 'table.carousels'
-                ]);
+                Route::group(['prefix' => 'masuk'], function () {
 
-                Route::post('create', [
-                    'uses' => 'WebContentsController@createCarousels',
-                    'as' => 'create.carousels'
-                ]);
+                    Route::get('/', [
+                        'uses' => 'SuratController@showSuratMasuk',
+                        'as' => 'table.surat-masuk'
+                    ]);
 
-                Route::put('{id}/update', [
-                    'uses' => 'WebContentsController@updateCarousels',
-                    'as' => 'update.carousels'
-                ]);
+                    Route::get('pdf/{ids}', [
+                        'uses' => 'SuratController@massPdfSuratMasuk',
+                        'as' => 'massPDF.surat-masuk'
+                    ]);
 
-                Route::get('{id}/delete', [
-                    'uses' => 'WebContentsController@deleteCarousels',
-                    'as' => 'delete.carousels'
-                ]);
+                    Route::post('delete', [
+                        'uses' => 'SuratController@massDeleteSuratMasuk',
+                        'as' => 'massDelete.surat-masuk'
+                    ]);
+
+                });
+
+                Route::group(['prefix' => 'disposisi'], function () {
+
+                    Route::get('/', [
+                        'uses' => 'SuratController@showSuratDisposisi',
+                        'as' => 'table.surat-disposisi'
+                    ]);
+
+                    Route::get('pdf/{ids}', [
+                        'uses' => 'SuratController@massPdfSuratDisposisi',
+                        'as' => 'massPDF.surat-disposisi'
+                    ]);
+
+                    Route::post('delete', [
+                        'uses' => 'SuratController@massDeleteSuratDisposisi',
+                        'as' => 'massDelete.surat-disposisi'
+                    ]);
+
+                });
+
+                Route::group(['prefix' => 'keluar'], function () {
+
+                    Route::get('/', [
+                        'uses' => 'SuratController@showSuratKeluar',
+                        'as' => 'table.surat-keluar'
+                    ]);
+
+                    Route::get('pdf/{ids}', [
+                        'uses' => 'SuratController@massPdfSuratKeluar',
+                        'as' => 'massPDF.surat-keluar'
+                    ]);
+
+                    Route::post('delete', [
+                        'uses' => 'SuratController@massDeleteSuratKeluar',
+                        'as' => 'massDelete.surat-keluar'
+                    ]);
+
+                });
 
             });
 
-            Route::group(['prefix' => 'jenis_surat'], function () {
+            Route::group(['prefix' => 'agenda_surat'], function () {
 
-                Route::get('/', [
-                    'uses' => 'WebContentsController@showJenisSuratTable',
-                    'as' => 'table.jenis-surat'
-                ]);
+                Route::group(['prefix' => 'masuk'], function () {
 
-                Route::post('create', [
-                    'uses' => 'WebContentsController@createJenisSurat',
-                    'as' => 'create.jenis-surat'
-                ]);
+                    Route::get('/', [
+                        'uses' => 'AgendaController@showAgendaMasuk',
+                        'as' => 'table.agenda-masuk'
+                    ]);
 
-                Route::put('{id}/update', [
-                    'uses' => 'WebContentsController@updateJenisSurat',
-                    'as' => 'update.jenis-surat'
-                ]);
+                    Route::get('pdf/{ids}', [
+                        'uses' => 'AgendaController@massPdfAgendaMasuk',
+                        'as' => 'massPDF.agenda-masuk'
+                    ]);
 
-                Route::get('{id}/delete', [
-                    'uses' => 'WebContentsController@deleteJenisSurat',
-                    'as' => 'delete.jenis-surat'
-                ]);
+                    Route::post('delete', [
+                        'uses' => 'AgendaController@massDeleteAgendaMasuk',
+                        'as' => 'massDelete.agenda-masuk'
+                    ]);
 
-            });
+                });
 
-            Route::group(['prefix' => 'perihal_surat'], function () {
+                Route::group(['prefix' => 'keluar'], function () {
 
-                Route::get('/', [
-                    'uses' => 'WebContentsController@showPerihalSuratTable',
-                    'as' => 'table.perihal-surat'
-                ]);
+                    Route::get('/', [
+                        'uses' => 'AgendaController@showAgendaKeluar',
+                        'as' => 'table.agenda-keluar'
+                    ]);
 
-                Route::post('create', [
-                    'uses' => 'WebContentsController@createPerihalSurat',
-                    'as' => 'create.perihal-surat'
-                ]);
+                    Route::get('pdf/{ids}', [
+                        'uses' => 'AgendaController@massPdfAgendaKeluar',
+                        'as' => 'massPDF.agenda-keluar'
+                    ]);
 
-                Route::put('{id}/update', [
-                    'uses' => 'WebContentsController@updatePerihalSurat',
-                    'as' => 'update.perihal-surat'
-                ]);
+                    Route::post('delete', [
+                        'uses' => 'AgendaController@massDeleteAgendaKeluar',
+                        'as' => 'massDelete.agenda-keluar'
+                    ]);
 
-                Route::get('{id}/delete', [
-                    'uses' => 'WebContentsController@deletePerihalSurat',
-                    'as' => 'delete.perihal-surat'
-                ]);
+                });
 
             });
 

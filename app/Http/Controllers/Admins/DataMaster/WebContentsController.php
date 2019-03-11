@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Admins;
+namespace App\Http\Controllers\Admins\DataMaster;
 
 use App\Models\Carousel;
 use App\Models\JenisSurat;
@@ -13,9 +13,9 @@ class WebContentsController extends Controller
 {
     public function showCarouselsTable()
     {
-        $carousels = Carousel::all();
+        $carousels = Carousel::orderByDesc('id')->get();
 
-        return view('_admins.webContents.carousel-table', compact('carousels'));
+        return view('_admins.dataMaster.carousel-table', compact('carousels'));
     }
 
     public function createCarousels(Request $request)
@@ -26,14 +26,14 @@ class WebContentsController extends Controller
         ]);
 
         $name = $request->file('image')->getClientOriginalName();
-        $request->file('image')->move(public_path('images\carousel'), $name);
+        $request->file('image')->move(public_path('images\carousels'), $name);
 
         Carousel::create([
             'image' => $name,
             'captions' => $request->captions,
         ]);
 
-        return back()->with('success', 'Carousel (' . Str::words($request->caption, 10, '...') .
+        return back()->with('success', 'Carousel (' . Str::words($request->captions, 10, '...') .
             ') berhasil dibuat!');
     }
 
@@ -51,7 +51,7 @@ class WebContentsController extends Controller
             if ($carousel->image != '') {
                 unlink(public_path('images\carousel/' . $carousel->image));
             }
-            $request->file('image')->move(public_path('images\carousel'), $name);
+            $request->file('image')->move(public_path('images\carousels'), $name);
 
         } else {
             $name = $carousel->image;
@@ -62,7 +62,7 @@ class WebContentsController extends Controller
             'captions' => $request->captions,
         ]);
 
-        return back()->with('success', 'Carousel (' . Str::words($carousel->caption, 10, '...') .
+        return back()->with('success', 'Carousel (' . Str::words($carousel->captions, 10, '...') .
             ') berhasil diperbarui!');
     }
 
@@ -70,19 +70,19 @@ class WebContentsController extends Controller
     {
         $carousel = Carousel::find(decrypt($id));
         if ($carousel->image != '') {
-            unlink(public_path('images\carousel/' . $carousel->image));
+            unlink(public_path('images\carousels/' . $carousel->image));
         }
         $carousel->delete();
 
-        return back()->with('success', 'Carousel (' . Str::words($carousel->caption, 10, '...') .
+        return back()->with('success', 'Carousel (' . Str::words($carousel->captions, 10, '...') .
             ') berhasil dihapus!');
     }
 
     public function showJenisSuratTable()
     {
-        $jenis_surats = JenisSurat::all();
+        $jenis_surats = JenisSurat::orderByDesc('id')->get();
 
-        return view('_admins.webContents.jenis_surat-table', compact('jenis_surats'));
+        return view('_admins.dataMaster.jenis_surat-table', compact('jenis_surats'));
     }
 
     public function createJenisSurat(Request $request)
@@ -98,11 +98,10 @@ class WebContentsController extends Controller
     {
         $jenis_surat = JenisSurat::find($request->id);
         $jenis_surat->update([
-            'name' => $request->name,
-            'caption' => $request->caption
+            'jenis' => $request->jenis
         ]);
 
-        return back()->with('success', 'Jenis surat (' . $jenis_surat->name . ') berhasil diperbarui!');
+        return back()->with('success', 'Jenis surat (' . $jenis_surat->jenis . ') berhasil diperbarui!');
     }
 
     public function deleteJenisSurat($id)
@@ -110,14 +109,14 @@ class WebContentsController extends Controller
         $jenis_surat = JenisSurat::find(decrypt($id));
         $jenis_surat->delete();
 
-        return back()->with('success', 'Jenis surat (' . $jenis_surat->name . ') berhasil dihapus!');
+        return back()->with('success', 'Jenis surat (' . $jenis_surat->jenis . ') berhasil dihapus!');
     }
 
     public function showPerihalSuratTable()
     {
-        $perihal_surats = PerihalSurat::all();
+        $perihal_surats = PerihalSurat::orderByDesc('id')->get();
 
-        return view('_admins.webContents.perihal_surat-table', compact('perihal_surats'));
+        return view('_admins.dataMaster.perihal_surat-table', compact('perihal_surats'));
     }
 
     public function createPerihalSurat(Request $request)

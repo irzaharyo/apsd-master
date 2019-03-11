@@ -47,7 +47,7 @@
                             <small id="panel_subtitle">List</small>
                         </h2>
                         <ul class="nav navbar-right panel_toolbox">
-                            @if(Auth::user()->isPegawai() || Auth::user()->isPengolah())
+                            @if(Auth::user()->isPegawai())
                                 <li><a id="btn_create" data-toggle="tooltip" title="Ajukan Surat"
                                        data-placement="right"><i class="fa fa-plus"></i></a></li>
                             @endif

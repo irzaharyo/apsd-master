@@ -322,107 +322,108 @@
                             </ul>
                         </li>
 
-                        <li role="presentation" class="dropdown">
-                            <a href="javascript:void(0);" class="dropdown-toggle info-number" data-toggle="dropdown"
-                               aria-expanded="false">
-                                <i class="fa fa-bell"></i>
-                                <span class="badge bg-orange">{{$notifications}}</span>
-                            </a>
-                            <ul id="menu2" class="dropdown-menu list-unstyled msg_list" role="menu">
-                                @if($notifications > 0)
-                                    @if($role == 'KADIN' && count($nk_sm) > 0)
-                                        <li style="padding: 0;">
-                                            <a style="text-decoration: none;cursor: text">
+                        @auth
+                            <li role="presentation" class="dropdown">
+                                <a href="javascript:void(0);" class="dropdown-toggle info-number" data-toggle="dropdown"
+                                   aria-expanded="false">
+                                    <i class="fa fa-bell"></i>
+                                    <span class="badge bg-orange">{{$notifications}}</span>
+                                </a>
+                                <ul id="menu2" class="dropdown-menu list-unstyled msg_list" role="menu">
+                                    @if($notifications > 0)
+                                        @if($role == 'KADIN' && count($nk_sm) > 0)
+                                            <li style="padding: 0;">
+                                                <a style="text-decoration: none;cursor: text">
                                                 <span><i class="fa fa-envelope-open"></i>
                                                     <strong style="margin-left: 5px;text-transform: uppercase">Surat Masuk</strong></span>
-                                            </a>
-                                        </li>
-                                        @foreach($nk_sm as $row)
-                                            <li>
-                                                <a href="{{route('show.surat-masuk').'?q='.$row->no_surat}}">
+                                                </a>
+                                            </li>
+                                            @foreach($nk_sm as $row)
+                                                <li>
+                                                    <a href="{{route('show.surat-masuk').'?q='.$row->no_surat}}">
                                                     <span class="image">
                                                         <img src="{{asset('images/sm.png')}}">
                                                     </span>
-                                                    <span><span>{{$row->no_surat}}</span></span>
-                                                    <span class="message">
+                                                        <span><span>{{$row->no_surat}}</span></span>
+                                                        <span class="message">
                                                         Surat masuk #<strong>{{$row->no_surat}}</strong> dari
                                                         {{$row->nama_pengirim.' - '.$row->nama_instansi}} belum didisposisi!
                                                     </span>
-                                                </a>
-                                            </li>
-                                        @endforeach
-                                        <li class="divider"
-                                            style="margin: 0 6px;padding: 3px;background: none;border-bottom: 2px solid #d8d8d845;"></li>
-                                    @endif
+                                                    </a>
+                                                </li>
+                                            @endforeach
+                                            <li class="divider"
+                                                style="margin: 0 6px;padding: 3px;background: none;border-bottom: 2px solid #d8d8d845;"></li>
+                                        @endif
 
-                                    @if($role == 'KADIN' && count($nk_sk) > 0)
-                                        <li style="padding: 0;">
-                                            <a style="text-decoration: none;cursor: text">
+                                        @if($role == 'KADIN' && count($nk_sk) > 0)
+                                            <li style="padding: 0;">
+                                                <a style="text-decoration: none;cursor: text">
                                                 <span><i class="fa fa-paper-plane"></i>
                                                     <strong style="margin-left: 5px;text-transform: uppercase">Surat Keluar</strong></span>
-                                            </a>
-                                        </li>
-                                        @foreach($nk_sk as $row)
-                                            <li>
-                                                <a href="{{route('show.surat-keluar').'?q='.$row->no_surat}}">
+                                                </a>
+                                            </li>
+                                            @foreach($nk_sk as $row)
+                                                <li>
+                                                    <a href="{{route('show.surat-keluar').'?q='.$row->no_surat}}">
                                                     <span class="image">
                                                         <img src="{{asset('images/sk.png')}}">
                                                     </span>
-                                                    <span><span>{{$row->no_surat}}</span></span>
-                                                    <span class="message">
+                                                        <span><span>{{$row->no_surat}}</span></span>
+                                                        <span class="message">
                                                         Surat keluar #<strong>{{$row->no_surat}}</strong> untuk
                                                         {{$row->nama_penerima.' - '.$row->kota_penerima}} belum divalidasi!
                                                     </span>
-                                                </a>
-                                            </li>
-                                        @endforeach
-                                        <li class="divider"
-                                            style="margin: 0 6px;padding: 3px;background: none;border-bottom: 2px solid #d8d8d845;"></li>
-                                    @endif
+                                                    </a>
+                                                </li>
+                                            @endforeach
+                                            <li class="divider"
+                                                style="margin: 0 6px;padding: 3px;background: none;border-bottom: 2px solid #d8d8d845;"></li>
+                                        @endif
 
-                                    @if($role == 'Pengolah')
-                                        <li style="padding: 0;">
-                                            <a style="text-decoration: none;cursor: text">
+                                        @if($role == 'Pengolah')
+                                            <li style="padding: 0;">
+                                                <a style="text-decoration: none;cursor: text">
                                                 <span><i class="fa fa-paper-plane"></i>
                                                     <strong style="margin-left: 5px;text-transform: uppercase">Surat Keluar</strong></span>
-                                            </a>
-                                        </li>
-                                        @if(count($npl_sB) > 0)
-                                            @foreach($npl_sB as $row)
-                                                <li>
-                                                    <a href="{{route('show.surat-keluar').'?q='.$row->no_surat}}">
+                                                </a>
+                                            </li>
+                                            @if(count($npl_sB) > 0)
+                                                @foreach($npl_sB as $row)
+                                                    <li>
+                                                        <a href="{{route('show.surat-keluar').'?q='.$row->no_surat}}">
                                                         <span class="image"><img
                                                                     src="{{asset('images/sk.png')}}"></span>
-                                                        <span><span>{{$row->no_surat}}</span></span>
-                                                        <span class="message">
+                                                            <span><span>{{$row->no_surat}}</span></span>
+                                                            <span class="message">
                                                             Surat <strong>balasan</strong> #<strong>{{$row
                                                             ->no_surat}}</strong> untuk {{$row->nama_penerima.' - '.
                                                             $row->kota_penerima}} {{$row->status == 0 ? 'belum diolah!'
                                                             : 'tidak valid! Mohon dicek kembali.'}}
                                                     </span>
-                                                    </a>
-                                                </li>
-                                            @endforeach
-                                        @elseif(count($npl_sK) > 0)
-                                            @foreach($npl_sK as $row)
-                                                <li>
-                                                    <a href="{{route('show.surat-keluar').'?q='.\Carbon\Carbon::parse
+                                                        </a>
+                                                    </li>
+                                                @endforeach
+                                            @elseif(count($npl_sK) > 0)
+                                                @foreach($npl_sK as $row)
+                                                    <li>
+                                                        <a href="{{route('show.surat-keluar').'?q='.\Carbon\Carbon::parse
                                                     ($row->created_at)->format('l, j F Y - h:i:s')}}">
                                                         <span class="image"><img
                                                                     src="{{asset('images/sk.png')}}"></span>
-                                                        <span><span>{{$row->created_at}}</span></span>
-                                                        <span class="message">
+                                                            <span><span>{{$row->created_at}}</span></span>
+                                                            <span class="message">
                                                             Surat <strong>keluar</strong> untuk {{$row->nama_penerima.
                                                             ' - '.$row->kota_penerima}} {{$row->status == 0 ?
                                                             'belum diolah!' : 'tidak valid! Mohon dicek kembali.'}}
                                                     </span>
-                                                    </a>
-                                                </li>
-                                            @endforeach
+                                                        </a>
+                                                    </li>
+                                                @endforeach
+                                            @endif
+                                            <li class="divider"
+                                                style="margin: 0 6px;padding: 3px;background: none;border-bottom: 2px solid #d8d8d845;"></li>
                                         @endif
-                                        <li class="divider"
-                                            style="margin: 0 6px;padding: 3px;background: none;border-bottom: 2px solid #d8d8d845;"></li>
-                                    @endif
 
                                         @if($role == 'T. Usaha' && count($nt_sm) > 0)
                                             <li style="padding: 0;">
@@ -498,15 +499,16 @@
                                             <li class="divider"
                                                 style="margin: 0 6px;padding: 3px;background: none;border-bottom: 2px solid #d8d8d845;"></li>
                                         @endif
-                                @else
-                                    <li>
-                                        <a style="text-decoration: none;cursor: text">
-                                            <span class="message">Tidak ada notifikasi&hellip;</span>
-                                        </a>
-                                    </li>
-                                @endif
-                            </ul>
-                        </li>
+                                    @else
+                                        <li>
+                                            <a style="text-decoration: none;cursor: text">
+                                                <span class="message">Tidak ada notifikasi&hellip;</span>
+                                            </a>
+                                        </li>
+                                    @endif
+                                </ul>
+                            </li>
+                        @endauth
                     </ul>
                 </nav>
             </div>

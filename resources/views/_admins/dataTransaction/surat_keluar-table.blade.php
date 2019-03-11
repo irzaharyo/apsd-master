@@ -1,10 +1,9 @@
 @extends('layouts.mst')
-@section('title', 'Beranda | '.env('APP_NAME').' - Aplikasi Pengarsipan Surat dan Disposisi | Dinas Pertanian dan Ketahanan Pangan Kota Madiun')
+@section('title', 'Halaman Admin: Tabel Surat Keluar | '.env('APP_NAME').' - Aplikasi Pengarsipan Surat dan Disposisi | Dinas Pertanian dan Ketahanan Pangan Kota Madiun')
 @push("styles")
     <style>
-        .dataTables_filter {
-            /*width: 70%;*/
-            width: auto;
+        td ul, td ol {
+            margin: 0 -2em;
         }
 
         .modal.and.carousel {
@@ -34,196 +33,48 @@
 @endpush
 @section('content')
     <div class="right_col" role="main">
-        @if(Auth::guard('admin')->check() && Auth::guard('admin')->user()->isRoot())
-            <div class="row top_tiles">
-                <div class="animated flipInY col-lg-3 col-md-3 col-sm-6 col-xs-12">
-                    <a href="javascript:void(0)" onclick="openTableUser()" class="agency">
-                        <div class="tile-stats">
-                            <div class="icon"><i class="fa fa-users"></i></div>
-                            <div class="count">{{$newUser}}</div>
-                            <h3>New {{$newUser > 1 ? 'Users' : 'User'}}</h3>
-                            <p>Total: <strong>{{count($users)}}</strong> users</p>
-                        </div>
-                    </a>
-                </div>
-                <div class="animated flipInY col-lg-3 col-md-3 col-sm-6 col-xs-12">
-                    <a href="javascript:void(0)" onclick="openTableSuratMasuk()" class="seeker">
-                        <div class="tile-stats">
-                            <div class="icon"><i class="fa fa-envelope-open"></i></div>
-                            <div class="count">{{$newSm}}</div>
-                            <h3>Surat Masuk</h3>
-                            <p>Total: <strong>{{count($masuks)}}</strong> surat masuk</p>
-                        </div>
-                    </a>
-                </div>
-                <div class="animated flipInY col-lg-3 col-md-3 col-sm-6 col-xs-12">
-                    <a href="javascript:void(0)" onclick="openTableSuratDisposisi()" class="agency">
-                        <div class="tile-stats">
-                            <div class="icon"><i class="fa fa-envelope"></i></div>
-                            <div class="count">{{$newSd}}</div>
-                            <h3>Surat Disposisi</h3>
-                            <p>Total: <strong>{{count($disposisis)}}</strong> surat disposisi</p>
-                        </div>
-                    </a>
-                </div>
-                <div class="animated flipInY col-lg-3 col-md-3 col-sm-6 col-xs-12">
-                    <a href="javascript:void(0)" onclick="openTableSuratKeluar()" class="seeker">
-                        <div class="tile-stats">
-                            <div class="icon"><i class="fa fa-paper-plane"></i></div>
-                            <div class="count">{{$newSk}}</div>
-                            <h3>Surat Keluar</h3>
-                            <p>Total: <strong>{{count($keluars)}}</strong> surat keluar</p>
-                        </div>
-                    </a>
-                </div>
-            </div>
-        @endif
-
         <div class="row">
             <div class="col-md-12 col-sm-12 col-xs-12">
                 <div class="x_panel">
                     <div class="x_title">
-                        <h2>Surat Masuk
-                            <small>List</small>
+                        <h2 id="panel_title">Surat Keluar
+                            <small>Table</small>
                         </h2>
                         <ul class="nav navbar-right panel_toolbox">
-                            <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a></li>
+                            <li><a class="close-link" data-toggle="tooltip" title="Close" data-placement="right">
+                                    <i class="fa fa-times"></i></a></li>
                         </ul>
                         <div class="clearfix"></div>
                     </div>
-                    <div class="x_content">
-                        <table id="datatable-responsive" class="table table-striped table-bordered">
+                    <div id="content1" class="x_content">
+                        <div class="row form-group">
+                            <div class="col-lg-12 has-feedback">
+                                <label for="surat_keluar">Filter Surat</label>
+                                <select id="surat_keluar" class="form-control selectpicker"
+                                        title="-- Pilih Surat Keluar --" data-live-search="true"
+                                        name="surat_keluar" data-max-options="1" multiple required>
+                                    @foreach($keluars as $row)
+                                        <option value="{{$row->id}}">
+                                            <strong>{{$row->no_surat}}</strong>&nbsp;&mdash;&nbsp;{{$row->nama_penerima.', '.
+                                            $row->kota_penerima}}</option>
+                                    @endforeach
+                                </select>
+                                <span class="fa fa-envelope-open form-control-feedback right" aria-hidden="true"></span>
+                            </div>
+                        </div>
+                        <table id="myDataTable" class="table table-striped table-bordered bulk_action">
                             <thead>
                             <tr>
-                                <th>No</th>
-                                <th>Tanggal Penerimaan</th>
-                                <th>Detail Surat</th>
-                                <th>Disposisi</th>
-                                <th>Aksi</th>
-                            </tr>
-                            </thead>
-
-                            <tbody>
-                            @php $no = 1; @endphp
-                            @foreach($masuks as $masuk)
-                                @php
-                                    if($masuk->sifat_surat == 'rahasia'){
-                                        $label = 'danger';
-                                    } elseif($masuk->sifat_surat == 'sangat segera'){
-                                        $label = 'primary';
-                                    } elseif($masuk->sifat_surat == 'segera'){
-                                        $label = 'info';
-                                    } elseif($masuk->sifat_surat == 'penting'){
-                                        $label = 'warning';
-                                    } else {
-                                        $label = 'default';
-                                    }
-                                    $lbrSM = $masuk->files != "" ? count($masuk->files) : 0;
-                                    $indexSM = substr($masuk->no_surat,4,3);
-                                @endphp
-                                <tr>
-                                    <td style="vertical-align: middle" align="center">{{$no++}}</td>
-                                    <td style="vertical-align: middle" align="center">
-                                        {{\Carbon\Carbon::parse($masuk->created_at)->format('l, j F Y')}}</td>
-                                    <td style="vertical-align: middle">
-                                        <table>
-                                            <tr>
-                                                <td><i class="fa fa-hashtag"></i>&nbsp;</td>
-                                                <td>Nomor Surat</td>
-                                                <td>&nbsp;:&nbsp;</td>
-                                                <td>{{$masuk->no_surat}}</td>
-                                            </tr>
-                                            <tr>
-                                                <td><i class="fa fa-calendar-alt"></i>&nbsp;</td>
-                                                <td>Tanggal Surat</td>
-                                                <td>&nbsp;:&nbsp;</td>
-                                                <td>{{\Carbon\Carbon::parse($masuk->tgl_surat)->format('j F Y')}}</td>
-                                            </tr>
-                                            <tr>
-                                                <td><i class="fa fa-thumbtack"></i>&nbsp;</td>
-                                                <td>Jenis Surat</td>
-                                                <td>&nbsp;:&nbsp;</td>
-                                                <td>{{$masuk->getJenisSurat->jenis}}</td>
-                                            </tr>
-                                            <tr>
-                                                <td><i class="fa fa-user-tie"></i>&nbsp;</td>
-                                                <td>Nama Pengirim</td>
-                                                <td>&nbsp;:&nbsp;</td>
-                                                <td>{{$masuk->nama_pengirim}}</td>
-                                            </tr>
-                                            <tr>
-                                                <td><i class="fa fa-university"></i>&nbsp;</td>
-                                                <td>Instansi Pengirim</td>
-                                                <td>&nbsp;:&nbsp;</td>
-                                                <td>{{$masuk->nama_instansi.' - '.$masuk->asal_instansi}}</td>
-                                            </tr>
-                                            <tr>
-                                                <td><i class="fa fa-comments"></i>&nbsp;</td>
-                                                <td>Perihal</td>
-                                                <td>&nbsp;:&nbsp;</td>
-                                                <td>{{$masuk->perihal}}</td>
-                                            </tr>
-                                            <tr>
-                                                <td><i class="fa fa-file-image"></i>&nbsp;</td>
-                                                <td>Lampiran</td>
-                                                <td>&nbsp;:&nbsp;</td>
-                                                <td>{{$masuk->lampiran}}</td>
-                                            </tr>
-                                            <tr>
-                                                <td><i class="fa fa-tag"></i>&nbsp;</td>
-                                                <td>Sifat Surat</td>
-                                                <td>&nbsp;:&nbsp;</td>
-                                                <td style="text-transform: uppercase">
-                                                    <span class="label label-{{$label}}">{{$masuk->sifat_surat}}</span>
-                                                </td>
-                                            </tr>
-                                        </table>
-                                    </td>
-                                    <td style="vertical-align: middle" align="center">
-                                        <span class="label label-{{$masuk->isDisposisi == true ? 'success' : 'danger'}}"
-                                              style="text-transform: uppercase;font-size: 18px">
-                                            <i class="fa fa-{{$masuk->isDisposisi == true ? 'check' : 'times'}}"></i>
-                                        </span>
-                                    </td>
-                                    <td style="vertical-align: middle" align="center">
-                                        <a onclick='lihatSurat("{{$masuk->id}}", "masuk", "{{$lbrSM}}", "{{$indexSM}}")'
-                                           class="btn btn-dark btn-sm" style="font-size: 16px" data-toggle="tooltip"
-                                           title="Lihat Surat ({{$lbrSM}} lembar)"
-                                           data-placement="left"><i class="fa fa-images"></i>
-                                        </a>
-                                    </td>
-                                </tr>
-                            @endforeach
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-            </div>
-
-            <div class="col-md-12 col-sm-12 col-xs-12">
-                <div class="x_panel">
-                    <div class="x_title">
-                        <h2>Surat Keluar
-                            <small>List</small>
-                        </h2>
-                        <ul class="nav navbar-right panel_toolbox">
-                            <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a></li>
-                        </ul>
-                        <div class="clearfix"></div>
-                    </div>
-                    <div class="x_content">
-                        <table id="datatable-fixed-header" class="table table-striped table-bordered">
-                            <thead>
-                            <tr>
-                                <th>No</th>
+                                <th><input type="checkbox" id="check-all" class="flat"></th>
+                                <th>ID</th>
                                 <th>Tanggal Pengajuan</th>
                                 <th>Detail Surat</th>
                                 <th>Status</th>
                                 <th>Aksi</th>
                             </tr>
                             </thead>
+
                             <tbody>
-                            @php $no = 1; @endphp
                             @foreach($keluars as $keluar)
                                 @php
                                     if($keluar->sifat_surat == 'rahasia'){
@@ -241,7 +92,10 @@
                                     $indexSK = substr($keluar->no_surat,4,3);
                                 @endphp
                                 <tr>
-                                    <td style="vertical-align: middle" align="center">{{$no++}}</td>
+                                    <td class="a-center" style="vertical-align: middle" align="center">
+                                        <input type="checkbox" class="flat">
+                                    </td>
+                                    <td style="vertical-align: middle">{{$keluar->id}}</td>
                                     <td style="vertical-align: middle" align="center">
                                         {{\Carbon\Carbon::parse($keluar->created_at)->format('l, j F Y')}}</td>
                                     <td style="vertical-align: middle">
@@ -331,6 +185,24 @@
                             @endforeach
                             </tbody>
                         </table>
+                        <div class="row form-group">
+                            <div class="col-sm-4" id="action-btn">
+                                <div class="btn-group" style="float: right">
+                                    <button id="btn_pdf" type="button" class="btn btn-primary btn-sm"
+                                            style="font-weight: 600">
+                                        <i class="fa fa-file-pdf"></i>&ensp;PDF
+                                    </button>
+                                    <button id="btn_remove_app" type="button" class="btn btn-danger btn-sm"
+                                            style="font-weight: 600">
+                                        <i class="fa fa-trash"></i>&ensp;HAPUS
+                                    </button>
+                                </div>
+                            </div>
+                            <form method="post" id="form-sk">
+                                {{csrf_field()}}
+                                <input id="sk_ids" type="hidden" name="sk_ids">
+                            </form>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -356,6 +228,106 @@
 @push("scripts")
     <script>
         var $indicators = '', $item = '';
+
+        $(function () {
+            var table = $("#myDataTable").DataTable({
+                order: [[1, "desc"]],
+                columnDefs: [
+                    {
+                        targets: [0],
+                        orderable: false
+                    },
+                    {
+                        targets: [1],
+                        visible: false,
+                        searchable: false
+                    }
+                ]
+            }), toolbar = $("#myDataTable_wrapper").children().eq(0);
+
+            toolbar.children().toggleClass("col-sm-6 col-sm-4");
+            $('#action-btn').appendTo(toolbar);
+
+            $("#surat_keluar").on('change', function () {
+                $(".dataTables_filter input[type=search]").val($(this).val()).trigger('keyup');
+            });
+
+            $("#check-all").on("ifToggled", function () {
+                if ($(this).is(":checked")) {
+                    $("#myDataTable tbody tr").addClass("selected").find('input[type=checkbox]').iCheck("check");
+                } else {
+                    $("#myDataTable tbody tr").removeClass("selected").find('input[type=checkbox]').iCheck("uncheck");
+                }
+            });
+
+            $("#myDataTable tbody").on("click", "tr", function () {
+                $(this).toggleClass("selected");
+                $(this).find('input[type=checkbox]').iCheck("toggle");
+            });
+
+            $('#btn_pdf').on("click", function () {
+                var ids = $.map(table.rows('.selected').data(), function (item) {
+                    return item[1]
+                });
+
+                if (ids.length > 0) {
+                    swal({
+                        title: 'Generate PDF',
+                        text: 'Apakah Anda yakin men-generate ' + ids.length + ' data tersebut ke dalam sebuah file pdf? ' +
+                            'Anda tidak dapat mengembalikannya!',
+                        type: 'warning',
+                        showCancelButton: true,
+                        confirmButtonColor: '#00adb5',
+                        confirmButtonText: 'Ya',
+                        cancelButtonText: 'Tidak',
+                        showLoaderOnConfirm: true,
+
+                        preConfirm: function () {
+                            return new Promise(function (resolve) {
+                                $.get("{{route('massPDF.surat-keluar', ['ids' => ''])}}/" + ids, function (data) {
+                                    swal("Success!", "File PDF berhasil di-generate!", "success");
+                                });
+                            });
+                        },
+                        allowOutsideClick: false
+                    });
+                } else {
+                    swal("Error!", "Tidak ada data yang dipilih!", "error");
+                }
+                return false;
+            });
+
+            $('#btn_remove_app').on("click", function () {
+                var ids = $.map(table.rows('.selected').data(), function (item) {
+                    return item[1]
+                });
+                $("#sk_ids").val(ids);
+                $("#form-sk").attr("action", "{{route('massDelete.surat-keluar')}}");
+
+                if (ids.length > 0) {
+                    swal({
+                        title: 'Hapus Surat Keluar',
+                        text: 'Apakah Anda yakin menghapus ' + ids.length + ' data tersebut? Anda tidak dapat mengembalikannya!',
+                        type: 'warning',
+                        showCancelButton: true,
+                        confirmButtonColor: '#fa5555',
+                        confirmButtonText: 'Ya',
+                        cancelButtonText: 'Tidak',
+                        showLoaderOnConfirm: true,
+
+                        preConfirm: function () {
+                            return new Promise(function (resolve) {
+                                $("#form-sk")[0].submit();
+                            });
+                        },
+                        allowOutsideClick: false
+                    });
+                } else {
+                    swal("Error!", "Tidak ada file yang dipilih!", "error");
+                }
+                return false;
+            });
+        });
 
         function lihatSurat(id, surat, total, index) {
             $indicators = '';
@@ -394,23 +366,5 @@
                 swal('PERHATIAN!', 'File surat tidak ditemukan.', 'warning')
             }
         }
-
-        @if(Auth::guard('admin')->check() && Auth::guard('admin')->user()->isRoot())
-        function openTableUser() {
-            window.location.href = '{{route('table.users')}}'
-        }
-
-        function openTableSuratMasuk() {
-            window.location.href = '{{route('table.surat-masuk')}}'
-        }
-
-        function openTableSuratDisposisi() {
-            window.location.href = '{{route('table.surat-disposisi')}}'
-        }
-
-        function openTableSuratKeluar() {
-            window.location.href = '{{route('table.surat-keluar')}}'
-        }
-        @endif
     </script>
 @endpush

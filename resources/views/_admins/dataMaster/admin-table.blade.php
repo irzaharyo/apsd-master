@@ -65,7 +65,7 @@
                                                 <button type="button" class="btn btn-dark btn-sm"
                                                         style="font-weight: 600" onclick="editProfile('{{$admin->id}}',
                                                         '{{$admin->ava}}','{{$admin->name}}')">
-                                                    <i class="fa fa-user-edit"></i>&ensp;EDIT
+                                                    <i class="fa fa-user-edit"></i>&ensp;EDIT PROFILE
                                                 </button>
                                                 <button type="button" class="btn btn-dark btn-sm dropdown-toggle"
                                                         data-toggle="dropdown" aria-expanded="false">
@@ -76,12 +76,13 @@
                                                     <li>
                                                         <a onclick="accountSettings('{{$admin->id}}',
                                                                 '{{$admin->email}}','{{$admin->role}}')">
-                                                            <i class="fa fa-user-cog"></i>&ensp;Settings
+                                                            <i class="fa fa-user-cog"></i>&ensp;Account Settings
                                                         </a>
                                                     </li>
                                                     <li>
                                                         <a href="{{route('delete.admins',['id'=> encrypt($admin->id)])}}"
                                                            class="delete-data"><i class="fa fa-trash-alt"></i>&ensp;Delete
+                                                            Account
                                                         </a>
                                                     </li>
                                                 </ul>
@@ -117,7 +118,7 @@
                                            class="browse_files form-control"
                                            placeholder="Upload file here..."
                                            readonly style="cursor: pointer" data-toggle="tooltip" data-placement="top"
-                                           title="Allowed extension: jpg, jpeg, gif, png. Allowed size: < 2 MB">
+                                           title="Ekstensi file yang boleh diunggah: jpg, jpeg, gif, png. Ukuran file maksimal: < 2 MB">
                                     <span class="input-group-btn">
                                         <button class="browse_files btn btn-info" type="button">
                                             <i class="fa fa-search"></i>
@@ -215,7 +216,7 @@
                 '<div class="row form-group">' +
                 '<img src="' + $path + '" class="img-responsive" id="btn_img' + id + '" ' +
                 'style="margin: 0 auto;width: 50%;cursor: pointer" data-toggle="tooltip" data-placement="bottom" ' +
-                'title="Allowed extension: jpg, jpeg, gif, png. Allowed size: < 2 MB">' +
+                'title="Ekstensi file yang boleh diunggah: jpg, jpeg, gif, png. Ukuran file maksimal: < 2 MB">' +
                 '<hr style="margin: .5em auto">' +
                 '<div class="col-lg-12">' +
                 '<label for="ava' + id + '">Avatar</label>' +
@@ -223,7 +224,7 @@
                 '<div class="input-group">' +
                 '<input type="text" id="txt_ava' + id + '" value="' + ava + '" class="browse_files form-control" ' +
                 'placeholder="Upload file here..." readonly style="cursor: pointer" data-toggle="tooltip" ' +
-                'title="Allowed extension: jpg, jpeg, gif, png. Allowed size: < 2 MB">' +
+                'title="Ekstensi file yang boleh diunggah: jpg, jpeg, gif, png. Ukuran file maksimal: < 2 MB">' +
                 '<span class="input-group-btn">' +
                 '<button class="browse_files btn btn-info" type="button"><i class="fa fa-search"></i></button>' +
                 '</span></div></div></div>' +

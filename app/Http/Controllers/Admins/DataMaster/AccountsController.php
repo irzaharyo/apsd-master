@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Admins;
+namespace App\Http\Controllers\Admins\DataMaster;
 
 use App\Models\User;
 use App\Models\Admin;
@@ -15,7 +15,7 @@ class AccountsController extends Controller
     {
         $admins = Admin::orderByDesc('id')->get();
 
-        return view('_admins.admin-table', compact('admins'));
+        return view('_admins.dataMaster.admin-table', compact('admins'));
     }
 
     public function createAdmins(Request $request)
@@ -107,9 +107,9 @@ class AccountsController extends Controller
 
     public function showUsersTable()
     {
-        $users = User::all();
+        $users = User::orderByDesc('id')->get();
 
-        return view('_admins.user-table', compact('users'));
+        return view('_admins.dataMaster.user-table', compact('users'));
     }
 
     public function createUsers(Request $request)
@@ -202,7 +202,7 @@ class AccountsController extends Controller
                 $user->update([
                     'email' => $request->email,
                     'password' => bcrypt($request->new_password),
-                    'role' => $request->role == null ? 'root' : $request->role
+                    'role' => $request->role
                 ]);
                 return back()->with('success', 'Akun ' . $user->role . ' (' . $user->name . ') berhasil diperbarui!');
             }

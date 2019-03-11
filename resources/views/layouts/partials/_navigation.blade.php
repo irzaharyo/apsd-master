@@ -14,17 +14,38 @@
 @auth('admin')
     <li><a><i class="fa fa-table"></i> Tables <span class="fa fa-chevron-down"></span></a>
         <ul class="nav child_menu">
-            <li><a>Accounts <span class="fa fa-chevron-down"></span></a>
+            <li><a>Data Master <span class="fa fa-chevron-down"></span></a>
                 <ul class="nav child_menu">
-                    <li><a href="{{route('table.admins')}}">Admins</a></li>
-                    <li><a href="{{route('table.users')}}">Users</a></li>
+                    <li><a>Accounts <span class="fa fa-chevron-down"></span></a>
+                        <ul class="nav child_menu">
+                            <li><a href="{{route('table.admins')}}">Admins</a></li>
+                            <li><a href="{{route('table.users')}}">Users</a></li>
+                        </ul>
+                    </li>
+                    <li><a>Web Contents <span class="fa fa-chevron-down"></span></a>
+                        <ul class="nav child_menu">
+                            <li><a href="{{route('table.carousels')}}">Carousels</a></li>
+                            <li><a href="{{route('table.jenis-surat')}}">Jenis Surat</a></li>
+                            <li><a href="{{route('table.perihal-surat')}}">Perihal Surat</a></li>
+                        </ul>
+                    </li>
                 </ul>
             </li>
-            <li><a>Web Contents <span class="fa fa-chevron-down"></span></a>
+            <li><a>Data Transaction <span class="fa fa-chevron-down"></span></a>
                 <ul class="nav child_menu">
-                    <li><a href="{{route('table.carousels')}}">Carousels</a></li>
-                    <li><a href="{{route('table.jenis-surat')}}">Jenis Surat</a></li>
-                    <li><a href="{{route('table.perihal-surat')}}">Perihal Surat</a></li>
+                    <li><a>Surat dan Disposisi <span class="fa fa-chevron-down"></span></a>
+                        <ul class="nav child_menu">
+                            <li><a href="{{route('table.surat-masuk')}}">Surat Masuk</a></li>
+                            <li><a href="{{route('table.surat-disposisi')}}">Surat Disposisi</a></li>
+                            <li><a href="{{route('table.surat-keluar')}}">Surat Keluar</a></li>
+                        </ul>
+                    </li>
+                    <li><a>Agenda Surat <span class="fa fa-chevron-down"></span></a>
+                        <ul class="nav child_menu">
+                            <li><a href="{{route('table.agenda-masuk')}}">Agenda Surat Masuk</a></li>
+                            <li><a href="{{route('table.agenda-keluar')}}">Agenda Surat Keluar</a></li>
+                        </ul>
+                    </li>
                 </ul>
             </li>
         </ul>
