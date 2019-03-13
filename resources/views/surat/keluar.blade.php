@@ -190,8 +190,8 @@
                                                                 ' lembar)'}}
                                                             </a>
                                                         @else
-                                                            <a href="{{asset('storage/surat-keluar/'.$index.
-                                                            '/SuratKeluar.pdf')}}" target="_blank">
+                                                            <a href="{{route('pdf.surat-keluar', ['id' => encrypt
+                                                            ($keluar->id)])}}" target="_blank">
                                                                 <i class="fa fa-file-pdf"></i>&ensp;Lihat Surat
                                                             </a>
                                                         @endif
@@ -228,8 +228,8 @@
                                                                 ' lembar)'}}
                                                             </a>
                                                         @else
-                                                            <a href="{{asset('storage/surat-keluar/'.$index.
-                                                            '/SuratKeluar.pdf')}}" target="_blank">
+                                                            <a href="{{route('pdf.surat-keluar', ['id' => encrypt
+                                                            ($keluar->id)])}}" target="_blank">
                                                                 <i class="fa fa-file-pdf"></i>&ensp;Lihat Surat
                                                             </a>
                                                         @endif
@@ -258,8 +258,8 @@
                                                                 ' lembar)'}}
                                                             </a>
                                                         @else
-                                                            <a href="{{asset('storage/surat-keluar/'.$index.
-                                                            '/SuratKeluar.pdf')}}" target="_blank">
+                                                            <a href="{{route('pdf.surat-keluar', ['id' => encrypt
+                                                            ($keluar->id)])}}" target="_blank">
                                                                 <i class="fa fa-file-pdf"></i>&ensp;Lihat Surat
                                                             </a>
                                                         @endif

@@ -173,7 +173,7 @@
                                                 <i class="fa fa-images"></i>
                                             </a>
                                         @else
-                                            <a href="{{asset('storage/surat-keluar/'.$indexSK.'/SuratKeluar.pdf')}}"
+                                            <a href="{{route('pdf.surat-keluar', ['id' => encrypt($keluar->id)])}}"
                                                target="_blank" class="btn btn-dark btn-sm" style="font-size: 16px"
                                                data-toggle="tooltip" title="Lihat Surat" data-placement="left">
                                                 <i class="fa fa-file-pdf"></i>

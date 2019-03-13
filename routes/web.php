@@ -182,6 +182,11 @@ Route::group(['prefix' => '/'], function () {
             'as' => 'show.surat-keluar'
         ]);
 
+        Route::get('{id}/pdf', [
+            'uses' => 'SuratKeluarController@pdfSuratKeluar',
+            'as' => 'pdf.surat-keluar'
+        ]);
+
         Route::post('create', [
             'middleware' => 'pegawai',
             'uses' => 'SuratKeluarController@createSuratKeluar',

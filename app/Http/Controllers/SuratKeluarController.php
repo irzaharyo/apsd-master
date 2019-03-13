@@ -27,6 +27,24 @@ class SuratKeluarController extends Controller
         return view('surat.keluar', compact('keluars', 'types', 'no_urut', 'findSurat'));
     }
 
+    public function pdfSuratKeluar($id)
+    {
+        $kadin = User::where('role', Role::KADIN)->first();
+        $sk = SuratKeluar::find(decrypt($id));
+
+        if ($sk->jenis_id == 5 || $sk->jenis_id == 6 || $sk->jenis_id == 10 ||
+            $sk->jenis_id == 11 || $sk->jenis_id == 12 || $sk->jenis_id == 21) {
+            return view('surat.template-sk.nd-npkn-sb-si-sk-su', compact('sk', 'kadin'));
+
+        } elseif ($sk->jenis_id == 16) {
+            return view('surat.template-sk.sp', compact('sk', 'kadin'));
+
+        } elseif ($sk->jenis_id == 8 || $sk->jenis_id == 18 || $sk->jenis_id == 19) {
+            return view('surat.template-sk.spt-sppd-r', compact('sk', 'kadin'));
+        }
+
+    }
+
     public function createSuratKeluar(Request $request)
     {
         $sk = SuratKeluar::create([
@@ -74,7 +92,7 @@ class SuratKeluarController extends Controller
                 'status' => 1,
             ]);
 
-            $kadin = User::where('role', Role::KADIN)->first();
+            /*$kadin = User::where('role', Role::KADIN)->first();
             $no_urut = str_pad(substr($sk->no_surat, 4, 3), 3, '0', STR_PAD_LEFT);
 
             if ($sk->jenis_id == 5 || $sk->jenis_id == 6 || $sk->jenis_id == 10 ||
@@ -92,7 +110,7 @@ class SuratKeluarController extends Controller
                 $pdf = PDF::loadView('surat.template-sk.spt-sppd-r', compact('sk', 'kadin'))
                     ->setPaper('legal', 'portrait');
                 $pdf->save('storage/surat-keluar/' . $no_urut . '/SuratKeluar.pdf');
-            }
+            }*/
 
             return back()->with('success', 'Surat keluar #' . $sk->no_surat . ' berhasil diperbarui!');
 
