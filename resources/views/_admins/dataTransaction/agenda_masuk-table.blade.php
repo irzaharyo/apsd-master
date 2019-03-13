@@ -41,8 +41,7 @@
                             <small>Table</small>
                         </h2>
                         <ul class="nav navbar-right panel_toolbox">
-                            <li><a class="close-link" data-toggle="tooltip" title="Close" data-placement="right">
-                                    <i class="fa fa-times"></i></a></li>
+                            <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a></li>
                         </ul>
                         <div class="clearfix"></div>
                     </div>

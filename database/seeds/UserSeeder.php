@@ -26,6 +26,7 @@ class UserSeeder extends Seeder
                 'password' => bcrypt('secret'),
                 'remember_token' => str_random(60),
                 'jabatan' => Factory::create()->jobTitle,
+                'pangkat' => ucfirst(Factory::create()->word),
                 'alamat' => $faker->address,
                 'nmr_hp' => $faker->phoneNumber,
                 'jk' => rand(0, 1) ? 'pria' : 'wanita',
@@ -36,8 +37,11 @@ class UserSeeder extends Seeder
         }
 
         User::find(1)->update([
-            'email' => 'kadin@apsd.madiunkota.go.id',
-            'name' => 'Kepala Dinas Pertanian',
+            'email' => 'muntorodanardono@apsd.madiunkota.go.id',
+            'nip' => '196301071991031007',
+            'name' => 'Ir. Muntoro Danardono',
+            'jabatan' => 'Kepala Dinas',
+            'pangkat' => 'Pembina Tk. I',
             'role' => Role::KADIN
         ]);
 
@@ -54,8 +58,11 @@ class UserSeeder extends Seeder
         ]);
 
         User::find(8)->update([
-            'email' => 'pegawai@apsd.madiunkota.go.id',
-            'name' => 'Pegawai Dinas Pertanian',
+            'email' => 'ariekusdewanto@apsd.madiunkota.go.id',
+            'nip' => '196611251986031003',
+            'name' => 'Arie Kusdewanto',
+            'jabatan' => 'Kasubag Perencanaan dan Kepegawaian',
+            'pangkat' => 'Pembina / IV a',
             'role' => Role::PEGAWAI
         ]);
 

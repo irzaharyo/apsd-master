@@ -22,10 +22,11 @@ class CreateUsersTable extends Migration
             $table->string('password');
             $table->string('role', 30);
             $table->rememberToken();
-            $table->string('jabatan')->nullable();
-            $table->string('alamat')->nullable();
-            $table->string('nmr_hp')->nullable();
-            $table->string('jk')->nullable();
+            $table->string('jabatan');
+            $table->string('pangkat');
+            $table->string('alamat');
+            $table->string('nmr_hp');
+            $table->string('jk');
             $table->double('lat', 20, 10)->nullable();
             $table->double('long', 20, 10)->nullable();
             $table->timestamps();

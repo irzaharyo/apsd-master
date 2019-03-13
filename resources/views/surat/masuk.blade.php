@@ -338,7 +338,7 @@
                             </div>
 
                             <div class="row form-group">
-                                <div class="col-lg-5">
+                                <div class="col-lg-7">
                                     <label for="nama">Nama Pengirim <span class="required">*</span></label>
                                     <div class="input-group">
                                         <span class="input-group-addon"><i class="fa fa-user-tie"></i></span>
@@ -346,7 +346,19 @@
                                                class="form-control" name="nama_pengirim" required>
                                     </div>
                                 </div>
-                                <div class="col-lg-4">
+                                <div class="col-lg-5">
+                                    <label for="nip">NIP Pengirim <span class="required">*</span></label>
+                                    <div class="input-group">
+                                        <span class="input-group-addon"><i class="fa fa-id-card"></i></span>
+                                        <input id="nip" placeholder="NIP pengirim" type="text" class="form-control"
+                                               name="nip_pengirim" onkeypress="return numberOnly(event, false)"
+                                               required>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row form-group">
+                                <div class="col-lg-7">
                                     <label for="jabatan">Jabatan Pengirim <span class="required">*</span></label>
                                     <div class="input-group">
                                         <span class="input-group-addon"><i class="fa fa-briefcase"></i></span>
@@ -354,12 +366,13 @@
                                                class="form-control" name="jabatan_pengirim" required>
                                     </div>
                                 </div>
-                                <div class="col-lg-3">
-                                    <label for="nip">NIP Pengirim <span class="required">*</span></label>
+                                <div class="col-lg-5">
+                                    <label for="pangkat">Pangkat Pengirim <span class="required">*</span></label>
                                     <div class="input-group">
-                                        <span class="input-group-addon"><i class="fa fa-id-card"></i></span>
-                                        <input id="nip" placeholder="NIP pengirim" type="text" class="form-control"
-                                               name="nip_pengirim" onkeypress="return numberOnly(event, false)"
+                                        <span class="input-group-addon"><i class="fa fa-id-badge"></i></span>
+                                        <input id="pangkat" placeholder="Pangkat pengirim" type="text"
+                                               class="form-control"
+                                               name="pangkat_pengirim" onkeypress="return numberOnly(event, false)"
                                                required>
                                     </div>
                                 </div>
@@ -562,7 +575,7 @@
                 return v === "Create Form" ? "List" : "Create Form";
             });
 
-            $("#no_surat, #tgl_surat, #perihal, #lampiran, #nama_instansi, #asal_instansi, #nama, #jabatan, #nip").val('');
+            $("#no_surat, #tgl_surat, #perihal, #lampiran, #nama_instansi, #asal_instansi, #nama, #jabatan, #pangkat, #nip").val('');
             $("#jenis_id").val('default').selectpicker('refresh');
             $("#rahasia, #segera, #sangat_segera, #penting").iCheck('uncheck');
             tinyMCE.get('tembusan').setContent('');
@@ -677,6 +690,7 @@
                 $("#asal_instansi").val(data.asal_instansi);
                 $("#nama").val(data.nama_pengirim);
                 $("#jabatan").val(data.jabatan_pengirim);
+                $("#pangkat").val(data.pangkat_pengirim);
                 $("#nip").val(data.nip_pengirim);
                 $("#jenis_id").val(data.jenis_id).selectpicker('refresh');
                 $("#" + data.sifat_surat.replace(/\s/g, "_")).iCheck('check');

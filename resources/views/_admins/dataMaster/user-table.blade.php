@@ -77,6 +77,12 @@
                                                             <td>{{$user->jabatan}}</td>
                                                         </tr>
                                                         <tr>
+                                                            <td><i class="fa fa-id-badge"></i>&nbsp;</td>
+                                                            <td>Pangkat</td>
+                                                            <td>&nbsp;:&nbsp;</td>
+                                                            <td>{{$user->pangkat}}</td>
+                                                        </tr>
+                                                        <tr>
                                                             <td><i class="fa fa-transgender"></i>&nbsp;</td>
                                                             <td>Jenis Kelamin</td>
                                                             <td>&nbsp;:&nbsp;</td>
@@ -126,8 +132,8 @@
                                             <button type="button" class="btn btn-warning btn-sm"
                                                     style="font-weight: 600"
                                                     onclick="editProfile('{{$user->id}}','{{$user->ava}}','{{$user->name}}',
-                                                            '{{$user->nip}}','{{$user->jabatan}}','{{$user->jk}}',
-                                                            '{{$user->nmr_hp}}','{{$user->alamat}}',
+                                                            '{{$user->nip}}','{{$user->jabatan}}','{{$user->pangkat}}',
+                                                            '{{$user->jk}}','{{$user->nmr_hp}}','{{$user->alamat}}',
                                                             '{{$user->lat}}','{{$user->long}}')">
                                                 <i class="fa fa-user-edit"></i>&ensp;EDIT PROFILE
                                             </button>
@@ -205,18 +211,25 @@
                                 </div>
                             </div>
                             <div class="row form-group profile_settings">
-                                <div class="col-lg-6 has-feedback">
+                                <div class="col-lg-4 has-feedback">
                                     <label for="nip">NIP <span class="required">*</span></label>
                                     <input id="nip" type="text" class="form-control" name="nip" placeholder="NIP"
                                            onkeypress="return numberOnly(event, false)" required>
                                     <span class="fa fa-id-card form-control-feedback right"
                                           aria-hidden="true"></span>
                                 </div>
-                                <div class="col-lg-6 has-feedback">
+                                <div class="col-lg-4 has-feedback">
                                     <label for="jabatan">Jabatan <span class="required">*</span></label>
                                     <input id="jabatan" placeholder="Jabatan" type="text" class="form-control"
                                            name="jabatan" required>
                                     <span class="fa fa-briefcase form-control-feedback right"
+                                          aria-hidden="true"></span>
+                                </div>
+                                <div class="col-lg-4 has-feedback">
+                                    <label for="pangkat">Pangkat <span class="required">*</span></label>
+                                    <input id="pangkat" placeholder="Pangkat" type="text" class="form-control"
+                                           name="pangkat" required>
+                                    <span class="fa fa-id-badge form-control-feedback right"
                                           aria-hidden="true"></span>
                                 </div>
                             </div>
@@ -460,7 +473,7 @@
             $("#content2").toggle(300);
             $(".btn_create i").toggleClass('fa-plus fa-th-list');
             $(".profile_settings, .account_settings").show();
-            $("#name, #pria, #nip, #jabatan, #address_map, #nmr_hp, #email, #password, #confirm, #role").attr('required', 'required');
+            $("#name, #pria, #nip, #jabatan, #pangkat, #address_map, #nmr_hp, #email, #password, #confirm, #role").attr('required', 'required');
             $("#new_password").removeAttr('required').parent().hide();
             $("#confirm").parent().removeClass('col-lg-6').addClass('col-lg-12');
             $("#method").val('');
@@ -477,7 +490,7 @@
 
             init(-7.6298, 111.5239);
 
-            $("#name, #nip, #jabatan, #address_map, #nmr_hp, #email, #password, #confirm").val('');
+            $("#name, #nip, #jabatan, #pangkat, #address_map, #nmr_hp, #email, #password, #confirm").val('');
             $("#pria, #wanita").iCheck('uncheck');
             $("#role").val('default').selectpicker('refresh');
 
@@ -485,7 +498,7 @@
             $("#txt_ava").val('');
         });
 
-        function editProfile(id, ava, name, nip, jabatan, jk, nmr_hp, alamat, lat, long) {
+        function editProfile(id, ava, name, nip, jabatan, pangkat, jk, nmr_hp, alamat, lat, long) {
             var $ava = ava == "" || ava == "avatar.png" ? '{{asset('images/avatar.png')}}' : '{{asset('storage/users')}}/' + ava;
 
             $("#content1").toggle(300);
@@ -493,7 +506,7 @@
             $(".btn_create i").toggleClass('fa-plus fa-th-list');
             $(".profile_settings").show();
             $(".account_settings").hide();
-            $("#name, #pria, #nip, #jabatan, #address_map, #nmr_hp").attr('required', 'required');
+            $("#name, #pria, #nip, #jabatan, #pangkat, #address_map, #nmr_hp").attr('required', 'required');
             $("#email, #password, #confirm, #role").removeAttr('required');
             $("#new_password").removeAttr('required').parent().hide();
             $("#confirm").parent().removeClass('col-lg-6').addClass('col-lg-12');
@@ -517,6 +530,7 @@
             $("#name").val(name);
             $("#nip").val(nip);
             $("#jabatan").val(jabatan);
+            $("#pangkat").val(pangkat);
             $("#address_map").val(alamat);
             $("#nmr_hp").val(nmr_hp);
             $("#" + jk).iCheck('check');
@@ -532,7 +546,7 @@
             $(".btn_create i").toggleClass('fa-plus fa-th-list');
             $(".profile_settings").hide();
             $(".account_settings").show();
-            $("#name, #pria, #nip, #jabatan, #address_map, #nmr_hp").removeAttr('required');
+            $("#name, #pria, #nip, #jabatan, #pangkat, #address_map, #nmr_hp").removeAttr('required');
             $("#email, #password, #confirm, #role").attr('required', 'required');
             $("#new_password").attr('required', 'required').parent().show();
             $("#confirm").parent().removeClass('col-lg-12').addClass('col-lg-6');

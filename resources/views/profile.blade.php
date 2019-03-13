@@ -81,6 +81,8 @@
                                     <i class="fa fa-id-card"></i>&ensp;{{$user->nip}}</li>
                                 <li data-placement="left" data-toggle="tooltip" title="Jabatan">
                                     <i class="fa fa-briefcase"></i>&ensp;{{$user->jabatan}}</li>
+                                <li data-placement="left" data-toggle="tooltip" title="Pangkat">
+                                    <i class="fa fa-id-badge"></i>&ensp;{{$user->pangkat}}</li>
                                 <li data-placement="left" data-toggle="tooltip" title="Jenis Kelamin">
                                     <i class="fa fa-transgender"></i>&ensp;{{ucfirst($user->jk)}}</li>
                                 <li data-placement="left" data-toggle="tooltip" title="E-mail">
@@ -136,6 +138,19 @@
                                                     <input id="jabatan" placeholder="Jabatan" type="text"
                                                            class="form-control" name="jabatan"
                                                            value="{{$user->jabatan}}" required>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="row form-group">
+                                            <div class="col-lg-12">
+                                                <label for="pangkat">Pangkat <span class="required">*</span></label>
+                                                <div class="input-group">
+                                                    <span class="input-group-addon"><i
+                                                                class="fa fa-id-badge"></i></span>
+                                                    <input id="pangkat" placeholder="pangkat" type="text"
+                                                           class="form-control" name="pangkat"
+                                                           value="{{$user->pangkat}}" required>
                                                 </div>
                                             </div>
                                         </div>

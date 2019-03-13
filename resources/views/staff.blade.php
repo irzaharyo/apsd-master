@@ -72,6 +72,12 @@
                                                             <td>{{$user->jabatan}}</td>
                                                         </tr>
                                                         <tr>
+                                                            <td><i class="fa fa-id-badge"></i>&nbsp;</td>
+                                                            <td>Pangkat</td>
+                                                            <td>&nbsp;:&nbsp;</td>
+                                                            <td>{{$user->pangkat}}</td>
+                                                        </tr>
+                                                        <tr>
                                                             <td><i class="fa fa-transgender"></i>&nbsp;</td>
                                                             <td>Jenis Kelamin</td>
                                                             <td>&nbsp;:&nbsp;</td>

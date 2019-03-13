@@ -37,6 +37,7 @@ class SuratMasukSeeder extends Seeder
                 'asal_instansi' => $faker->city,
                 'nama_pengirim' => $faker->name,
                 'jabatan_pengirim' => $faker->jobTitle,
+                'pangkat_pengirim' => ucfirst(Factory::create()->word),
                 'nip_pengirim' => $faker->nik(),
                 'tembusan' => '<ol><li>' . $faker->name . '</li><li>' . $faker->name . '</li></ol>',
                 'files' => ['file1.jpg', 'file2.jpg'],

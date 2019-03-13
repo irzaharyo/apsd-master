@@ -52,6 +52,7 @@ class SuratMasukController extends Controller
                 'asal_instansi' => $request->asal_instansi,
                 'nama_pengirim' => $request->nama_pengirim,
                 'jabatan_pengirim' => $request->jabatan_pengirim,
+                'pangkat_pengirim' => $request->pangkat_pengirim,
                 'nip_pengirim' => $request->nip_pengirim,
                 'tembusan' => $request->tembusan != null ? $request->tembusan : '-',
                 'files' => $files
@@ -81,6 +82,7 @@ class SuratMasukController extends Controller
             'asal_instansi' => $request->asal_instansi,
             'nama_pengirim' => $request->nama_pengirim,
             'jabatan_pengirim' => $request->jabatan_pengirim,
+            'pangkat_pengirim' => $request->pangkat_pengirim,
             'nip_pengirim' => $request->nip_pengirim,
             'tembusan' => $request->tembusan != null ? $request->tembusan : '-',
         ]);
