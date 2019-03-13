@@ -26,7 +26,7 @@ class AgendaController extends Controller
         $ag_masuks = AgendaMasuk::whereIn('id', $agm_ids)->get();
 
         $pdf = PDF::loadView('reports.agenda_masuk-pdf', compact('ag_masuks'))->setPaper('a4', 'landscape');
-        return $pdf->stream('AgendaSuratMasuk.pdf');
+        return $pdf->stream('DaftarAgendaSuratMasuk.pdf');
     }
 
     public function massDeleteAgendaMasuk(Request $request)
@@ -54,7 +54,7 @@ class AgendaController extends Controller
         $ag_keluars = AgendaKeluar::whereIn('id', $agk_ids)->get();
 
         $pdf = PDF::loadView('reports.agenda_keluar-pdf', compact('ag_keluars'))->setPaper('a4', 'landscape');
-        return $pdf->stream('AgendaSuratKeluar.pdf');
+        return $pdf->stream('DaftarAgendaSuratKeluar.pdf');
     }
 
     public function massDeleteAgendaKeluar(Request $request)

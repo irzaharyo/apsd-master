@@ -25,8 +25,8 @@ class CreateSuratKeluarsTable extends Migration
             $table->foreign('suratdisposisi_id')->references('id')->on('surat_disposisis')
                 ->onUpdate('CASCADE')->onDelete('CASCADE');
             $table->date('tgl_surat')->nullable();
-            $table->string('nama_penerima');
-            $table->string('kota_penerima');
+            $table->string('nama_penerima')->nullable();
+            $table->string('kota_penerima')->nullable();
             $table->string('no_surat')->nullable();
             $table->string('sifat_surat')->nullable();
             $table->string('lampiran')->nullable();

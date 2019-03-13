@@ -24,7 +24,7 @@ class SuratController extends Controller
         $masuks = SuratMasuk::whereIn('id', $sm_ids)->get();
 
         $pdf = PDF::loadView('reports.surat_masuk-pdf', compact('masuks'))->setPaper('a4', 'landscape');
-        return $pdf->stream('SuratMasuk.pdf');
+        return $pdf->stream('DaftarSuratMasuk.pdf');
     }
 
     public function massDeleteSuratMasuk(Request $request)
@@ -52,7 +52,7 @@ class SuratController extends Controller
         $disposisis = SuratDisposisi::whereIn('id', $sd_ids)->get();
 
         $pdf = PDF::loadView('reports.surat_disposisi-pdf', compact('disposisis'))->setPaper('a4', 'landscape');
-        return $pdf->stream('SuratDisposisi.pdf');
+        return $pdf->stream('DaftarSuratDisposisi.pdf');
     }
 
     public function massDeleteSuratDisposisi(Request $request)
@@ -79,7 +79,7 @@ class SuratController extends Controller
         $keluars = SuratKeluar::whereIn('id', $sk_ids)->get();
 
         $pdf = PDF::loadView('reports.surat_keluar-pdf', compact('keluars'))->setPaper('a4', 'landscape');
-        return $pdf->stream('SuratKeluar.pdf');
+        return $pdf->stream('DaftarSuratKeluar.pdf');
     }
 
     public function massDeleteSuratKeluar(Request $request)

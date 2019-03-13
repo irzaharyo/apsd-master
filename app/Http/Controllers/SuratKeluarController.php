@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Barryvdh\DomPDF\Facade as PDF;
 use App\Models\JenisSurat;
 use App\Models\SuratKeluar;
 use App\Models\User;
@@ -24,13 +25,6 @@ class SuratKeluarController extends Controller
         $findSurat = $request->q;
 
         return view('surat.keluar', compact('keluars', 'types', 'no_urut', 'findSurat'));
-    }
-
-    public function showPdfSuratKeluar($id)
-    {
-        $sk = SuratKeluar::find(decrypt($id));
-
-        return view('surat.print', compact('sk'));
     }
 
     public function createSuratKeluar(Request $request)
@@ -74,11 +68,31 @@ class SuratKeluarController extends Controller
                 'tgl_surat' => $request->tgl_surat,
                 'no_surat' => $request->no_surat,
                 'sifat_surat' => $request->sifat_surat,
-                'lampiran' => $request->lampiran,
+                'lampiran' => $request->lampiran . ' lembar',
                 'isi' => $request->isi,
                 'tembusan' => $request->tembusan,
                 'status' => 1,
             ]);
+
+            $kadin = User::where('role', Role::KADIN)->first();
+            $no_urut = str_pad(substr($sk->no_surat, 4, 3), 3, '0', STR_PAD_LEFT);
+
+            if ($sk->jenis_id == 5 || $sk->jenis_id == 6 || $sk->jenis_id == 10 ||
+                $sk->jenis_id == 11 || $sk->jenis_id == 12 || $sk->jenis_id == 21) {
+                $pdf = PDF::loadView('surat.template-sk.nd-npkn-sb-si-sk-su', compact('sk', 'kadin'))
+                    ->setPaper('legal', 'portrait');
+                $pdf->save('storage/surat-keluar/' . $no_urut . '/SuratKeluar.pdf');
+
+            } elseif ($sk->jenis_id == 16) {
+                $pdf = PDF::loadView('surat.template-sk.sp', compact('sk', 'kadin'))
+                    ->setPaper('legal', 'portrait');
+                $pdf->save('storage/surat-keluar/' . $no_urut . '/SuratKeluar.pdf');
+
+            } elseif ($sk->jenis_id == 8 || $sk->jenis_id == 18 || $sk->jenis_id == 19) {
+                $pdf = PDF::loadView('surat.template-sk.spt-sppd-r', compact('sk', 'kadin'))
+                    ->setPaper('legal', 'portrait');
+                $pdf->save('storage/surat-keluar/' . $no_urut . '/SuratKeluar.pdf');
+            }
 
             return back()->with('success', 'Surat keluar #' . $sk->no_surat . ' berhasil diperbarui!');
 

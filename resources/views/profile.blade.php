@@ -425,8 +425,8 @@
 
             } else {
                 if (files_size > max_file_size) {
-                    swal('ERROR!', "Ukuran total " + file_name + " adalah " + filesize(files_size) +
-                        ", ukuran file yang diperbolehkan adalah " + filesize(max_file_size) +
+                    swal('ERROR!', "Ukuran total " + file_name + " adalah " + humanFileSize(files_size) +
+                        ", ukuran file yang diperbolehkan adalah " + humanFileSize(max_file_size) +
                         ", coba unggah file yang ukurannya lebih kecil!", 'error');
 
                 } else {
@@ -484,6 +484,11 @@
                     });
                 }
             }
+        };
+
+        function humanFileSize(size) {
+            var i = Math.floor(Math.log(size) / Math.log(1024));
+            return (size / Math.pow(1024, i)).toFixed(2) * 1 + ' ' + ['B', 'kB', 'MB', 'GB', 'TB'][i];
         };
     </script>
 @endpush

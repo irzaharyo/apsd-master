@@ -1557,13 +1557,11 @@
     <column id="377" parent="303" name="nama_penerima">
       <Position>6</Position>
       <DataType>varchar(191)|0s</DataType>
-      <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
     <column id="378" parent="303" name="kota_penerima">
       <Position>7</Position>
       <DataType>varchar(191)|0s</DataType>
-      <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
     <column id="379" parent="303" name="no_surat">

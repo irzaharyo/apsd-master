@@ -190,8 +190,8 @@
                                                                 ' lembar)'}}
                                                             </a>
                                                         @else
-                                                            <a href="{{route('show.pdfSuratKeluar', ['id' => encrypt
-                                                            ($keluar->id)])}}" target="_blank">
+                                                            <a href="{{asset('storage/surat-keluar/'.$index.
+                                                            '/SuratKeluar.pdf')}}" target="_blank">
                                                                 <i class="fa fa-file-pdf"></i>&ensp;Lihat Surat
                                                             </a>
                                                         @endif
@@ -228,8 +228,8 @@
                                                                 ' lembar)'}}
                                                             </a>
                                                         @else
-                                                            <a href="{{route('show.pdfSuratKeluar', ['id' => encrypt
-                                                            ($keluar->id)])}}" target="_blank">
+                                                            <a href="{{asset('storage/surat-keluar/'.$index.
+                                                            '/SuratKeluar.pdf')}}" target="_blank">
                                                                 <i class="fa fa-file-pdf"></i>&ensp;Lihat Surat
                                                             </a>
                                                         @endif
@@ -258,8 +258,8 @@
                                                                 ' lembar)'}}
                                                             </a>
                                                         @else
-                                                            <a href="{{route('show.pdfSuratKeluar', ['id' => encrypt
-                                                            ($keluar->id)])}}" target="_blank">
+                                                            <a href="{{asset('storage/surat-keluar/'.$index.
+                                                            '/SuratKeluar.pdf')}}" target="_blank">
                                                                 <i class="fa fa-file-pdf"></i>&ensp;Lihat Surat
                                                             </a>
                                                         @endif
@@ -308,8 +308,7 @@
                                         <span class="input-group-addon"><i class="fa fa-thumbtack"></i></span>
                                         <select id="jenis_id" class="form-control selectpicker"
                                                 title="-- Pilih Jenis Surat --" data-live-search="true"
-                                                name="jenis_id" data-max-options="1" multiple
-                                                {{Auth::user()->isPegawai() ? 'required' : 'disabled'}}>
+                                                name="jenis_id" data-max-options="1" multiple required>
                                             @foreach($types as $type)
                                                 <option value="{{$type->id}}">{{$type->jenis}}</option>
                                             @endforeach
@@ -343,7 +342,7 @@
                                     <div class="input-group">
                                         <span class="input-group-addon"><i class="fa fa-comments"></i></span>
                                         <input id="perihal" class="form-control" type="text" name="perihal"
-                                               placeholder="Perihal" {{Auth::user()->isPegawai() ? 'required' : 'readonly'}}>
+                                               placeholder="Perihal" required>
                                     </div>
                                 </div>
                                 @if(Auth::user()->isPengolah())
@@ -365,8 +364,7 @@
                                     <div class="input-group">
                                         <span class="input-group-addon"><i class="fa fa-user-tie"></i></span>
                                         <input id="nama" placeholder="Nama lengkap penerima" type="text"
-                                               class="form-control" name="nama_penerima" {{Auth::user()->isPegawai() ?
-                                               'required' : 'readonly'}}>
+                                               class="form-control" name="nama_penerima" required>
                                     </div>
                                 </div>
                                 <div class="col-lg-5">
@@ -374,8 +372,7 @@
                                     <div class="input-group">
                                         <span class="input-group-addon"><i class="fa fa-map-marked-alt"></i></span>
                                         <input id="kota" placeholder="Kota penerima" type="text"
-                                               class="form-control" name="kota_penerima" {{Auth::user()->isPegawai() ?
-                                               'required' : 'readonly'}}>
+                                               class="form-control" name="kota_penerima" required>
                                     </div>
                                 </div>
                             </div>

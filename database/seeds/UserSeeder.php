@@ -40,7 +40,7 @@ class UserSeeder extends Seeder
             'email' => 'muntorodanardono@apsd.madiunkota.go.id',
             'nip' => '196301071991031007',
             'name' => 'Ir. Muntoro Danardono',
-            'jabatan' => 'Kepala Dinas',
+            'jabatan' => 'Kepala Dinas Pertanian dan Ketahanan Pangan',
             'pangkat' => 'Pembina Tk. I',
             'role' => Role::KADIN
         ]);

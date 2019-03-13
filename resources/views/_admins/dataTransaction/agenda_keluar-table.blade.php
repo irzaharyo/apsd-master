@@ -121,11 +121,19 @@
                                         {{$row->keterangan}}
                                     </td>
                                     <td style="vertical-align: middle" align="center">
-                                        <a onclick='lihatSurat("{{$keluar->id}}", "keluar", "{{$lbrSK}}", "{{$indexSK}}")'
-                                           class="btn btn-dark btn-sm" style="font-size: 16px" data-toggle="tooltip"
-                                           title="Lihat Surat ({{$lbrSK}} lembar)"
-                                           data-placement="left"><i class="fa fa-images"></i>
-                                        </a>
+                                        @if($keluar->status == 0 || $keluar->status >= 4)
+                                            <a onclick='lihatSurat("{{$keluar->id}}", "keluar", "{{$lbr}}", "{{$index}}")'
+                                               class="btn btn-info btn-sm" style="font-size: 16px" data-toggle="tooltip"
+                                               title="{{'Lihat Surat ('.$lbr.' lembar)'}}" data-placement="left">
+                                                <i class="fa fa-images"></i>
+                                            </a>
+                                        @else
+                                            <a href="{{asset('storage/surat-keluar/'.$index.'/SuratKeluar.pdf')}}"
+                                               target="_blank" class="btn btn-info btn-sm" style="font-size: 16px"
+                                               data-toggle="tooltip" title="Lihat Surat" data-placement="left">
+                                                <i class="fa fa-file-pdf"></i>
+                                            </a>
+                                        @endif
                                     </td>
                                 </tr>
                             @endforeach
