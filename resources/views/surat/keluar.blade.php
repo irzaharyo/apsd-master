@@ -170,9 +170,11 @@
                                                     <button onclick='konfirmasiSuratKeluar("{{$keluar->id}}",
                                                             "{{$keluar->no_surat}}")' type="button"
                                                             class="btn btn-success btn-sm" style="font-weight: 600"
-                                                            {{$keluar->status == 4 ? '' : 'disabled'}}>
-                                                        <i class="fa fa-check-circle"></i>&ensp;{{$keluar->status == 4 ?
-                                                        'KONFIRMASI' : 'TERKONFIRMASI'}}
+                                                            {{$keluar->status == 0 || $keluar->status == 1 ||
+                                                            $keluar->status == 2 || $keluar->status == 3 ||
+                                                            $keluar->status == 5 ? 'disabled' : ''}}>
+                                                        <i class="fa fa-check-circle"></i>&ensp;{{$keluar->status == 5 ?
+                                                        'TERKONFIRMASI' : 'KONFIRMASI'}}
                                                     </button>
                                                 @endif
                                                 <button type="button" class="btn btn-{{$keluar->status == 0 &&
