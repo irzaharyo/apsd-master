@@ -47,7 +47,7 @@
                             <small id="panel_subtitle">List</small>
                         </h2>
                         <ul class="nav navbar-right panel_toolbox">
-                            @if(Auth::user()->isPegawai())
+                            @if(Auth::user()->isPegawai() || Auth::user()->isKadin())
                                 <li><a id="btn_create" data-toggle="tooltip" title="Ajukan Surat"
                                        data-placement="right"><i class="fa fa-plus"></i></a></li>
                             @endif
@@ -161,7 +161,7 @@
                                     <td style="vertical-align: middle" align="center">
                                         @if(Auth::user()->isPegawai())
                                             <div class="btn-group">
-                                                @if($keluar->status == 0)
+                                                @if($keluar->status == 0 && $keluar->user_id == Auth::id())
                                                     <button onclick='editSuratKeluar("{{$keluar->id}}")' type="button"
                                                             class="btn btn-warning btn-sm" style="font-weight: 600">
                                                         <i class="fa fa-edit"></i>&ensp;EDIT
@@ -175,9 +175,9 @@
                                                         'KONFIRMASI' : 'TERKONFIRMASI'}}
                                                     </button>
                                                 @endif
-                                                <button type="button" class="btn btn-{{$keluar->status == 0 ?
-                                                'warning' : 'success'}} btn-sm dropdown-toggle" data-toggle="dropdown"
-                                                        aria-expanded="false">
+                                                <button type="button" class="btn btn-{{$keluar->status == 0 &&
+                                                $keluar->user_id == Auth::id() ? 'warning' : 'success'}} btn-sm dropdown-toggle"
+                                                        data-toggle="dropdown" aria-expanded="false">
                                                     <span class="caret"></span>
                                                     <span class="sr-only">Toggle Dropdown</span>
                                                 </button>
@@ -196,7 +196,7 @@
                                                             </a>
                                                         @endif
                                                     </li>
-                                                    @if($keluar->status == 0)
+                                                    @if($keluar->status == 0 && $keluar->user_id == Auth::id())
                                                         <li>
                                                             <a href="{{route('delete.surat-keluar',['id' => encrypt
                                                             ($keluar->id)])}}" class="delete-surat">
@@ -238,13 +238,23 @@
                                             </div>
                                         @elseif(Auth::user()->isKadin())
                                             <div class="btn-group">
-                                                <button onclick='validasiSuratKeluar("{{$keluar->id}}")' type="button"
-                                                        class="btn btn-success btn-sm" style="font-weight: 600"
-                                                        {{$keluar->status == 1 || $keluar->status == 3 ? '' : 'disabled'}}>
-                                                    <i class="fa fa-edit"></i>&ensp;{{$keluar->status == 2 || $keluar->status == 4
-                                                    || $keluar->status == 5 ? 'TERVALIDASI' : 'VALIDASI'}}
-                                                </button>
-                                                <button type="button" class="btn btn-success btn-sm dropdown-toggle"
+                                                @if($keluar->status == 0 && $keluar->user_id == Auth::id())
+                                                    <button onclick='editSuratKeluar("{{$keluar->id}}")' type="button"
+                                                            class="btn btn-warning btn-sm" style="font-weight: 600">
+                                                        <i class="fa fa-edit"></i>&ensp;EDIT
+                                                    </button>
+                                                @else
+                                                    <button onclick='validasiSuratKeluar("{{$keluar->id}}")'
+                                                            type="button"
+                                                            class="btn btn-success btn-sm" style="font-weight: 600" {{$keluar->status
+                                                             == 1 || $keluar->status == 3 ? '' : 'disabled'}}>
+                                                        <i class="fa fa-edit"></i>&ensp;{{$keluar->status == 2 ||
+                                                        $keluar->status == 4 || $keluar->status == 5 ?
+                                                        'TERVALIDASI' : 'VALIDASI'}}
+                                                    </button>
+                                                @endif
+                                                <button type="button" class="btn btn-{{$keluar->status == 0 &&
+                                                $keluar->user_id == Auth::id() ? 'warning' : 'success'}} btn-sm dropdown-toggle"
                                                         data-toggle="dropdown" aria-expanded="false">
                                                     <span class="caret"></span>
                                                     <span class="sr-only">Toggle Dropdown</span>
@@ -264,6 +274,14 @@
                                                             </a>
                                                         @endif
                                                     </li>
+                                                    @if($keluar->status == 0 && $keluar->user_id == Auth::id())
+                                                        <li>
+                                                            <a href="{{route('delete.surat-keluar',['id' => encrypt
+                                                            ($keluar->id)])}}" class="delete-surat">
+                                                                <i class="fa fa-trash"></i>&ensp;Hapus Surat
+                                                            </a>
+                                                        </li>
+                                                    @endif
                                                 </ul>
                                             </div>
                                         @endif
@@ -277,6 +295,7 @@
                         <form method="post" action="{{route('create.surat-keluar')}}" id="form-sk">
                             {{csrf_field()}}
                             <input type="hidden" name="_method">
+                            <input type="hidden" name="check_form" value="ajukan">
                             @if(Auth::user()->isPengolah())
                                 <div class="col-lg-12 alert alert-danger"
                                      style="display: none;background-color: #f2dede;border-color: #ebccd1;color: #a94442;">
@@ -302,7 +321,7 @@
                                 </div>
                             @endif
                             <div class="row form-group">
-                                <div class="col-lg-{{Auth::user()->isPegawai() ? '12' : '7'}}">
+                                <div class="col-lg-{{Auth::user()->isPegawai() || Auth::user()->isKadin() ? '12' : '7'}}">
                                     <label for="jenis_id">Jenis Surat <span class="required">*</span></label>
                                     <div class="input-group">
                                         <span class="input-group-addon"><i class="fa fa-thumbtack"></i></span>
@@ -337,7 +356,7 @@
                             </div>
 
                             <div class="row form-group">
-                                <div class="col-lg-{{Auth::user()->isPegawai() ? '12' : '7'}}">
+                                <div class="col-lg-{{Auth::user()->isPegawai() || Auth::user()->isKadin() ? '12' : '7'}}">
                                     <label for="perihal">Perihal <span class="required">*</span></label>
                                     <div class="input-group">
                                         <span class="input-group-addon"><i class="fa fa-comments"></i></span>
@@ -437,6 +456,7 @@
                     <form method="post" id="form-validasi">
                         {{csrf_field()}}
                         {{method_field('PUT')}}
+                        <input type="hidden" name="check_form" value="validasi">
                         <div class="modal-body">
                             <div class="row form-group">
                                 <div class="col-lg-12">

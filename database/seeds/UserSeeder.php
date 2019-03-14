@@ -42,6 +42,7 @@ class UserSeeder extends Seeder
             'name' => 'Ir. Muntoro Danardono',
             'jabatan' => 'Kepala Dinas Pertanian dan Ketahanan Pangan',
             'pangkat' => 'Pembina Tk. I',
+            'jk' => 'pria',
             'role' => Role::KADIN
         ]);
 
@@ -63,6 +64,7 @@ class UserSeeder extends Seeder
             'name' => 'Arie Kusdewanto',
             'jabatan' => 'Kasubag Perencanaan dan Kepegawaian',
             'pangkat' => 'Pembina / IV a',
+            'jk' => 'pria',
             'role' => Role::PEGAWAI
         ]);
 

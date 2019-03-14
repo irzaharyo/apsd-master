@@ -371,8 +371,8 @@
                                                     </span>
                                                         <span><span>{{$row->no_surat}}</span></span>
                                                         <span class="message">
-                                                        Surat keluar #<strong>{{$row->no_surat}}</strong> untuk
-                                                        {{$row->nama_penerima.' - '.$row->kota_penerima}} belum divalidasi!
+                                                        Surat keluar #<strong>{{$row->no_surat}}</strong> ({{$row
+                                                        ->getJenisSurat->jenis}}) belum divalidasi!
                                                     </span>
                                                     </a>
                                                 </li>
@@ -408,15 +408,16 @@
                                                 @foreach($npl_sK as $row)
                                                     <li>
                                                         <a href="{{route('show.surat-keluar').'?q='.\Carbon\Carbon::parse
-                                                    ($row->created_at)->format('l, j F Y - h:i:s')}}">
-                                                        <span class="image"><img
-                                                                    src="{{asset('images/sk.png')}}"></span>
+                                                        ($row->created_at)->format('l, j F Y - h:i:s')}}">
+                                                            <span class="image">
+                                                                <img src="{{asset('images/sk.png')}}"></span>
                                                             <span><span>{{$row->created_at}}</span></span>
                                                             <span class="message">
-                                                            Surat <strong>keluar</strong> untuk {{$row->nama_penerima.
-                                                            ' - '.$row->kota_penerima}} {{$row->status == 0 ?
-                                                            'belum diolah!' : 'tidak valid! Mohon dicek kembali.'}}
-                                                    </span>
+                                                                Permintaan surat keluar (<strong>{{$row->getJenisSurat
+                                                                ->jenis}}</strong>) dari {{$row->getUser->jk == 'pria' ?
+                                                                'Bapak' : 'Ibu'}} {{$row->getUser->name}} {{$row
+                                                                ->status == 0 ? 'belum diolah!' : 'tidak valid! Mohon dicek kembali.'}}
+                                                            </span>
                                                         </a>
                                                     </li>
                                                 @endforeach
@@ -465,8 +466,8 @@
                                                     </span>
                                                         <span><span>{{$row->no_surat}}</span></span>
                                                         <span class="message">
-                                                        Agenda surat keluar #<strong>{{$row->no_surat}}</strong> untuk
-                                                        {{$row->nama_penerima.' - '.$row->kota_penerima}} belum dibuat!
+                                                        Agenda surat keluar #<strong>{{$row->no_surat}}</strong> ({{$row
+                                                        ->getJenisSurat->jenis}}) belum dibuat!
                                                     </span>
                                                     </a>
                                                 </li>
@@ -489,10 +490,10 @@
                                                                     src="{{asset('images/sk.png')}}"></span>
                                                         <span><span>{{$row->no_surat}}</span></span>
                                                         <span class="message">
-                                                        Mohon segera mengambil surat keluar #<strong>{{$row
-                                                        ->no_surat}}</strong> untuk {{$row->nama_penerima.' - '.$row
-                                                        ->kota_penerima}} di ruangan Tata Usaha dan mengkonfirmasinya!
-                                                    </span>
+                                                            Mohon segera mengambil surat keluar #<strong>{{$row
+                                                            ->no_surat}}</strong> ({{$row->getJenisSurat->jenis}}) di
+                                                                ruangan Tata Usaha dan mengkonfirmasinya!
+                                                        </span>
                                                     </a>
                                                 </li>
                                             @endforeach

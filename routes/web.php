@@ -188,7 +188,7 @@ Route::group(['prefix' => '/'], function () {
         ]);
 
         Route::post('create', [
-            'middleware' => 'pegawai',
+            'middleware' => 'request.surat.keluar',
             'uses' => 'SuratKeluarController@createSuratKeluar',
             'as' => 'create.surat-keluar'
         ]);
@@ -206,7 +206,7 @@ Route::group(['prefix' => '/'], function () {
         ]);
 
         Route::get('delete/{id}', [
-            'middleware' => 'pegawai',
+            'middleware' => 'request.surat.keluar',
             'uses' => 'SuratKeluarController@deleteSuratKeluar',
             'as' => 'delete.surat-keluar'
         ]);
