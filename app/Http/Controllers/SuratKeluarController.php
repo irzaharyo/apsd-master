@@ -31,8 +31,8 @@ class SuratKeluarController extends Controller
             $sk->jenis_id == 11 || $sk->jenis_id == 12 || $sk->jenis_id == 15 || $sk->jenis_id == 21) {
             return view('surat.template-sk.nd-npkn-sb-si-sk-spgl-su', compact('sk', 'kadin'));
 
-        } elseif ($sk->jenis_id == 16) {
-            return view('surat.template-sk.spgt', compact('sk', 'kadin'));
+        } elseif ($sk->jenis_id == 7 || $sk->jenis_id == 16) {
+            return view('surat.template-sk.pe-spgt', compact('sk', 'kadin'));
 
         } elseif ($sk->jenis_id == 4 || $sk->jenis_id == 8 || $sk->jenis_id == 13 ||
             $sk->jenis_id == 14 || $sk->jenis_id == 17 || $sk->jenis_id == 18 ||
@@ -44,9 +44,6 @@ class SuratKeluarController extends Controller
 
         } elseif ($sk->jenis_id == 2 || $sk->jenis_id == 3) {
             return view('surat.template-sk.dh-lap', compact('sk', 'kadin'));
-
-        } elseif ($sk->jenis_id == 7) {
-            return view('surat.template-sk.pe', compact('sk', 'kadin'));
 
         } elseif ($sk->jenis_id == 9) {
             return view('surat.template-sk.ser', compact('sk', 'kadin'));

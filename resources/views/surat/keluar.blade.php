@@ -296,7 +296,96 @@
                         <form method="post" action="{{route('create.surat-keluar')}}" id="form-sk">
                             {{csrf_field()}}
                             <input type="hidden" name="_method">
-                            @if(Auth::user()->isPengolah())
+                            @if(Auth::user()->isPegawai())
+                                <div class="row form-group">
+                                    <div class="col-lg-12">
+                                        <label for="jenis_id">Jenis Surat <span class="required">*</span></label>
+                                        <div class="input-group">
+                                            <span class="input-group-addon"><i class="fa fa-thumbtack"></i></span>
+                                            <select id="jenis_id" class="form-control selectpicker"
+                                                    title="-- Pilih Jenis Surat --" data-live-search="true"
+                                                    name="jenis_id" data-max-options="1" multiple required>
+                                                @foreach($types as $type)
+                                                    <option value="{{$type->id}}">{{$type->jenis}}</option>
+                                                @endforeach
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="row form-group">
+                                    <div class="col-lg-12">
+                                        <label for="perihal">Perihal <span class="required">*</span></label>
+                                        <div class="input-group">
+                                            <span class="input-group-addon"><i class="fa fa-comments"></i></span>
+                                            <input id="perihal" class="form-control" type="text" name="perihal"
+                                                   placeholder="Perihal" required>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="row form-group">
+                                    <div class="col-lg-7">
+                                        <label for="nama_instansi">Nama Instansi Penerima <span
+                                                    class="required">*</span></label>
+                                        <div class="input-group">
+                                            <span class="input-group-addon"><i class="fa fa-university"></i></span>
+                                            <input id="nama_instansi" placeholder="Nama instansi penerima" type="text"
+                                                   class="form-control" name="instansi_penerima" required>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-5">
+                                        <label for="kota">Asal Instansi Penerima <span class="required">*</span></label>
+                                        <div class="input-group">
+                                            <span class="input-group-addon"><i class="fa fa-map-marked-alt"></i></span>
+                                            <input id="kota" placeholder="Asal instansi penerima" type="text"
+                                                   class="form-control" name="kota_penerima" required>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="row form-group">
+                                    <div class="col-lg-7">
+                                        <label for="nama">Nama Penerima <span class="required">*</span></label>
+                                        <div class="input-group">
+                                            <span class="input-group-addon"><i class="fa fa-user-tie"></i></span>
+                                            <input id="nama" placeholder="Nama lengkap penerima" type="text"
+                                                   class="form-control" name="nama_penerima" required>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-5">
+                                        <label for="nip">NIP Penerima <span class="required">*</span></label>
+                                        <div class="input-group">
+                                            <span class="input-group-addon"><i class="fa fa-id-card"></i></span>
+                                            <input id="nip" placeholder="NIP penerima" type="text" class="form-control"
+                                                   name="nip_penerima" onkeypress="return numberOnly(event, false)"
+                                                   required>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="row form-group">
+                                    <div class="col-lg-7">
+                                        <label for="jabatan">Jabatan Penerima <span class="required">*</span></label>
+                                        <div class="input-group">
+                                            <span class="input-group-addon"><i class="fa fa-briefcase"></i></span>
+                                            <input id="jabatan" placeholder="Jabatan penerima" type="text"
+                                                   class="form-control" name="jabatan_penerima" required>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-5">
+                                        <label for="pangkat">Pangkat Penerima <span class="required">*</span></label>
+                                        <div class="input-group">
+                                            <span class="input-group-addon"><i class="fa fa-id-badge"></i></span>
+                                            <input id="pangkat" placeholder="Pangkat penerima" type="text"
+                                                   class="form-control"
+                                                   name="pangkat_penerima" onkeypress="return numberOnly(event, false)"
+                                                   required>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            @elseif(Auth::user()->isPengolah())
                                 <div class="col-lg-12 alert alert-danger"
                                      style="display: none;background-color: #f2dede;border-color: #ebccd1;color: #a94442;">
                                     <strong>INVALID!</strong> &mdash; <span id="stats_invalid"></span>
@@ -319,22 +408,21 @@
                                         </div>
                                     </div>
                                 </div>
-                            @endif
-                            <div class="row form-group">
-                                <div class="col-lg-{{Auth::user()->isPegawai() ? '12' : '7'}}">
-                                    <label for="jenis_id">Jenis Surat <span class="required">*</span></label>
-                                    <div class="input-group">
-                                        <span class="input-group-addon"><i class="fa fa-thumbtack"></i></span>
-                                        <select id="jenis_id" class="form-control selectpicker"
-                                                title="-- Pilih Jenis Surat --" data-live-search="true"
-                                                name="jenis_id" data-max-options="1" multiple required>
-                                            @foreach($types as $type)
-                                                <option value="{{$type->id}}">{{$type->jenis}}</option>
-                                            @endforeach
-                                        </select>
+
+                                <div class="row form-group">
+                                    <div class="col-lg-7">
+                                        <label for="jenis_id">Jenis Surat <span class="required">*</span></label>
+                                        <div class="input-group">
+                                            <span class="input-group-addon"><i class="fa fa-thumbtack"></i></span>
+                                            <select id="jenis_id" class="form-control selectpicker"
+                                                    title="-- Pilih Jenis Surat --" data-live-search="true"
+                                                    name="jenis_id" data-max-options="1" multiple required>
+                                                @foreach($types as $type)
+                                                    <option value="{{$type->id}}">{{$type->jenis}}</option>
+                                                @endforeach
+                                            </select>
+                                        </div>
                                     </div>
-                                </div>
-                                @if(Auth::user()->isPengolah())
                                     <div class="col-lg-5">
                                         <label for="sifat_surat">Sifat Surat <span class="required">*</span></label>
                                         <div class="radio" id="sifat_surat">
@@ -348,23 +436,22 @@
                                                 <input id="segera" type="radio" class="flat" name="sifat_surat"
                                                        value="segera"> Segera</label>
                                             <label style="padding: 0 1em 0 0">
-                                                <input id="sangat_segera" type="radio" class="flat" name="sifat_surat"
+                                                <input id="sangat_segera" type="radio" class="flat"
+                                                       name="sifat_surat"
                                                        value="sangat segera"> Sangat Segera</label>
                                         </div>
                                     </div>
-                                @endif
-                            </div>
-
-                            <div class="row form-group">
-                                <div class="col-lg-{{Auth::user()->isPegawai() ? '12' : '7'}}">
-                                    <label for="perihal">Perihal <span class="required">*</span></label>
-                                    <div class="input-group">
-                                        <span class="input-group-addon"><i class="fa fa-comments"></i></span>
-                                        <input id="perihal" class="form-control" type="text" name="perihal"
-                                               placeholder="Perihal" required>
-                                    </div>
                                 </div>
-                                @if(Auth::user()->isPengolah())
+
+                                <div class="row form-group">
+                                    <div class="col-lg-7">
+                                        <label for="perihal">Perihal <span class="required">*</span></label>
+                                        <div class="input-group">
+                                            <span class="input-group-addon"><i class="fa fa-comments"></i></span>
+                                            <input id="perihal" class="form-control" type="text" name="perihal"
+                                                   placeholder="Perihal" required>
+                                        </div>
+                                    </div>
                                     <div class="col-lg-5">
                                         <label for="lampiran">Lampiran <span class="required">*</span></label>
                                         <div class="input-group">
@@ -374,71 +461,69 @@
                                             <span class="input-group-addon">lembar</span>
                                         </div>
                                     </div>
-                                @endif
-                            </div>
+                                </div>
 
-                            <div class="row form-group">
-                                <div class="col-lg-7">
-                                    <label for="nama_instansi">Nama Instansi Penerima <span
-                                                class="required">*</span></label>
-                                    <div class="input-group">
-                                        <span class="input-group-addon"><i class="fa fa-university"></i></span>
-                                        <input id="nama_instansi" placeholder="Nama instansi penerima" type="text"
-                                               class="form-control" name="instansi_penerima" required>
+                                <div class="row form-group">
+                                    <div class="col-lg-7">
+                                        <label for="nama_instansi">Nama Instansi Penerima <span
+                                                    class="required">*</span></label>
+                                        <div class="input-group">
+                                            <span class="input-group-addon"><i class="fa fa-university"></i></span>
+                                            <input id="nama_instansi" placeholder="Nama instansi penerima" type="text"
+                                                   class="form-control" name="instansi_penerima" required>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-5">
+                                        <label for="kota">Asal Instansi Penerima <span class="required">*</span></label>
+                                        <div class="input-group">
+                                            <span class="input-group-addon"><i class="fa fa-map-marked-alt"></i></span>
+                                            <input id="kota" placeholder="Asal instansi penerima" type="text"
+                                                   class="form-control" name="kota_penerima" required>
+                                        </div>
                                     </div>
                                 </div>
-                                <div class="col-lg-5">
-                                    <label for="kota">Asal Instansi Penerima <span class="required">*</span></label>
-                                    <div class="input-group">
-                                        <span class="input-group-addon"><i class="fa fa-map-marked-alt"></i></span>
-                                        <input id="kota" placeholder="Asal instansi penerima" type="text"
-                                               class="form-control" name="kota_penerima" required>
-                                    </div>
-                                </div>
-                            </div>
 
-                            <div class="row form-group">
-                                <div class="col-lg-7">
-                                    <label for="nama">Nama Penerima <span class="required">*</span></label>
-                                    <div class="input-group">
-                                        <span class="input-group-addon"><i class="fa fa-user-tie"></i></span>
-                                        <input id="nama" placeholder="Nama lengkap penerima" type="text"
-                                               class="form-control" name="nama_penerima" required>
+                                <div class="row form-group">
+                                    <div class="col-lg-7">
+                                        <label for="nama">Nama Penerima <span class="required">*</span></label>
+                                        <div class="input-group">
+                                            <span class="input-group-addon"><i class="fa fa-user-tie"></i></span>
+                                            <input id="nama" placeholder="Nama lengkap penerima" type="text"
+                                                   class="form-control" name="nama_penerima" required>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-5">
+                                        <label for="nip">NIP Penerima <span class="required">*</span></label>
+                                        <div class="input-group">
+                                            <span class="input-group-addon"><i class="fa fa-id-card"></i></span>
+                                            <input id="nip" placeholder="NIP penerima" type="text" class="form-control"
+                                                   name="nip_penerima" onkeypress="return numberOnly(event, false)"
+                                                   required>
+                                        </div>
                                     </div>
                                 </div>
-                                <div class="col-lg-5">
-                                    <label for="nip">NIP Penerima <span class="required">*</span></label>
-                                    <div class="input-group">
-                                        <span class="input-group-addon"><i class="fa fa-id-card"></i></span>
-                                        <input id="nip" placeholder="NIP penerima" type="text" class="form-control"
-                                               name="nip_penerima" onkeypress="return numberOnly(event, false)"
-                                               required>
-                                    </div>
-                                </div>
-                            </div>
 
-                            <div class="row form-group">
-                                <div class="col-lg-7">
-                                    <label for="jabatan">Jabatan Penerima <span class="required">*</span></label>
-                                    <div class="input-group">
-                                        <span class="input-group-addon"><i class="fa fa-briefcase"></i></span>
-                                        <input id="jabatan" placeholder="Jabatan penerima" type="text"
-                                               class="form-control" name="jabatan_penerima" required>
+                                <div class="row form-group">
+                                    <div class="col-lg-7">
+                                        <label for="jabatan">Jabatan Penerima <span class="required">*</span></label>
+                                        <div class="input-group">
+                                            <span class="input-group-addon"><i class="fa fa-briefcase"></i></span>
+                                            <input id="jabatan" placeholder="Jabatan penerima" type="text"
+                                                   class="form-control" name="jabatan_penerima" required>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-5">
+                                        <label for="pangkat">Pangkat Penerima <span class="required">*</span></label>
+                                        <div class="input-group">
+                                            <span class="input-group-addon"><i class="fa fa-id-badge"></i></span>
+                                            <input id="pangkat" placeholder="Pangkat penerima" type="text"
+                                                   class="form-control"
+                                                   name="pangkat_penerima" onkeypress="return numberOnly(event, false)"
+                                                   required>
+                                        </div>
                                     </div>
                                 </div>
-                                <div class="col-lg-5">
-                                    <label for="pangkat">Pangkat Penerima <span class="required">*</span></label>
-                                    <div class="input-group">
-                                        <span class="input-group-addon"><i class="fa fa-id-badge"></i></span>
-                                        <input id="pangkat" placeholder="Pangkat penerima" type="text"
-                                               class="form-control"
-                                               name="pangkat_penerima" onkeypress="return numberOnly(event, false)"
-                                               required>
-                                    </div>
-                                </div>
-                            </div>
 
-                            @if(Auth::user()->isPengolah())
                                 <div class="row form-group">
                                     <div class="col-lg-12">
                                         <label for="isi">Isi Surat<span class="required">*</span></label>
@@ -466,22 +551,6 @@
                             </div>
                         </form>
                     </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    <div class="modal fade and carousel slide" id="lampiranModal">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-body">
-                    <ol class="carousel-indicators carousel-indicators-numbers"></ol>
-                    <div class="carousel-inner"></div>
-                    <a class="left carousel-control" href="#lampiranModal" role="button" data-slide="prev">
-                        <span class="glyphicon glyphicon-chevron-left"></span>
-                    </a>
-                    <a class="right carousel-control" href="#lampiranModal" role="button" data-slide="next">
-                        <span class="glyphicon glyphicon-chevron-right"></span>
-                    </a>
                 </div>
             </div>
         </div>
@@ -527,6 +596,22 @@
             </div>
         </div>
     @endif
+    <div class="modal fade and carousel slide" id="lampiranModal">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-body">
+                    <ol class="carousel-indicators carousel-indicators-numbers"></ol>
+                    <div class="carousel-inner"></div>
+                    <a class="left carousel-control" href="#lampiranModal" role="button" data-slide="prev">
+                        <span class="glyphicon glyphicon-chevron-left"></span>
+                    </a>
+                    <a class="right carousel-control" href="#lampiranModal" role="button" data-slide="next">
+                        <span class="glyphicon glyphicon-chevron-right"></span>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
 @endsection
 @push("scripts")
     <script>

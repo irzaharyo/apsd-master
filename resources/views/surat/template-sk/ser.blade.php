@@ -24,7 +24,7 @@
 
         .wrapper {
             height: 915px;
-            padding: 2em;
+            padding: 0 1.5em;
             display: table-cell;
             vertical-align: middle;
             border: 25px solid #307a4b;
