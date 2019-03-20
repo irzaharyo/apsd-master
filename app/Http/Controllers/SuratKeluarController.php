@@ -58,6 +58,7 @@ class SuratKeluarController extends Controller
         $sk = SuratKeluar::create([
             'user_id' => Auth::id(),
             'jenis_id' => $request->jenis_id,
+            'no_surat_penerima' => $request->no_surat_penerima,
             'instansi_penerima' => $request->instansi_penerima,
             'kota_penerima' => $request->kota_penerima,
             'nama_penerima' => $request->nama_penerima,
@@ -83,6 +84,7 @@ class SuratKeluarController extends Controller
             $sk->update([
                 'user_id' => Auth::id(),
                 'jenis_id' => $request->jenis_id,
+                'no_surat_penerima' => $request->no_surat_penerima,
                 'instansi_penerima' => $request->instansi_penerima,
                 'kota_penerima' => $request->kota_penerima,
                 'nama_penerima' => $request->nama_penerima,

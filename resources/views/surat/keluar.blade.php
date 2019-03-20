@@ -115,7 +115,7 @@
                                                 <td><i class="fa fa-user-tie"></i>&nbsp;</td>
                                                 <td>Penerima</td>
                                                 <td>&nbsp;:&nbsp;</td>
-                                                <td>{{$keluar->nama_penerima.' - '.$keluar->kota_penerima}}</td>
+                                                <td>{{$keluar->nama_penerima != "" ? $keluar->nama_penerima.' - '.$keluar->kota_penerima : '(kosong)'}}</td>
                                             </tr>
                                             <tr>
                                                 <td><i class="fa fa-comments"></i>&nbsp;</td>
@@ -315,16 +315,30 @@
 
                                 <div class="row form-group">
                                     <div class="col-lg-12">
-                                        <label for="perihal">Perihal <span class="required">*</span></label>
+                                        <label for="perihal">Perihal/Keterangan Surat <span
+                                                    class="required">*</span></label>
                                         <div class="input-group">
                                             <span class="input-group-addon"><i class="fa fa-comments"></i></span>
-                                            <input id="perihal" class="form-control" type="text" name="perihal"
-                                                   placeholder="Perihal" required>
+                                            <textarea id="perihal" class="form-control" type="text" name="perihal"
+                                                      placeholder="Perihal" required></textarea>
                                         </div>
                                     </div>
                                 </div>
 
                                 <div class="row form-group">
+                                    <div class="col-lg-12 no_surat_penerima" style="display: none">
+                                        <label for="no_surat_penerima">Nomor Surat Penerima (PIHAK KEDUA)
+                                            <span class="required">*</span></label>
+                                        <div class="input-group">
+                                            <span class="input-group-addon"><i class="fa fa-hashtag"></i></span>
+                                            <input id="no_surat_penerima" class="form-control"
+                                                   name="no_surat_penerima" type="text"
+                                                   placeholder="Nomor surat penerima / pihak kedua" required>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="row form-group penerima">
                                     <div class="col-lg-7">
                                         <label for="nama_instansi">Nama Instansi Penerima <span
                                                     class="required">*</span></label>
@@ -344,7 +358,7 @@
                                     </div>
                                 </div>
 
-                                <div class="row form-group">
+                                <div class="row form-group penerima">
                                     <div class="col-lg-7">
                                         <label for="nama">Nama Penerima <span class="required">*</span></label>
                                         <div class="input-group">
@@ -364,7 +378,7 @@
                                     </div>
                                 </div>
 
-                                <div class="row form-group">
+                                <div class="row form-group penerima">
                                     <div class="col-lg-7">
                                         <label for="jabatan">Jabatan Penerima <span class="required">*</span></label>
                                         <div class="input-group">
@@ -391,7 +405,7 @@
                                     <strong>INVALID!</strong> &mdash; <span id="stats_invalid"></span>
                                 </div>
                                 <div class="row form-group">
-                                    <div class="col-lg-7">
+                                    <div class="col-lg-7 no_surat">
                                         <label for="no_surat">Nomor Surat <span class="required">*</span></label>
                                         <div class="input-group">
                                             <span class="input-group-addon"><i class="fa fa-hashtag"></i></span>
@@ -399,7 +413,7 @@
                                                    placeholder="kode_perihal/nomor_urut/kode_instansi/tahun" required>
                                         </div>
                                     </div>
-                                    <div class="col-lg-5">
+                                    <div class="col-lg-5 tgl_surat">
                                         <label for="tgl_surat">Tanggal Surat <span class="required">*</span></label>
                                         <div class="input-group">
                                             <span class="input-group-addon"><i class="fa fa-calendar-alt"></i></span>
@@ -410,7 +424,7 @@
                                 </div>
 
                                 <div class="row form-group">
-                                    <div class="col-lg-7">
+                                    <div class="col-lg-7 jenis_id">
                                         <label for="jenis_id">Jenis Surat <span class="required">*</span></label>
                                         <div class="input-group">
                                             <span class="input-group-addon"><i class="fa fa-thumbtack"></i></span>
@@ -423,7 +437,7 @@
                                             </select>
                                         </div>
                                     </div>
-                                    <div class="col-lg-5">
+                                    <div class="col-lg-5 sifat_surat">
                                         <label for="sifat_surat">Sifat Surat <span class="required">*</span></label>
                                         <div class="radio" id="sifat_surat">
                                             <label style="padding: 0 1em 0 0">
@@ -444,15 +458,16 @@
                                 </div>
 
                                 <div class="row form-group">
-                                    <div class="col-lg-7">
-                                        <label for="perihal">Perihal <span class="required">*</span></label>
+                                    <div class="col-lg-7 perihal">
+                                        <label for="perihal">Perihal/Keterangan Surat <span
+                                                    class="required">*</span></label>
                                         <div class="input-group">
                                             <span class="input-group-addon"><i class="fa fa-comments"></i></span>
-                                            <input id="perihal" class="form-control" type="text" name="perihal"
-                                                   placeholder="Perihal" required>
+                                            <textarea id="perihal" class="form-control" type="text" name="perihal"
+                                                      placeholder="Perihal" required></textarea>
                                         </div>
                                     </div>
-                                    <div class="col-lg-5">
+                                    <div class="col-lg-5 lampiran">
                                         <label for="lampiran">Lampiran <span class="required">*</span></label>
                                         <div class="input-group">
                                             <span class="input-group-addon"><i class="fa fa-file-image"></i></span>
@@ -463,8 +478,8 @@
                                     </div>
                                 </div>
 
-                                <div class="row form-group">
-                                    <div class="col-lg-7">
+                                <div class="row form-group penerima">
+                                    <div class="col-lg-7 nama_instansi">
                                         <label for="nama_instansi">Nama Instansi Penerima <span
                                                     class="required">*</span></label>
                                         <div class="input-group">
@@ -473,7 +488,7 @@
                                                    class="form-control" name="instansi_penerima" required>
                                         </div>
                                     </div>
-                                    <div class="col-lg-5">
+                                    <div class="col-lg-5 kota">
                                         <label for="kota">Asal Instansi Penerima <span class="required">*</span></label>
                                         <div class="input-group">
                                             <span class="input-group-addon"><i class="fa fa-map-marked-alt"></i></span>
@@ -483,8 +498,21 @@
                                     </div>
                                 </div>
 
-                                <div class="row form-group">
-                                    <div class="col-lg-7">
+                                <div class="row form-group no_surat_penerima" style="display: none">
+                                    <div class="col-lg-12">
+                                        <label for="no_surat_penerima">Nomor Surat Penerima (PIHAK KEDUA)
+                                            <span class="required">*</span></label>
+                                        <div class="input-group">
+                                            <span class="input-group-addon"><i class="fa fa-hashtag"></i></span>
+                                            <input id="no_surat_penerima" class="form-control"
+                                                   name="no_surat_penerima" type="text"
+                                                   placeholder="Nomor surat penerima / pihak kedua" required>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="row form-group penerima">
+                                    <div class="col-lg-7 nama">
                                         <label for="nama">Nama Penerima <span class="required">*</span></label>
                                         <div class="input-group">
                                             <span class="input-group-addon"><i class="fa fa-user-tie"></i></span>
@@ -492,7 +520,7 @@
                                                    class="form-control" name="nama_penerima" required>
                                         </div>
                                     </div>
-                                    <div class="col-lg-5">
+                                    <div class="col-lg-5 nip">
                                         <label for="nip">NIP Penerima <span class="required">*</span></label>
                                         <div class="input-group">
                                             <span class="input-group-addon"><i class="fa fa-id-card"></i></span>
@@ -503,8 +531,8 @@
                                     </div>
                                 </div>
 
-                                <div class="row form-group">
-                                    <div class="col-lg-7">
+                                <div class="row form-group penerima">
+                                    <div class="col-lg-7 jabatan">
                                         <label for="jabatan">Jabatan Penerima <span class="required">*</span></label>
                                         <div class="input-group">
                                             <span class="input-group-addon"><i class="fa fa-briefcase"></i></span>
@@ -512,7 +540,7 @@
                                                    class="form-control" name="jabatan_penerima" required>
                                         </div>
                                     </div>
-                                    <div class="col-lg-5">
+                                    <div class="col-lg-5 pangkat">
                                         <label for="pangkat">Pangkat Penerima <span class="required">*</span></label>
                                         <div class="input-group">
                                             <span class="input-group-addon"><i class="fa fa-id-badge"></i></span>
@@ -524,14 +552,14 @@
                                     </div>
                                 </div>
 
-                                <div class="row form-group">
+                                <div class="row form-group isi">
                                     <div class="col-lg-12">
                                         <label for="isi">Isi Surat<span class="required">*</span></label>
                                         <textarea id="isi" class="use-tinymce" name="isi"></textarea>
                                     </div>
                                 </div>
 
-                                <div class="row form-group">
+                                <div class="row form-group tembusan">
                                     <div class="col-lg-12">
                                         <label for="tembusan">Tembusan</label>
                                         <textarea id="tembusan" class="use-tinymce" name="tembusan"></textarea>
@@ -640,7 +668,34 @@
             });
 
             $("#perihal, #nama_instansi, #kota, #nama, #jabatan, #pangkat, #nip").val('');
+            $(".penerima").show(300);
+            $(".penerima input").attr('required', 'required');
+            $(".no_surat_penerima").hide(300);
+            $("#no_surat_penerima").removeAttr('required');
             $("#jenis_id").val('default').selectpicker('refresh');
+        });
+
+        $("#jenis_id").on("change", function () {
+            var val = $(this).val();
+            if (val == 4 || val == 8 || val == 13 || val == 14 || val == 17 || val == 18 || val == 19 || val == 22 ||
+                val == 2 || val == 3 || val == 9) {
+                $(".penerima").hide(300);
+                $(".penerima input").removeAttr('required', 'required');
+                $(".no_surat_penerima").hide(300);
+                $("#no_surat_penerima").removeAttr('required');
+
+            } else if (val == 20) {
+                $(".penerima").show(300);
+                $(".penerima input").attr('required', 'required');
+                $(".no_surat_penerima").show(300);
+                $("#no_surat_penerima").attr('required', 'required');
+
+            } else {
+                $(".penerima").show(300);
+                $(".penerima input").attr('required', 'required');
+                $(".no_surat_penerima").hide(300);
+                $("#no_surat_penerima").removeAttr('required');
+            }
         });
 
         $no_surat.inputmask({
@@ -714,8 +769,61 @@
             $("#panel_subtitle").html(function (i, v) {
                 return v === "Edit Form" ? "List" : "Edit Form";
             });
+            $(".tgl_surat").removeClass('col-lg-12').addClass('col-lg-5');
+            $(".jenis_id, .perihal").removeClass('col-lg-12').addClass('col-lg-7');
 
             $.get('{{route('edit.surat-keluar', ['id' => ''])}}/' + id, function (data) {
+                if (data.jenis_id == 4 || data.jenis_id == 8 || data.jenis_id == 13 || data.jenis_id == 14 ||
+                    data.jenis_id == 17 || data.jenis_id == 18 || data.jenis_id == 19 || data.jenis_id == 22 ||
+                    data.jenis_id == 2 || data.jenis_id == 3 || data.jenis_id == 9) {
+                    $(".penerima").hide(300);
+                    $(".penerima input").removeAttr('required', 'required');
+                    $(".no_surat_penerima").hide(300);
+                    $("#no_surat_penerima").val('').removeAttr('required');
+
+                } else if (data.jenis_id == 20) {
+                    $(".penerima").show(300);
+                    $(".penerima input").attr('required', 'required');
+                    $(".no_surat_penerima").show(300);
+                    $("#no_surat_penerima").val(data.no_surat_penerima).attr('required', 'required');
+
+                } else {
+                    $(".penerima").show(300);
+                    $(".penerima input").attr('required', 'required');
+                    $(".no_surat_penerima").hide(300);
+                    $("#no_surat_penerima").val('').removeAttr('required');
+                }
+
+                if (data.jenis_id == 5 || data.jenis_id == 6 || data.jenis_id == 10 || data.jenis_id == 11 ||
+                    data.jenis_id == 12 || data.jenis_id == 15 || data.jenis_id == 21) {
+                    $(".no_surat, .tgl_surat, .jenis_id, .sifat_surat, .perihal, .lampiran, .isi, .tembusan").show(300);
+                    $("#no_surat, #tgl_surat, #jenis_id, #penting, #perihal, #lampiran").attr('required', 'required');
+
+                } else if (data.jenis_id == 7 || data.jenis_id == 16) {
+                    $(".no_surat, .tgl_surat, .jenis_id, .perihal, .isi, .tembusan").show(300);
+                    $(".sifat_surat, .lampiran").hide(300);
+                    $("#no_surat, #tgl_surat, #jenis_id, #perihal").attr('required', 'required');
+                    $("#penting, #lampiran").removeAttr('required');
+                    $(".jenis_id, .perihal").removeClass('col-lg-7').addClass('col-lg-12');
+
+                } else if (data.jenis_id == 4 || data.jenis_id == 8 || data.jenis_id == 13 || data.jenis_id == 14 ||
+                    data.jenis_id == 17 || data.jenis_id == 18 || data.jenis_id == 19 || data.jenis_id == 22 ||
+                    data.jenis_id == 1 || data.jenis_id == 9 || data.jenis_id == 20) {
+                    $(".no_surat, .tgl_surat, .jenis_id, .perihal, .isi").show(300);
+                    $(".sifat_surat, .lampiran, .tembusan").hide(300);
+                    $("#no_surat, #tgl_surat, #jenis_id, #perihal").attr('required', 'required');
+                    $("#penting, #lampiran").removeAttr('required');
+                    $(".jenis_id, .perihal").removeClass('col-lg-7').addClass('col-lg-12');
+
+                } else if (data.jenis_id == 2 || data.jenis_id == 3) {
+                    $(".tgl_surat, .jenis_id, .perihal, .isi").show(300);
+                    $(".no_surat, .sifat_surat, .lampiran, .tembusan").hide(300);
+                    $("#tgl_surat, #jenis_id, #perihal").attr('required', 'required');
+                    $("#no_surat, #penting, #lampiran").removeAttr('required');
+                    $(".tgl_surat").removeClass('col-lg-5').addClass('col-lg-12');
+                    $(".jenis_id, .perihal").removeClass('col-lg-7').addClass('col-lg-12');
+                }
+
                 $("#perihal").val(data.perihal);
                 $("#nama_instansi").val(data.instansi_penerima);
                 $("#kota").val(data.kota_penerima);
@@ -726,56 +834,23 @@
                 $("#jenis_id").val(data.jenis_id).selectpicker('refresh');
 
                 @if(Auth::user()->isPengolah())
-                if (data.status == 3) {
-                    $("#stats_invalid").text(data.catatan).parent().show(300);
-                }
                 $("#no_surat").val(data.no_surat);
                 $("#tgl_surat").val(data.tgl_surat);
                 $("#lampiran").val(data.lampiran);
-                $("#" + data.sifat_surat.replace(/\s/g, "_")).iCheck('check');
-                tinyMCE.get('isi').setContent(data.isi);
+                if (data.sifat_surat != null) {
+                    $("#" + data.sifat_surat.replace(/\s/g, "_")).iCheck('check');
+                }
+                if (data.isi != "") {
+                    tinyMCE.get('isi').setContent(data.isi);
+                }
                 if (data.tembusan != "") {
                     tinyMCE.get('tembusan').setContent(data.tembusan);
                 }
+                if (data.status == 3) {
+                    $("#stats_invalid").text(data.catatan).parent().show(300);
+                }
                 @endif
             });
-        }
-
-        function lihatSurat(id, surat, total, index) {
-            $indicators = '';
-            $item = '';
-
-            if (total > 0) {
-                $.ajax({
-                    url: "/surat-" + surat + "/" + id + "/files",
-                    type: "GET",
-                    success: function (data) {
-                        $.each(data, function (i, val) {
-                            var c = i + 1;
-                            $indicators += '<li data-target="#lampiranModal" data-slide-to="' + i + '">' + c + '</li>';
-
-                            $item += '<div class="item">' +
-                                '<img src="{{asset('storage/surat-')}}' + surat + '/' + index + '/' + val + '" ' +
-                                'alt="file surat"></div>';
-                        });
-                        $("#lampiranModal .carousel-indicators").html($indicators);
-                        $("#lampiranModal .carousel-inner").html($item);
-                        $('.carousel-indicators').find('li').first().addClass('active');
-                        $('.carousel-inner').find('.item').first().addClass('active');
-                        $("#lampiranModal").modal('show');
-                    },
-                    error: function () {
-                        swal({
-                            title: 'Oops..',
-                            text: 'Terjadi kesalahan! Mohon refresh halaman ini.',
-                            type: 'error',
-                            timer: '1500'
-                        })
-                    }
-                });
-            } else {
-                swal('PERHATIAN!', 'File surat tidak ditemukan.', 'warning')
-            }
         }
 
         function validasiSuratKeluar(id) {
@@ -834,6 +909,43 @@
                 },
                 allowOutsideClick: false
             });
+        }
+
+        function lihatSurat(id, surat, total, index) {
+            $indicators = '';
+            $item = '';
+
+            if (total > 0) {
+                $.ajax({
+                    url: "/surat-" + surat + "/" + id + "/files",
+                    type: "GET",
+                    success: function (data) {
+                        $.each(data, function (i, val) {
+                            var c = i + 1;
+                            $indicators += '<li data-target="#lampiranModal" data-slide-to="' + i + '">' + c + '</li>';
+
+                            $item += '<div class="item">' +
+                                '<img src="{{asset('storage/surat-')}}' + surat + '/' + index + '/' + val + '" ' +
+                                'alt="file surat"></div>';
+                        });
+                        $("#lampiranModal .carousel-indicators").html($indicators);
+                        $("#lampiranModal .carousel-inner").html($item);
+                        $('.carousel-indicators').find('li').first().addClass('active');
+                        $('.carousel-inner').find('.item').first().addClass('active');
+                        $("#lampiranModal").modal('show');
+                    },
+                    error: function () {
+                        swal({
+                            title: 'Oops..',
+                            text: 'Terjadi kesalahan! Mohon refresh halaman ini.',
+                            type: 'error',
+                            timer: '1500'
+                        })
+                    }
+                });
+            } else {
+                swal('PERHATIAN!', 'File surat tidak ditemukan.', 'warning')
+            }
         }
     </script>
 @endpush

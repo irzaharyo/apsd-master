@@ -23,7 +23,7 @@
         }
 
         .wrapper {
-            height: 915px;
+            height: 980px;
             padding: 0 1.5em;
             display: table-cell;
             vertical-align: middle;

@@ -62,6 +62,7 @@ class SuratMasukSeeder extends Seeder
                 'jenis_id' => $sm->jenis_id,
                 'suratdisposisi_id' => $sd->id,
                 'tgl_surat' => $sm->tgl_surat,
+                'no_surat_penerima' => $sm->no_surat,
                 'instansi_penerima' => $sm->nama_instansi,
                 'kota_penerima' => $sm->asal_instansi,
                 'nama_penerima' => $sm->nama_pengirim,

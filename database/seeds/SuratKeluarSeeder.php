@@ -24,6 +24,9 @@ class SuratKeluarSeeder extends Seeder
                 'user_id' => User::where('role', Role::PEGAWAI)->inRandomOrder()->first()->id,
                 'jenis_id' => rand(JenisSurat::min('id'), JenisSurat::max('id')),
                 'tgl_surat' => $faker->date('Y-m-d'),
+                'no_surat_penerima' => PerihalSurat::inRandomOrder()->first()->kode . '/' .
+                    str_pad($c, 3, '0', STR_PAD_LEFT) . '/' .
+                    $faker->randomNumber(3) . '.' . $faker->randomNumber(3) . '/' . rand(2018, 2019),
                 'instansi_penerima' => $faker->company,
                 'kota_penerima' => $faker->city,
                 'nama_penerima' => $faker->name,

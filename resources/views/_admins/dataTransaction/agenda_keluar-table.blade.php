@@ -109,7 +109,7 @@
                                                 <td><i class="fa fa-user-tie"></i>&nbsp;</td>
                                                 <td>Penerima</td>
                                                 <td>&nbsp;:&nbsp;</td>
-                                                <td>{{$keluar->nama_penerima.' - '.$keluar->kota_penerima}}</td>
+                                                <td>{{$keluar->nama_penerima != "" ? $keluar->nama_penerima.' - '.$keluar->kota_penerima : '(kosong)'}}</td>
                                             </tr>
                                         </table>
                                     </td>

@@ -83,7 +83,7 @@
             <span style="font-weight: normal;line-height: 2.5">tentang</span><br>{{$sk->perihal}}
         </p>
         <p align="center" style="text-transform: uppercase;">
-            NOMOR PIHAK PERTAMA: {{$sk->no_surat}}<br>NOMOR PIHAK KEDUA: {{$sk->no_surat}}
+            NOMOR PIHAK PERTAMA: {{$sk->no_surat}}<br>NOMOR PIHAK KEDUA: {{$sk->no_surat_penerima}}
         </p>
     </div>
 </header>
@@ -96,6 +96,9 @@
             <tr>
                 <td width="50%">
                     <table>
+                        <tr>
+                            <td>&nbsp;</td>
+                        </tr>
                         <tr>
                             <td>&nbsp;</td>
                         </tr>
@@ -126,6 +129,9 @@
                 </td>
                 <td width="50%">
                     <table>
+                        <tr>
+                            <td>Madiun, {{strftime('%d %B %Y', strtotime($sk->tgl_surat))}}</td>
+                        </tr>
                         <tr>
                             <td>&nbsp;</td>
                         </tr>
