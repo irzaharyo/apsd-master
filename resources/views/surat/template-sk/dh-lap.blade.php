@@ -15,7 +15,7 @@
         }
 
         @page {
-            size: 8.5in 14in;
+            size: 8.5in 14in landscape;
         }
 
         body {
@@ -66,17 +66,8 @@
 </head>
 <body onload="window.print()">
 <header>
-    <div class="kop">
-        <img src="{{asset('images/kop.png')}}" alt="kop" class="img-responsive kop_icon">
-        <h3 style="text-transform: uppercase;margin: 0 auto">PEMERINTAH KOTA MADIUN</h3>
-        <h2 style="text-transform: uppercase;margin: 0 auto">DINAS PERTANIAN DAN KETAHANAN PANGAN</h2>
-        <p style="margin: 0 auto 0 auto">Jalan Tirta Raya Nomor 15 Madiun Kode Pos 63129<br>Telepon (0351) 455855 Fax
-            (0351) 455855<br><u>Email : dipertakotamadiun@gmail.com</u></p>
-    </div>
-    <hr class="thin">
-    <hr class="thick">
     <div class="detail">
-        @yield('rincian')
+        <h4 style="text-transform: uppercase;text-align: center;font-weight: 600">{{$sk->perihal}}</h4>
     </div>
 </header>
 
@@ -84,7 +75,36 @@
 
 <footer>
     <div class="ttd">
-        @yield('ttd')
+        <table>
+            <tr>
+                <td width="60%">&nbsp;</td>
+                <td width="40%">Madiun, {{strftime('%d %B %Y', strtotime($sk->tgl_surat))}}</td>
+            </tr>
+            <tr>
+                <td width="60%">&nbsp;</td>
+                <td width="40%" style="text-transform: uppercase ; font-weight: 600">{{$kadin->jabatan}}<br>kota madiun
+                </td>
+            </tr>
+            <tr>
+                <td width="60%">&nbsp;</td>
+                <td width="40%">&nbsp;</td>
+            </tr>
+            <tr>
+                <td width="60%">&nbsp;</td>
+                <td width="40%">&nbsp;</td>
+            </tr>
+            <tr>
+                <td width="60%">&nbsp;</td>
+                <td width="40%">&nbsp;</td>
+            </tr>
+            <tr>
+                <td width="60%">&nbsp;</td>
+                <td width="40%">
+                    <u style="font-weight: 600">{{$kadin->name}}</u><br>
+                    {{$kadin->pangkat}}<br>NIP. {{$kadin->nip}}
+                </td>
+            </tr>
+        </table>
     </div>
     @if($sk->tembusan != "")
         <div class="tembusan">

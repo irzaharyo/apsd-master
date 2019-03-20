@@ -47,7 +47,7 @@
                             <small id="panel_subtitle">List</small>
                         </h2>
                         <ul class="nav navbar-right panel_toolbox">
-                            @if(Auth::user()->isPegawai() || Auth::user()->isKadin())
+                            @if(Auth::user()->isPegawai())
                                 <li><a id="btn_create" data-toggle="tooltip" title="Ajukan Surat"
                                        data-placement="right"><i class="fa fa-plus"></i></a></li>
                             @endif
@@ -173,8 +173,7 @@
                                                             {{$keluar->status == 0 || $keluar->status == 1 ||
                                                             $keluar->status == 2 || $keluar->status == 3 ||
                                                             $keluar->status == 5 ? 'disabled' : ''}}>
-                                                        <i class="fa fa-check-circle"></i>&ensp;{{$keluar->status == 5 ?
-                                                        'TERKONFIRMASI' : 'KONFIRMASI'}}
+                                                        {{$keluar->status == 5 ? 'TERKONFIRMASI' : 'KONFIRMASI'}}
                                                     </button>
                                                 @endif
                                                 <button type="button" class="btn btn-{{$keluar->status == 0 &&
@@ -297,7 +296,6 @@
                         <form method="post" action="{{route('create.surat-keluar')}}" id="form-sk">
                             {{csrf_field()}}
                             <input type="hidden" name="_method">
-                            <input type="hidden" name="check_form" value="ajukan">
                             @if(Auth::user()->isPengolah())
                                 <div class="col-lg-12 alert alert-danger"
                                      style="display: none;background-color: #f2dede;border-color: #ebccd1;color: #a94442;">
@@ -323,7 +321,7 @@
                                 </div>
                             @endif
                             <div class="row form-group">
-                                <div class="col-lg-{{Auth::user()->isPegawai() || Auth::user()->isKadin() ? '12' : '7'}}">
+                                <div class="col-lg-{{Auth::user()->isPegawai() ? '12' : '7'}}">
                                     <label for="jenis_id">Jenis Surat <span class="required">*</span></label>
                                     <div class="input-group">
                                         <span class="input-group-addon"><i class="fa fa-thumbtack"></i></span>
@@ -358,7 +356,7 @@
                             </div>
 
                             <div class="row form-group">
-                                <div class="col-lg-{{Auth::user()->isPegawai() || Auth::user()->isKadin() ? '12' : '7'}}">
+                                <div class="col-lg-{{Auth::user()->isPegawai() ? '12' : '7'}}">
                                     <label for="perihal">Perihal <span class="required">*</span></label>
                                     <div class="input-group">
                                         <span class="input-group-addon"><i class="fa fa-comments"></i></span>
@@ -381,6 +379,26 @@
 
                             <div class="row form-group">
                                 <div class="col-lg-7">
+                                    <label for="nama_instansi">Nama Instansi Penerima <span
+                                                class="required">*</span></label>
+                                    <div class="input-group">
+                                        <span class="input-group-addon"><i class="fa fa-university"></i></span>
+                                        <input id="nama_instansi" placeholder="Nama instansi penerima" type="text"
+                                               class="form-control" name="instansi_penerima" required>
+                                    </div>
+                                </div>
+                                <div class="col-lg-5">
+                                    <label for="kota">Asal Instansi Penerima <span class="required">*</span></label>
+                                    <div class="input-group">
+                                        <span class="input-group-addon"><i class="fa fa-map-marked-alt"></i></span>
+                                        <input id="kota" placeholder="Asal instansi penerima" type="text"
+                                               class="form-control" name="kota_penerima" required>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row form-group">
+                                <div class="col-lg-7">
                                     <label for="nama">Nama Penerima <span class="required">*</span></label>
                                     <div class="input-group">
                                         <span class="input-group-addon"><i class="fa fa-user-tie"></i></span>
@@ -389,11 +407,33 @@
                                     </div>
                                 </div>
                                 <div class="col-lg-5">
-                                    <label for="kota">Kota Penerima <span class="required">*</span></label>
+                                    <label for="nip">NIP Penerima <span class="required">*</span></label>
                                     <div class="input-group">
-                                        <span class="input-group-addon"><i class="fa fa-map-marked-alt"></i></span>
-                                        <input id="kota" placeholder="Kota penerima" type="text"
-                                               class="form-control" name="kota_penerima" required>
+                                        <span class="input-group-addon"><i class="fa fa-id-card"></i></span>
+                                        <input id="nip" placeholder="NIP penerima" type="text" class="form-control"
+                                               name="nip_penerima" onkeypress="return numberOnly(event, false)"
+                                               required>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row form-group">
+                                <div class="col-lg-7">
+                                    <label for="jabatan">Jabatan Penerima <span class="required">*</span></label>
+                                    <div class="input-group">
+                                        <span class="input-group-addon"><i class="fa fa-briefcase"></i></span>
+                                        <input id="jabatan" placeholder="Jabatan penerima" type="text"
+                                               class="form-control" name="jabatan_penerima" required>
+                                    </div>
+                                </div>
+                                <div class="col-lg-5">
+                                    <label for="pangkat">Pangkat Penerima <span class="required">*</span></label>
+                                    <div class="input-group">
+                                        <span class="input-group-addon"><i class="fa fa-id-badge"></i></span>
+                                        <input id="pangkat" placeholder="Pangkat penerima" type="text"
+                                               class="form-control"
+                                               name="pangkat_penerima" onkeypress="return numberOnly(event, false)"
+                                               required>
                                     </div>
                                 </div>
                             </div>
@@ -458,7 +498,6 @@
                     <form method="post" id="form-validasi">
                         {{csrf_field()}}
                         {{method_field('PUT')}}
-                        <input type="hidden" name="check_form" value="validasi">
                         <div class="modal-body">
                             <div class="row form-group">
                                 <div class="col-lg-12">
@@ -515,7 +554,7 @@
                 return v === "Create Form" ? "List" : "Create Form";
             });
 
-            $("#perihal, #nama, #kota").val('');
+            $("#perihal, #nama_instansi, #kota, #nama, #jabatan, #pangkat, #nip").val('');
             $("#jenis_id").val('default').selectpicker('refresh');
         });
 
@@ -593,8 +632,12 @@
 
             $.get('{{route('edit.surat-keluar', ['id' => ''])}}/' + id, function (data) {
                 $("#perihal").val(data.perihal);
-                $("#nama").val(data.nama_penerima);
+                $("#nama_instansi").val(data.instansi_penerima);
                 $("#kota").val(data.kota_penerima);
+                $("#nama").val(data.nama_penerima);
+                $("#jabatan").val(data.jabatan_penerima);
+                $("#pangkat").val(data.pangkat_penerima);
+                $("#nip").val(data.nip_penerima);
                 $("#jenis_id").val(data.jenis_id).selectpicker('refresh');
 
                 @if(Auth::user()->isPengolah())

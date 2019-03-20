@@ -62,8 +62,12 @@ class SuratMasukSeeder extends Seeder
                 'jenis_id' => $sm->jenis_id,
                 'suratdisposisi_id' => $sd->id,
                 'tgl_surat' => $sm->tgl_surat,
-                'nama_penerima' => $sm->nama_pengirim,
+                'instansi_penerima' => $sm->nama_instansi,
                 'kota_penerima' => $sm->asal_instansi,
+                'nama_penerima' => $sm->nama_pengirim,
+                'jabatan_penerima' => $sm->jabatan_pengirim,
+                'pangkat_penerima' => $sm->pangkat_pengirim,
+                'nip_penerima' => $sm->nip_pengirim,
                 'no_surat' => substr($sm->no_surat, 0, 3) . '/' .
                     str_pad(SuratKeluar::count() + 1, 3, '0', STR_PAD_LEFT) .
                     '/401.113/' . rand(2018, 2019),
