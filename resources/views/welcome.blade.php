@@ -90,20 +90,23 @@
             opacity: 1;
         }
 
-        .typewriter {
-            color: #333;
-            display: flex;
-            justify-content: center;
-            align-items: center;
+        .line-1 {
+            position: relative;
+            top: 50%;
+            width: 100%;
+            margin: 0 auto;
+            border-right: 2px solid #f6ae18;
+            font-size: 46px;
+            text-align: center;
+            white-space: nowrap;
+            overflow: hidden;
+            transform: translateY(-50%);
         }
 
-        .typewriter h1 {
-            font-weight: 600;
-            overflow: hidden;
-            white-space: nowrap;
-            border-right: .15em solid #f6ae18;
-            letter-spacing: .15em;
-            animation: typing 5s steps(11) infinite, blink-caret 500ms steps(11) infinite;
+        /* Animation */
+        .anim-typewriter {
+            animation: typing 6s steps(44) infinite,
+            blink-caret 500ms steps(44) infinite;
         }
 
         @keyframes typing {
@@ -132,11 +135,10 @@
             <div class="item" style="background-image: url({{asset('images/carousels/'.$row->image)}});">
                 <div class="carousel-overlay"></div>
                 <div class="carousel-caption">
-                    <div class="typewriter"><h1>I'm typing.</h1></div>
+                    <h1 class="line-1 anim-typewriter">Selamat datang di website kami APSD!</h1>
                     <a href="{{route('home')}}">
                         <img src="{{asset('images/carousels/apsd.png')}}" class="animated fadeInLeft"
-                             alt="logo kota madiun" style="width: 100%">
-                    </a>
+                             alt="logo kota madiun" style="width: 100%"></a>
                     <blockquote style="text-align: left"><h2 class="animated fadeInRight">"{{$row->captions}}"</h2>
                     </blockquote>
                     <button class="myBtn"></button>
@@ -160,29 +162,6 @@
     $('.item:nth-child(1)').addClass('active');
 
     $('.carousel').carousel();
-
-    var obj = [
-        "SELAMAT DATANG ",
-        "I like trains",
-        "What do you like? "
-    ];
-
-    let count = 0;
-
-    var title = document.querySelector('h1');
-
-    title.addEventListener('animationstart', type, false);
-    title.addEventListener('animationiteration', type, false);
-
-
-    function type(ev) {
-        if (ev.animationName !== 'typing') return;
-        this.style.animationTimingFunction = `steps(${obj[count].length})`;
-        this.innerHTML = obj[count];
-
-        count++;
-        if (count === obj.length) count = 0;
-    }
 
     $(".myBtn").on('click', function () {
         window.location.href = '{{route('show.login.form')}}';

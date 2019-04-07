@@ -162,7 +162,7 @@ class ResetPasswordController extends Controller
      */
     protected function sendResetResponse($response)
     {
-        return back()->with('recovered', trans($response) . ' Mohon masuk dengan password baru Anda.');
+        return back()->with('recovered', trans($response) . ' Silahkan masuk dengan password baru Anda.');
     }
 
     /**
