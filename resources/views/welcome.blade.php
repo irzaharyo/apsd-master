@@ -89,6 +89,40 @@
         .carousel:hover .carousel-control {
             opacity: 1;
         }
+
+        .typewriter {
+            color: #333;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .typewriter h1 {
+            font-weight: 600;
+            overflow: hidden;
+            white-space: nowrap;
+            border-right: .15em solid #f6ae18;
+            letter-spacing: .15em;
+            animation: typing 5s steps(11) infinite, blink-caret 500ms steps(11) infinite;
+        }
+
+        @keyframes typing {
+            from, to {
+                width: 0
+            }
+            40%, 60% {
+                width: 100%
+            }
+        }
+
+        @keyframes blink-caret {
+            from, to {
+                border-color: transparent
+            }
+            50% {
+                border-color: #f6ae18
+            }
+        }
     </style>
 </head>
 <body>
@@ -98,6 +132,7 @@
             <div class="item" style="background-image: url({{asset('images/carousels/'.$row->image)}});">
                 <div class="carousel-overlay"></div>
                 <div class="carousel-caption">
+                    <div class="typewriter"><h1>I'm typing.</h1></div>
                     <a href="{{route('home')}}">
                         <img src="{{asset('images/carousels/apsd.png')}}" class="animated fadeInLeft"
                              alt="logo kota madiun" style="width: 100%">
@@ -125,6 +160,29 @@
     $('.item:nth-child(1)').addClass('active');
 
     $('.carousel').carousel();
+
+    var obj = [
+        "SELAMAT DATANG ",
+        "I like trains",
+        "What do you like? "
+    ];
+
+    let count = 0;
+
+    var title = document.querySelector('h1');
+
+    title.addEventListener('animationstart', type, false);
+    title.addEventListener('animationiteration', type, false);
+
+
+    function type(ev) {
+        if (ev.animationName !== 'typing') return;
+        this.style.animationTimingFunction = `steps(${obj[count].length})`;
+        this.innerHTML = obj[count];
+
+        count++;
+        if (count === obj.length) count = 0;
+    }
 
     $(".myBtn").on('click', function () {
         window.location.href = '{{route('show.login.form')}}';
