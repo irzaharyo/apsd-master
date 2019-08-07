@@ -9,6 +9,7 @@
     <title>Akun | {{env('APP_NAME')}} &mdash; Aplikasi Pengarsipan Surat dan Disposisi | Dinas Pertanian dan Ketahanan
         Pangan
         Kota Madiun</title>
+    <link rel="icon" href="{{asset('favicon.ico')}}" type="image/ico"/>
     <!-- Bootstrap -->
     <link href="{{asset('css/bootstrap.css')}}" rel="stylesheet">
     <!-- Font Awesome -->

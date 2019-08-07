@@ -7,6 +7,7 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>{{env('APP_NAME')}} &mdash; Aplikasi Pengarsipan Surat dan Disposisi | Dinas Pertanian dan Ketahanan Pangan
         Kota Madiun</title>
+    <link rel="icon" href="{{asset('favicon.ico')}}" type="image/ico"/>
     <link rel="stylesheet" href="{{asset('css/bootstrap.css')}}">
     <link rel="stylesheet" href="{{asset('fonts/fontawesome-free/css/all.css')}}">
     <link rel="stylesheet" href="{{asset('css/animate.min.css')}}">

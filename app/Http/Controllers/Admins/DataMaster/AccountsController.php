@@ -204,7 +204,7 @@ class AccountsController extends Controller
                 $user->update([
                     'email' => $request->email,
                     'password' => bcrypt($request->new_password),
-                    'role' => $request->role
+                    'role' => $request->role == null ? $user->role : $request->role
                 ]);
                 return back()->with('success', 'Akun ' . $user->role . ' (' . $user->name . ') berhasil diperbarui!');
             }

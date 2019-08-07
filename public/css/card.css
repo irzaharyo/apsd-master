@@ -1,0 +1,90 @@
+.card {
+    display: block;
+    margin-bottom: 20px;
+    line-height: 1.42857143;
+    background-color: #fff;
+    border-radius: 2px;
+    box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.16), 0 2px 10px 0 rgba(0, 0, 0, 0.12);
+    transition: box-shadow .25s;
+}
+
+.card .stats {
+    font-size: 15px;
+}
+
+.card:hover {
+    box-shadow: 0 8px 17px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+}
+
+.img-card {
+    width: 100%;
+    border-top-left-radius: 2px;
+    border-top-right-radius: 2px;
+    display: block;
+    overflow: hidden;
+}
+
+.img-card img {
+    width: 100%;
+    object-fit: cover;
+    transition: all .25s ease;
+}
+
+.card-content {
+    padding: 15px;
+    text-align: left;
+}
+
+.card-content small {
+    text-transform: uppercase;
+    font-size: 14px;
+}
+
+.card-content p {
+    text-transform: none;
+    font-size: 13px;
+}
+
+.card-content table {
+    font-size: 16px;
+    margin-top: 30px;
+}
+
+.card-content table tr > td {
+    padding-bottom: .5em;
+}
+
+.card-title, .card-title h4 {
+    margin-top: 0;
+    margin-bottom: .25em;
+    font-weight: 700;
+    text-transform: capitalize;
+}
+
+.card-title a {
+    color: #000;
+    text-decoration: none !important;
+}
+
+.card-read-more {
+    border-top: 1px solid #D4D4D4;
+}
+
+.card-read-more a, .card-read-more button {
+    text-decoration: none !important;
+    font-weight: 600;
+    text-transform: uppercase;
+    background: #fff;
+    border-radius: 0 0 3px 3px;
+    margin-bottom: 0;
+    -webkit-transition: 0.3s;
+    -o-transition: 0.3s;
+    transition: 0.3s;
+}
+
+.card-read-more a:hover, .card-read-more a:active, .card-read-more a:focus,
+.card-read-more button:hover, .card-read-more button:active, .card-read-more button:focus {
+    background: #393e46 !important;
+    color: #fff;
+    outline: none !important;
+}

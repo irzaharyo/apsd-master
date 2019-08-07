@@ -1,4 +1,4 @@
-@extends('layouts.mst')
+﻿@extends('layouts.mst')
 @section('title', 'Surat Masuk | '.env('APP_NAME').' - Aplikasi Pengarsipan Surat dan Disposisi | Dinas Pertanian dan Ketahanan Pangan Kota Madiun')
 @push("styles")
     <link href="{{asset('css/myCheckbox.css')}}" rel="stylesheet">
@@ -371,9 +371,7 @@
                                     <div class="input-group">
                                         <span class="input-group-addon"><i class="fa fa-id-badge"></i></span>
                                         <input id="pangkat" placeholder="Pangkat pengirim" type="text"
-                                               class="form-control"
-                                               name="pangkat_pengirim" onkeypress="return numberOnly(event, false)"
-                                               required>
+                                               class="form-control" name="pangkat_pengirim" required>
                                     </div>
                                 </div>
                             </div>

@@ -264,7 +264,7 @@
                     <a data-toggle="tooltip" title="Fullscreen" onclick="fullScreen()">
                         <span class="glyphicon glyphicon-fullscreen" aria-hidden="true"></span>
                     </a>
-                    <a href="{{route('beranda')}}" data-toggle="tooltip" title="SISKA">
+                    <a href="{{route('beranda')}}" data-toggle="tooltip" title="APSD">
                         <span class="glyphicon glyphicon-globe" aria-hidden="true"></span>
                     </a>
                     <a href="javascript:void(0)" data-toggle="tooltip"

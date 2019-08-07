@@ -368,33 +368,30 @@
                                         </div>
                                     </div>
                                     <div class="col-lg-5">
-                                        <label for="nip">NIP Penerima <span class="required">*</span></label>
+                                        <label for="nip">NIP Penerima </label>
                                         <div class="input-group">
                                             <span class="input-group-addon"><i class="fa fa-id-card"></i></span>
                                             <input id="nip" placeholder="NIP penerima" type="text" class="form-control"
-                                                   name="nip_penerima" onkeypress="return numberOnly(event, false)"
-                                                   required>
+                                                   name="nip_penerima" onkeypress="return numberOnly(event, false)">
                                         </div>
                                     </div>
                                 </div>
 
                                 <div class="row form-group penerima">
                                     <div class="col-lg-7">
-                                        <label for="jabatan">Jabatan Penerima <span class="required">*</span></label>
+                                        <label for="jabatan">Jabatan Penerima </label>
                                         <div class="input-group">
                                             <span class="input-group-addon"><i class="fa fa-briefcase"></i></span>
                                             <input id="jabatan" placeholder="Jabatan penerima" type="text"
-                                                   class="form-control" name="jabatan_penerima" required>
+                                                   class="form-control" name="jabatan_penerima">
                                         </div>
                                     </div>
                                     <div class="col-lg-5">
-                                        <label for="pangkat">Pangkat Penerima <span class="required">*</span></label>
+                                        <label for="pangkat">Pangkat Penerima</label>
                                         <div class="input-group">
                                             <span class="input-group-addon"><i class="fa fa-id-badge"></i></span>
                                             <input id="pangkat" placeholder="Pangkat penerima" type="text"
-                                                   class="form-control"
-                                                   name="pangkat_penerima" onkeypress="return numberOnly(event, false)"
-                                                   required>
+                                                   class="form-control" name="pangkat_penerima">
                                         </div>
                                     </div>
                                 </div>
@@ -521,33 +518,31 @@
                                         </div>
                                     </div>
                                     <div class="col-lg-5 nip">
-                                        <label for="nip">NIP Penerima <span class="required">*</span></label>
+                                        <label for="nip">NIP Penerima</label>
                                         <div class="input-group">
                                             <span class="input-group-addon"><i class="fa fa-id-card"></i></span>
                                             <input id="nip" placeholder="NIP penerima" type="text" class="form-control"
-                                                   name="nip_penerima" onkeypress="return numberOnly(event, false)"
-                                                   required>
+                                                   name="nip_penerima" onkeypress="return numberOnly(event, false)">
                                         </div>
                                     </div>
                                 </div>
 
                                 <div class="row form-group penerima">
                                     <div class="col-lg-7 jabatan">
-                                        <label for="jabatan">Jabatan Penerima <span class="required">*</span></label>
+                                        <label for="jabatan">Jabatan Penerima</label>
                                         <div class="input-group">
                                             <span class="input-group-addon"><i class="fa fa-briefcase"></i></span>
                                             <input id="jabatan" placeholder="Jabatan penerima" type="text"
-                                                   class="form-control" name="jabatan_penerima" required>
+                                                   class="form-control" name="jabatan_penerima">
                                         </div>
                                     </div>
                                     <div class="col-lg-5 pangkat">
-                                        <label for="pangkat">Pangkat Penerima <span class="required">*</span></label>
+                                        <label for="pangkat">Pangkat Penerima</label>
                                         <div class="input-group">
                                             <span class="input-group-addon"><i class="fa fa-id-badge"></i></span>
                                             <input id="pangkat" placeholder="Pangkat penerima" type="text"
                                                    class="form-control"
-                                                   name="pangkat_penerima" onkeypress="return numberOnly(event, false)"
-                                                   required>
+                                                   name="pangkat_penerima" onkeypress="return numberOnly(event, false)">
                                         </div>
                                     </div>
                                 </div>
