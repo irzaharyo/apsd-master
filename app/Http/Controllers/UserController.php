@@ -52,7 +52,7 @@ class UserController extends Controller
 
     public function getPerihalSurat($kode)
     {
-        $perihals = PerihalSurat::where('kode', 'LIKE', '%' . $kode . '%')->get();
+        $perihals = PerihalSurat::where('kode', 'LIKE', '%' . $kode . '%')->orwhere('perihal', 'LIKE', '%' . $kode . '%')->get();
 
         foreach ($perihals as $perihal) {
             $perihal->label = $perihal->kode . ' - ' . $perihal->perihal;

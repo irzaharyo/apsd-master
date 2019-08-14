@@ -33,7 +33,7 @@
         <!-- Sign in form -->
         <div class="login">
             <div class="title">
-                <span>Sign In</span>
+                <span>Masuk</span>
                 <p>Silahkan masuk menggunakan akun {{env('APP_NAME')}} Anda.</p>
             </div>
             @if(session('recovered'))
@@ -57,24 +57,24 @@
                     <span class="glyphicon glyphicon-envelope form-control-feedback"></span>
                 </div>
                 <div class="row form-group has-feedback">
-                    <input id="log_password" type="password" placeholder="Password" name="password" minlength="6"
+                    <input id="log_password" type="password" placeholder="Kata sandi" name="password" minlength="6"
                            required>
                     <span class="glyphicon glyphicon-eye-open form-control-feedback"></span>
                 </div>
                 <div class="row form-group">
                     <div class="col-lg-4">
                         <input type="checkbox" id="remember" name="remember" {{ old('remember') ? 'checked' : '' }}>
-                        <label for="remember">Keep me sign in</label>
+                        <label for="remember">Biarkan saya tetap masuk</label>
                     </div>
                     <div class="col-lg-8" id="recaptcha-login"></div>
                 </div>
                 <div class="row">
-                    <button id="btn_login" type="submit" class="btn btn-signin btn-block" disabled>SIGN IN</button>
+                    <button id="btn_login" type="submit" class="btn btn-signin btn-block" disabled>MASUK</button>
                 </div>
                 @if(session('error'))
                     <strong>{{ $errors->first('password') }}</strong>
                 @endif
-                <a href="javascript:void(0)" class="btn-reset btn-fade">Forgot password?
+                <a href="javascript:void(0)" class="btn-reset btn-fade">Lupa kata sandi?
                     <i class="fa fa-long-arrow-right" aria-hidden="true"></i></a>
             </form>
         </div>
@@ -82,7 +82,7 @@
         <!-- Reset & Recover password form -->
         <div class="recover-password" style="display: none;">
             <div class="title">
-                <span>{{session('reset') || session('recover_failed') ? 'Recovery' : 'Reset'}} Password</span>
+                <span>{{session('reset') || session('recover_failed') ? 'Recovery' : 'Reset'}} Kata Sandi</span>
                 <p>
                     {{session('reset') || session('recover_failed') ? 'Silahkan masukkan password baru Anda ' :
                     'Untuk memulihkan password Anda, silahkan masukkan email akun '.env('APP_NAME').' Anda.'}}
@@ -112,7 +112,7 @@
                 </div>
                 @if(session('reset') || session('recover_failed'))
                     <div class="row form-group has-feedback error_forgPass">
-                        <input id="forg_password" type="password" placeholder="New Password" name="password"
+                        <input id="forg_password" type="password" placeholder="Kata sandi baru" name="password"
                                minlength="6" required>
                         <span class="glyphicon glyphicon-eye-open form-control-feedback"></span>
                     </div>
@@ -126,10 +126,10 @@
                 @endif
                 <div class="row">
                     <button type="submit" class="btn btn-signup btn-password">
-                        {{session('reset')||session('recover_failed') ? 'Reset Password' : 'Send Password Reset Link'}}
+                        {{session('reset')||session('recover_failed') ? 'Reset Kata Sand' : 'Kirim Tautan Reset Kata Sandi'}}
                     </button>
                 </div>
-                <a href="javascript:void(0)" class="btn-login btn-fade">Already have an account? Sign In
+                <a href="javascript:void(0)" class="btn-login btn-fade">Sudah punya akun? Masuk
                     <i class="fa fa-long-arrow-right" aria-hidden="true"></i></a>
             </form>
         </div>

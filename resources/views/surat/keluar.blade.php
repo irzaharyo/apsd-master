@@ -90,7 +90,9 @@
                                                 <td><i class="fa fa-calendar-check"></i>&nbsp;</td>
                                                 <td>Tanggal Pengajuan</td>
                                                 <td>&nbsp;:&nbsp;</td>
-                                                <td>{{\Carbon\Carbon::parse($keluar->created_at)->format('l, j F Y - h:i:s')}}</td>
+                                                <td>{{\Carbon\Carbon::parse($keluar->created_at)->format('l, j F Y - h:i:s')}}
+                                                    <span style="color: #fa5555">({{\Carbon\Carbon::parse($keluar->created_at)->diffForHumans()}})</span>
+                                                </td>
                                             </tr>
                                             <tr>
                                                 <td><i class="fa fa-hashtag"></i>&nbsp;</td>
@@ -142,21 +144,19 @@
                                         </table>
                                     </td>
                                     <td style="vertical-align: middle" align="center">
-                                        @if($keluar->status == 0)
-                                            <span class="label label-warning"
-                                                  style="text-transform: uppercase">Diproses</span>
-                                        @elseif($keluar->status == 1)
-                                            <span class="label label-info" style="text-transform: uppercase">Menunggu Validasi</span>
-                                        @elseif($keluar->status == 2)
-                                            <span class="label label-primary"
-                                                  style="text-transform: uppercase">Valid</span>
-                                        @elseif($keluar->status == 3)
-                                            <span class="label label-danger" style="text-transform: uppercase">Tidak Valid</span>
-                                        @elseif($keluar->status == 4)
-                                            <span class="label label-success" style="text-transform: uppercase">Surat Siap Diambil</span>
-                                        @elseif($keluar->status == 5)
-                                            <span class="label label-default" style="text-transform: uppercase">Surat Sudah Diambil</span>
-                                        @endif
+                                        <ul class="stepped-progress-bar">
+                                            <li class="{{$keluar->status == 0 ? 'active' : ''}}">Diproses</li>
+                                            @if($keluar->status == 1)
+                                                <li class="active">Menunggu Validasi</li>
+                                            @elseif($keluar->status == 2)
+                                                <li class="invalid">Tidak Valid</li>
+                                            @else
+                                                <li class="{{$keluar->status == 3 ? 'active' : ''}}">Valid</li>
+                                            @endif
+                                            <li class="{{$keluar->status == 4 ? 'active' : ''}}">Surat Siap Diambil</li>
+                                            <li class="{{$keluar->status == 5 ? 'active' : ''}}">Surat Sudah Diambil
+                                            </li>
+                                        </ul>
                                     </td>
                                     <td style="vertical-align: middle" align="center">
                                         @if(Auth::user()->isPegawai())

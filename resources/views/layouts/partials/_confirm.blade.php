@@ -23,7 +23,7 @@
 
     $(".btn_signOut").on("click", function () {
         swal({
-            title: 'Sign Out',
+            title: 'Keluar',
             text: "Apakah Anda yakin untuk mengakhiri sesi Anda?",
             type: 'warning',
             showCancelButton: true,
@@ -44,7 +44,7 @@
 
     $(".btn_signOut2").on("click", function () {
         swal({
-            title: 'Sign Out',
+            title: 'Keluar',
             text: "Apakah Anda yakin untuk mengakhiri sesi Anda?",
             type: 'warning',
             showCancelButton: true,

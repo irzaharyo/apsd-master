@@ -175,6 +175,96 @@
             cursor: pointer;
             pointer-events: all;
         }
+
+        .stepped-progress-bar {
+            counter-reset: step;
+            padding: 0 1em;
+        }
+
+        .stepped-progress-bar > li {
+            display: inline-block;
+            list-style-type: none;
+            width: 25%;
+            float: left;
+            font-size: 0.8rem;
+            position: relative;
+            text-align: center;
+            text-transform: uppercase;
+            color: #55b776;
+        }
+
+        .stepped-progress-bar > li::before {
+            width: 3rem;
+            height: 3rem;
+            font-size: 1.8em;
+            font-family: "Font Awesome 5 Free";
+            font-weight: 900;
+            content: "\f00c";
+            counter-increment: step;
+            border: 0.3rem solid #55b776;
+            display: block;
+            text-align: center;
+            margin: 0 auto 1rem auto;
+            border-radius: 50%;
+            background-color: #55b776;
+            color: white;
+            position: relative;
+            z-index: 300;
+        }
+
+        .stepped-progress-bar > li::after {
+            width: 100%;
+            height: 0.2rem;
+            content: '';
+            position: absolute;
+            background-color: #55b776;
+            top: 1.5rem;
+            left: -50%;
+            z-index: 200;
+        }
+
+        .stepped-progress-bar > li:first-child::after {
+            display: none;
+        }
+
+        .stepped-progress-bar > li.active ~ li, .stepped-progress-bar > li.invalid ~ li {
+            color: #7d7d7d;
+        }
+
+        .stepped-progress-bar > li.active ~ li::after, .stepped-progress-bar > li.invalid ~ li::after {
+            background-color: #dfdfdf;
+        }
+
+        .stepped-progress-bar > li.active ~ li::before, .stepped-progress-bar > li.invalid ~ li::before {
+            background-color: #dfdfdf;
+            border-color: #dfdfdf;
+            color: #7d7d7d;
+            line-height: 2.5rem;
+            font-size: 1.2rem;
+            content: counter(step);
+        }
+
+        .stepped-progress-bar > li.active::before {
+            background-color: white;
+            color: #55b776;
+            border-color: #55b776;
+            line-height: 2.5rem;
+            font-size: 2rem;
+            content: '\f0d7';
+        }
+
+        .stepped-progress-bar > li.invalid::before {
+            background-color: white;
+            color: #fa5555;
+            border-color: #fa5555;
+            line-height: 2.5rem;
+            font-size: 2rem;
+            content: '\f00d';
+        }
+
+        .stepped-progress-bar > li.active, .stepped-progress-bar > li.invalid {
+            color: #7d7d7d;
+        }
     </style>
 </head>
 
@@ -239,8 +329,8 @@
                         <img src="{{$ava}}" alt="..." class="img-circle profile_img show_ava">
                     </div>
                     <div class="profile_info">
-                        <span>Welcome,</span>
                         <h2>{{$auth->name}}</h2>
+                        <span>{{$auth->pangkat}}</span>
                     </div>
                 </div>
                 <!-- /menu profile quick info -->
@@ -268,10 +358,10 @@
                         <span class="glyphicon glyphicon-globe" aria-hidden="true"></span>
                     </a>
                     <a href="javascript:void(0)" data-toggle="tooltip"
-                       title="Account Settings" class="btn_settings">
+                       title="Pengaturan Akun" class="btn_settings">
                         <span class="fa fa-user-cog" aria-hidden="true"></span>
                     </a>
-                    <a data-toggle="tooltip" title="Sign Out" class="btn_signOut">
+                    <a data-toggle="tooltip" title="Keluar" class="btn_signOut">
                         <span class="glyphicon glyphicon-off" aria-hidden="true"></span>
                     </a>
                     <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
@@ -302,18 +392,18 @@
                                     <a href="javascript:void(0)"
                                        class="btn_editProfile">
                                         <span class="badge {{$bg}} pull-right">{{$label}}</span>
-                                        <span>Profile</span>
+                                        <span>Profil</span>
                                     </a>
                                 </li>
                                 <li>
                                     <a href="javascript:void(0)"
-                                       class="btn_settings"><i class="fa fa-user-cog pull-right"></i> Account Settings
+                                       class="btn_settings"><i class="fa fa-user-cog pull-right"></i> Pengaturan Akun
                                     </a>
                                 </li>
                                 <li class="divider"></li>
                                 <li>
                                     <a class="btn_signOut2">
-                                        <i class="fa fa-sign-out-alt pull-right"></i> Sign Out</a>
+                                        <i class="fa fa-sign-out-alt pull-right"></i> Keluar</a>
                                     <form id="logout-form2" action="{{ route('logout') }}" method="POST"
                                           style="display: none;">
                                         {{ csrf_field() }}
@@ -408,7 +498,7 @@
                                                 @foreach($npl_sK as $row)
                                                     <li>
                                                         <a href="{{route('show.surat-keluar').'?q='.\Carbon\Carbon::parse
-                                                        ($row->created_at)->format('l, j F Y - h:i:s')}}">
+                                                        ($row->created_at)->format('j F Y - h:i:s')}}">
                                                             <span class="image">
                                                                 <img src="{{asset('images/sk.png')}}"></span>
                                                             <span><span>{{$row->created_at}}</span></span>
@@ -537,7 +627,7 @@
                     <div class="modal-header">
                         <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span>
                         </button>
-                        <h4 class="modal-title">Edit Profile</h4>
+                        <h4 class="modal-title">Sunting Profil</h4>
                     </div>
 
                     <form method="post" action="{{route('update.profile')}}" enctype="multipart/form-data">

@@ -90,7 +90,9 @@
                                                 <td><i class="fa fa-calendar-check"></i>&nbsp;</td>
                                                 <td>Tanggal Penerimaan</td>
                                                 <td>&nbsp;:&nbsp;</td>
-                                                <td>{{\Carbon\Carbon::parse($masuk->created_at)->format('l, j F Y - h:i:s')}}</td>
+                                                <td>{{\Carbon\Carbon::parse($masuk->created_at)->format('l, j F Y - h:i:s')}}
+                                                    <span style="color: #fa5555">({{\Carbon\Carbon::parse($masuk->created_at)->diffForHumans()}})</span>
+                                                </td>
                                             </tr>
                                             <tr>
                                                 <td><i class="fa fa-hashtag"></i>&nbsp;</td>
@@ -585,7 +587,7 @@
         });
 
         $no_surat.inputmask({
-            mask: "999/999/999.999/9999",
+            mask: "***/999/999.999/9999",
             placeholder: "___/{{$no_urut}}/___.___/{{now()->format('Y')}}"
         });
 
