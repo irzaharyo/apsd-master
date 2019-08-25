@@ -20,6 +20,7 @@ class CreateAgendaKeluarsTable extends Migration
                 ->onUpdate('CASCADE')->onDelete('CASCADE');
             $table->text('ringkasan');
             $table->string('keterangan');
+            $table->string('nama_tu');
             $table->timestamps();
         });
     }

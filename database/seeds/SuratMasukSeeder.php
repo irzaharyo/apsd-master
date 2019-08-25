@@ -54,11 +54,13 @@ class SuratMasukSeeder extends Seeder
             AgendaMasuk::create([
                 'suratdisposisi_id' => $sd->id,
                 'ringkasan' => '<p align="justify">' . $faker->sentences(rand(1, 2), true) . '</p>',
-                'keterangan' => $faker->sentence()
+                'keterangan' => $faker->sentence(),
+                'nama_tu' => User::where('role', Role::TU)->inRandomOrder()->first()->name,
             ]);
 
             $sk = SuratKeluar::create([
                 'user_id' => User::where('role', Role::KADIN)->inRandomOrder()->first()->id,
+                'nama_pengolah' => $sm->getUser->name,
                 'jenis_id' => $sm->jenis_id,
                 'suratdisposisi_id' => $sd->id,
                 'tgl_surat' => $sm->tgl_surat,
@@ -84,7 +86,8 @@ class SuratMasukSeeder extends Seeder
             AgendaKeluar::create([
                 'suratkeluar_id' => $sk->id,
                 'ringkasan' => '<p align="justify">' . $faker->sentences(rand(1, 2), true) . '</p>',
-                'keterangan' => $faker->sentence()
+                'keterangan' => $faker->sentence(),
+                'nama_tu' => User::where('role', Role::TU)->inRandomOrder()->first()->name,
             ]);
         }
     }

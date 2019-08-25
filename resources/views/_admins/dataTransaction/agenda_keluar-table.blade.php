@@ -53,9 +53,9 @@
                                         title="-- Pilih Surat Keluar --" data-live-search="true"
                                         name="surat_keluar" data-max-options="1" multiple required>
                                     @foreach($keluars as $row)
-                                        <option value="{{$row->no_surat}}"><strong>{{$row->no_surat}}</strong>&nbsp;&mdash;
-                                            {{$row->nama_pengirim.' / '.$row->nama_instansi.', '.
-                                            $row->asal_instansi}}</option>
+                                        <option value="{{$row->no_surat}}">
+                                            <strong>{{$row->no_surat}}</strong>&nbsp;&mdash;&nbsp;{{$row->nama_penerima.', '.
+                                            $row->kota_penerima}}</option>
                                     @endforeach
                                 </select>
                                 <span class="fa fa-envelope-open form-control-feedback right" aria-hidden="true"></span>
@@ -122,9 +122,9 @@
                                     </td>
                                     <td style="vertical-align: middle" align="center">
                                         @if($keluar->status == 0 || $keluar->status >= 4)
-                                            <a onclick='lihatSurat("{{$keluar->id}}", "keluar", "{{$lbr}}", "{{$index}}")'
+                                            <a onclick='lihatSurat("{{$keluar->id}}", "keluar", "{{$lbrSK}}", "{{$indexSK}}")'
                                                class="btn btn-info btn-sm" style="font-size: 16px" data-toggle="tooltip"
-                                               title="{{'Lihat Surat ('.$lbr.' lembar)'}}" data-placement="left">
+                                               title="{{'Lihat Surat ('.$lbrSK.' lembar)'}}" data-placement="left">
                                                 <i class="fa fa-images"></i>
                                             </a>
                                         @else

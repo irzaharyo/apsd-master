@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\AgendaKeluar;
 use App\Models\SuratKeluar;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 
 class AgendaSuratKeluarController extends Controller
@@ -41,6 +42,7 @@ class AgendaSuratKeluarController extends Controller
                 'suratkeluar_id' => $sk->id,
                 'ringkasan' => $request->ringkasan,
                 'keterangan' => $request->keterangan,
+                'nama_tu' => Auth::user()->name,
             ]);
 
             $sk->update([
@@ -64,6 +66,7 @@ class AgendaSuratKeluarController extends Controller
         $agk->update([
             'ringkasan' => $request->ringkasan,
             'keterangan' => $request->keterangan,
+            'nama_tu' => Auth::user()->name,
         ]);
 
         if ($request->hasfile('files')) {

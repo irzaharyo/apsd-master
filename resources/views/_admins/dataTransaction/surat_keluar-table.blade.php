@@ -53,7 +53,7 @@
                                         title="-- Pilih Surat Keluar --" data-live-search="true"
                                         name="surat_keluar" data-max-options="1" multiple required>
                                     @foreach($keluars as $row)
-                                        <option value="{{$row->id}}">
+                                        <option value="{{$row->no_surat}}">
                                             <strong>{{$row->no_surat}}</strong>&nbsp;&mdash;&nbsp;{{$row->nama_penerima.', '.
                                             $row->kota_penerima}}</option>
                                     @endforeach

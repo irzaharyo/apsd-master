@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\AgendaMasuk;
 use App\Models\SuratMasuk;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class AgendaSuratMasukController extends Controller
 {
@@ -26,6 +27,7 @@ class AgendaSuratMasukController extends Controller
             'suratdisposisi_id' => $sm->getSuratDisposisi->id,
             'ringkasan' => $request->ringkasan,
             'keterangan' => $request->keterangan,
+            'nama_tu' => Auth::user()->name,
         ]);
 
         return redirect()->route('show.agenda-masuk')->with('success', 'Agenda surat masuk #' .
@@ -43,6 +45,7 @@ class AgendaSuratMasukController extends Controller
         $agm->update([
             'ringkasan' => $request->ringkasan,
             'keterangan' => $request->keterangan,
+            'nama_tu' => Auth::user()->name,
         ]);
 
         return redirect()->route('show.agenda-masuk')->with('success', 'Agenda surat masuk #' .

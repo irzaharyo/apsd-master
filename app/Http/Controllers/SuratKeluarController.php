@@ -99,6 +99,7 @@ class SuratKeluarController extends Controller
 
         } elseif (Auth::user()->isPengolah()) {
             $sk->update([
+                'nama_pengolah' => Auth::user()->name,
                 'tgl_surat' => $request->tgl_surat,
                 'no_surat' => $request->no_surat,
                 'sifat_surat' => $request->sifat_surat,

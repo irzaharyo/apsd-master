@@ -145,16 +145,33 @@
                                     </td>
                                     <td style="vertical-align: middle" align="center">
                                         <ul class="stepped-progress-bar">
-                                            <li class="{{$keluar->status == 0 ? 'active' : ''}}">Diproses</li>
+                                            <li data-html="true" data-toggle="tooltip"
+                                                data-original-title="Ditangani Pegawai:<br>{{$keluar->nama_pengolah}}"
+                                                class="{{$keluar->status == 0 ? 'active' : ''}}">Diproses
+                                            </li>
                                             @if($keluar->status == 1)
-                                                <li class="active">Menunggu Validasi</li>
+                                                <li data-html="true" data-toggle="tooltip"
+                                                    data-original-title="Ditangani KADIN:<br>{{\App\Models\User::where('role', \App\Support\Role::KADIN)->first()->name}}"
+                                                    class="active">Menunggu Validasi
+                                                </li>
                                             @elseif($keluar->status == 2)
-                                                <li class="invalid">Tidak Valid</li>
+                                                <li data-html="true" data-toggle="tooltip"
+                                                    data-original-title="Ditangani KADIN:<br>{{\App\Models\User::where('role', \App\Support\Role::KADIN)->first()->name}}"
+                                                    class="invalid">Tidak Valid
+                                                </li>
                                             @else
-                                                <li class="{{$keluar->status == 3 ? 'active' : ''}}">Valid</li>
+                                                <li data-html="true" data-toggle="tooltip"
+                                                    data-original-title="Ditangani KADIN:<br>{{\App\Models\User::where('role', \App\Support\Role::KADIN)->first()->name}}"
+                                                    class="{{$keluar->status == 3 ? 'active' : ''}}">Valid
+                                                </li>
                                             @endif
-                                            <li class="{{$keluar->status == 4 ? 'active' : ''}}">Surat Siap Diambil</li>
-                                            <li class="{{$keluar->status == 5 ? 'active' : ''}}">Surat Sudah Diambil
+                                            <li data-html="true" data-toggle="tooltip"
+                                                data-original-title="Ditangani TU:<br>{{$keluar->getAgendaKeluar->nama_tu}}"
+                                                class="{{$keluar->status == 4 ? 'active' : ''}}">Surat Siap Diambil
+                                            </li>
+                                            <li data-html="true" data-toggle="tooltip"
+                                                data-original-title="Ditangani {{$keluar->getUser->role == \App\Support\Role::KADIN ? 'KADIN' : 'Pegawai'}}:<br>{{$keluar->getUser->name}}"
+                                                class="{{$keluar->status == 5 ? 'active' : ''}}">Surat Sudah Diambil
                                             </li>
                                         </ul>
                                     </td>

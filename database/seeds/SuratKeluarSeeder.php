@@ -23,6 +23,7 @@ class SuratKeluarSeeder extends Seeder
             $sk = SuratKeluar::create([
                 'user_id' => User::where('role', Role::PEGAWAI)->inRandomOrder()->first()->id,
                 'jenis_id' => rand(JenisSurat::min('id'), JenisSurat::max('id')),
+                'nama_pengolah' => User::where('role', Role::PENGOLAH)->inRandomOrder()->first()->name,
                 'tgl_surat' => $faker->date('Y-m-d'),
                 'no_surat_penerima' => PerihalSurat::inRandomOrder()->first()->kode . '/' .
                     str_pad($c, 3, '0', STR_PAD_LEFT) . '/' .
@@ -48,7 +49,8 @@ class SuratKeluarSeeder extends Seeder
             AgendaKeluar::create([
                 'suratkeluar_id' => $sk->id,
                 'ringkasan' => '<p align="justify">' . $faker->sentences(rand(1, 2), true) . '</p>',
-                'keterangan' => $faker->sentence()
+                'keterangan' => $faker->sentence(),
+                'nama_tu' => User::where('role', Role::TU)->inRandomOrder()->first()->name,
             ]);
         }
     }
