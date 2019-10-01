@@ -13,7 +13,7 @@ class AgendaSuratKeluarController extends Controller
     public function showAgenda(Request $request)
     {
         $agenda_keluars = AgendaKeluar::orderByDesc('id')->get();
-        $surat_keluars = SuratKeluar::where('status', 2)->doesnthave('getAgendaKeluar')->orderByDesc('id')->get();
+        $surat_keluars = SuratKeluar::where('status', 3)->doesnthave('getAgendaKeluar')->orderByDesc('id')->get();
         $findSurat = SuratKeluar::where('no_surat', $request->q)->first();
 
         return view('agenda.keluar', compact('agenda_keluars', 'surat_keluars', 'findSurat'));
@@ -97,7 +97,7 @@ class AgendaSuratKeluarController extends Controller
     {
         $agk = AgendaKeluar::find(decrypt($id));
         $agk->delete();
-        $agk->getSuratKeluar->update(['status' => 2]);
+        $agk->getSuratKeluar->update(['status' => 3]);
 
         return redirect()->route('show.agenda-keluar')->with('success', 'Agenda surat keluar #' .
             $agk->getSuratKeluar->no_surat . ' berhasil dihapus!');

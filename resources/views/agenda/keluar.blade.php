@@ -154,8 +154,9 @@
                                             @foreach($surat_keluars as $row)
                                                 <option value="{{$row->id}}" {{\App\Models\AgendaKeluar::where
                                                 ('suratkeluar_id', $row->id)->count() > 0 ? 'disabled' : ''}}>
-                                                    <strong>{{$row->no_surat}}</strong>&nbsp;&mdash;&nbsp;{{$row
-                                                    ->nama_penerima.', '.$row->kota_penerima}}</option>
+                                                    <strong>{{$row->no_surat}}</strong>&nbsp;&mdash;&nbsp;{{$row->nama_penerima != "" ?
+                                                    $row->nama_penerima.', '.$row->kota_penerima : $row->getJenisSurat->jenis}}
+                                                </option>
                                             @endforeach
                                         </select>
                                     </div>

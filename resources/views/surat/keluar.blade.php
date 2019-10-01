@@ -166,11 +166,11 @@
                                                 </li>
                                             @endif
                                             <li data-html="true" data-toggle="tooltip"
-                                                data-original-title="Ditangani TU:<br>{{$keluar->getAgendaKeluar->nama_tu}}"
+                                                data-original-title="Ditangani TU:<br>{{$keluar->status == 4 ? $keluar->getAgendaKeluar->nama_tu : '-'}}"
                                                 class="{{$keluar->status == 4 ? 'active' : ''}}">Surat Siap Diambil
                                             </li>
                                             <li data-html="true" data-toggle="tooltip"
-                                                data-original-title="Ditangani {{$keluar->getUser->role == \App\Support\Role::KADIN ? 'KADIN' : 'Pegawai'}}:<br>{{$keluar->getUser->name}}"
+                                                data-original-title="Ditangani {{$keluar->status == 5 ? $keluar->getUser->role == \App\Support\Role::KADIN ? 'KADIN' : 'Pegawai' : '-'}}:<br>{{$keluar->status == 5 ? $keluar->getUser->name : '-'}}"
                                                 class="{{$keluar->status == 5 ? 'active' : ''}}">Surat Sudah Diambil
                                             </li>
                                         </ul>
@@ -263,11 +263,10 @@
                                                     </button>
                                                 @else
                                                     <button onclick='validasiSuratKeluar("{{$keluar->id}}")'
-                                                            type="button"
-                                                            class="btn btn-success btn-sm" style="font-weight: 600" {{$keluar->status
-                                                             == 1 || $keluar->status == 3 ? '' : 'disabled'}}>
-                                                        <i class="fa fa-edit"></i>&ensp;{{$keluar->status == 2 ||
-                                                        $keluar->status == 4 || $keluar->status == 5 ?
+                                                            type="button" class="btn btn-success btn-sm"
+                                                            style="font-weight: 600"
+                                                            {{$keluar->status == 1 ? '' : 'disabled'}}>
+                                                        <i class="fa fa-edit"></i>&ensp;{{$keluar->status != 1 ?
                                                         'TERVALIDASI' : 'VALIDASI'}}
                                                     </button>
                                                 @endif
@@ -612,14 +611,14 @@
                                 <div class="col-lg-12">
                                     <div class="input-group">
                                         <span class="input-group-addon">
-                                            <input id="rb_valid" type="radio" class="flat" value="2" name="rb_status"
+                                            <input id="rb_valid" type="radio" class="flat" value="3" name="rb_status"
                                                    required></span>
                                         <input id="txt_valid" class="form-control" type="text" value="Surat Valid"
                                                disabled>
                                     </div>
                                     <div class="input-group">
                                         <span class="input-group-addon">
-                                            <input id="rb_invalid" type="radio" class="flat" value="3" name="rb_status"></span>
+                                            <input id="rb_invalid" type="radio" class="flat" value="2" name="rb_status"></span>
                                         <textarea id="txt_invalid" class="form-control" type="text" name="catatan"
                                                   placeholder="Tulis catatan disini..." disabled
                                                   style="resize: vertical"></textarea>

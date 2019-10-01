@@ -286,8 +286,8 @@
             $role = 'Pengolah';
             $npl_sB = \App\Models\SuratKeluar::wherenotnull('suratdisposisi_id')->where('status', 0)
             ->orwherenotnull('suratdisposisi_id')->where('status', 3)->get();
-            $npl_sK = \App\Models\SuratKeluar::where('suratdisposisi_id',null)->where('status', 0)
-            ->orwhere('suratdisposisi_id',null)->where('status', 3)->get();
+            $npl_sK = \App\Models\SuratKeluar::wherenull('suratdisposisi_id')->where('status', 0)
+            ->orwherenull('suratdisposisi_id')->where('status', 2)->get();
             $notifications = count($npl_sB) + count($npl_sK);
 
         } elseif(Auth::user()->isPegawai()){
@@ -301,7 +301,7 @@
             $nt_sm = \App\Models\SuratMasuk::whereHas('getSuratDisposisi', function ($q){
                 $q->doesnthave('getAgendaMasuk');
             })->get();
-            $nt_sk = \App\Models\SuratKeluar::where('status', 2)->doesnthave('getAgendaKeluar')->get();
+            $nt_sk = \App\Models\SuratKeluar::where('status', 3)->doesnthave('getAgendaKeluar')->get();
             $notifications = count($nt_sm) + count($nt_sk);
 
         } elseif(Auth::user()->isKadin()){
